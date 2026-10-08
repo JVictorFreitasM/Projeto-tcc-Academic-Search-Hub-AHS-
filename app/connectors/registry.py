@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from app.connectors.base import Connector
+from app.connectors.core_api import CoreConnector
 from app.connectors.openalex import OpenAlexConnector
 from app.core.config import Settings
 
@@ -11,8 +12,8 @@ SOURCE_ORDER = ("openalex", "core", "scielo", "bdtd", "ufpi", "uespi")
 
 
 def build_connectors(settings: Settings) -> list[Connector]:
-    """Cria os conectores. O CORE e as fontes OAI são acrescentados nas OS-008 e 010."""
-    connectors: list[Connector] = [OpenAlexConnector(settings)]
+    """Cria os conectores. As fontes OAI são acrescentadas na OS-010."""
+    connectors: list[Connector] = [OpenAlexConnector(settings), CoreConnector(settings)]
     return sorted(
         connectors,
         key=lambda c: SOURCE_ORDER.index(c.slug) if c.slug in SOURCE_ORDER else len(SOURCE_ORDER),

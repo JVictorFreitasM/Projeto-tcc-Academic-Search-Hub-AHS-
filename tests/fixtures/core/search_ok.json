@@ -1,0 +1,60 @@
+{
+  "_synthetic": true,
+  "_note": "Fixture SINTÉTICA baseada na documentação do CORE API v3. Substituir por resposta real (passo manual 0 da OS-008).",
+  "totalHits": 4321,
+  "limit": 4,
+  "offset": 0,
+  "results": [
+    {
+      "id": 100200300,
+      "title": "Formação docente e <b>tecnologias</b> digitais",
+      "abstract": "<p>Estudo sobre formação docente.</p> &amp; tecnologias.",
+      "doi": "HTTPS://DOI.ORG/10.4321/Formacao.2020.5",
+      "authors": [{"name": "Carlos Almeida"}, {"name": null}, {"name": "  "}, {"name": "Beatriz Nunes"}],
+      "downloadUrl": "https://core.ac.uk/download/pdf/100200300.pdf",
+      "sourceFulltextUrls": ["https://repositorio.exemplo.org/handle/1/55"],
+      "links": [
+        {"type": "download", "url": "https://core.ac.uk/download/100200300.pdf"},
+        {"type": "display", "url": "https://core.ac.uk/works/100200300"}
+      ],
+      "documentType": "research",
+      "publishedDate": "2020-08-15T00:00:00",
+      "depositedDate": "2020-09-01T00:00:00",
+      "yearPublished": 2020,
+      "language": {"code": "pt", "name": "Portuguese"},
+      "journals": [{"title": "Revista de Educação"}]
+    },
+    {
+      "id": 100200301,
+      "title": "Tese sem muitos metadados",
+      "abstract": null,
+      "doi": null,
+      "authors": [],
+      "downloadUrl": null,
+      "sourceFulltextUrls": [],
+      "links": [],
+      "documentType": "thesis",
+      "publishedDate": "2018",
+      "yearPublished": null,
+      "language": null
+    },
+    {
+      "id": 100200302,
+      "title": null,
+      "abstract": "Registro sem título deve ser ignorado.",
+      "authors": [],
+      "documentType": "research"
+    },
+    {
+      "id": 100200303,
+      "title": "Livro com endereços perigosos",
+      "authors": [{"name": "Autor Um"}],
+      "downloadUrl": "javascript:alert(1)",
+      "sourceFulltextUrls": ["data:text/html,x"],
+      "links": [],
+      "documentType": "book",
+      "yearPublished": 2015,
+      "language": {"code": "xx"}
+    }
+  ]
+}
