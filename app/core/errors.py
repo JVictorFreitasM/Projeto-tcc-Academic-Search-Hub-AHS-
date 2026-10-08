@@ -76,6 +76,10 @@ class RateLimitedError(AppError):
     status_code = 429
     default_message = "Muitas requisições. Tente novamente em instantes."
 
+    def __init__(self, message: str | None = None, *, retry_after: int | None = None) -> None:
+        super().__init__(message)
+        self.retry_after = retry_after
+
 
 _HTTP_CODES = {
     400: "bad_request",
