@@ -1,0 +1,83 @@
+﻿== python tasks.py check ==
+$ uv run ruff check .
+All checks passed!
+$ uv run ruff format --check .
+18 files already formatted
+$ uv run mypy
+Success: no issues found in 11 source files
+$ uv run pytest
+============================= test session starts =============================
+platform win32 -- Python 3.14.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\Copperline\Desktop\projeto tcc\academic-search-hub
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1, platformdirs-4.12.4, asyncio-1.4.0, cov-7.1.0, respx-0.23.1
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1 item
+
+tests\unit\test_smoke.py .C:\Users\Copperline\Desktop\projeto tcc\academic-search-hub\.venv\Lib\site-packages\coverage\control.py:967: CoverageWarning: No data was collected. (no-data-collected); see https://coverage.readthedocs.io/en/7.16.2/messages.html#warning-no-data-collected
+  self._warn("No data was collected.", slug="no-data-collected")
+                                               [100%]
+
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.14.5-final-0 _______________
+
+Name                         Stmts   Miss  Cover
+------------------------------------------------
+app\__init__.py                  0      0   100%
+app\api\__init__.py              0      0   100%
+app\api\v1\__init__.py           0      0   100%
+app\connectors\__init__.py       0      0   100%
+app\core\__init__.py             0      0   100%
+app\db\__init__.py               0      0   100%
+app\harvest\__init__.py          0      0   100%
+app\models\__init__.py           0      0   100%
+app\schemas\__init__.py          0      0   100%
+app\scraping\__init__.py         0      0   100%
+app\services\__init__.py         0      0   100%
+------------------------------------------------
+TOTAL                            0      0   100%
+Coverage HTML written to dir htmlcov
+Coverage XML written to file coverage.xml
+============================== 1 passed in 0.96s ==============================
+
+== arvore de pastas ==
+== arvore de pastas (arquivos nao ignorados pelo git) ==
+.env.example
+.gitignore
+README.md
+app/__init__.py
+app/api/__init__.py
+app/api/v1/__init__.py
+app/connectors/__init__.py
+app/core/__init__.py
+app/db/__init__.py
+app/harvest/__init__.py
+app/models/__init__.py
+app/schemas/__init__.py
+app/scraping/__init__.py
+app/services/__init__.py
+config/.gitkeep
+docs/DECISOES.md
+docs/evidencias/.gitkeep
+docs/evidencias/os-001.txt
+docs/os/_modelo-relatorio.md
+frontend/css/.gitkeep
+frontend/js/.gitkeep
+migrations/.gitkeep
+pyproject.toml
+requirements.lock
+scripts/.gitkeep
+tasks.py
+tests/__init__.py
+tests/a11y/.gitkeep
+tests/contract/.gitkeep
+tests/e2e/.gitkeep
+tests/fixtures/core/.gitkeep
+tests/fixtures/html/.gitkeep
+tests/fixtures/oai/.gitkeep
+tests/fixtures/openalex/.gitkeep
+tests/integration/.gitkeep
+tests/unit/__init__.py
+tests/unit/test_smoke.py
+uv.lock
