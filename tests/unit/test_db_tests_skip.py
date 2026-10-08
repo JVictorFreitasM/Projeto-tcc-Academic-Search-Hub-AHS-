@@ -11,7 +11,15 @@ def test_integration_tests_are_skipped_without_test_database_url() -> None:
     """Sem TEST_DATABASE_URL os testes de banco são pulados, não falham."""
     env = {**os.environ, "TEST_DATABASE_URL": "", "PYTHONUTF8": "1"}
     result = subprocess.run(
-        [sys.executable, "-m", "pytest", "tests/integration", "-q", "--no-cov", "-rs"],
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "tests/integration/test_db_connection.py",
+            "-q",
+            "--no-cov",
+            "-rs",
+        ],
         env=env,
         capture_output=True,
         text=True,

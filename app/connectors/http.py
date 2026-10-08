@@ -5,8 +5,10 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import ssl
 import time
 from collections.abc import Awaitable, Callable, Mapping
+from functools import lru_cache
 from typing import Any
 from urllib.parse import urlsplit
 
@@ -47,11 +49,18 @@ class ResponseTooLargeError(UpstreamError):
     default_message = "A resposta da fonte excedeu o tamanho máximo permitido."
 
 
+@lru_cache
+def _ssl_context() -> ssl.SSLContext:
+    """Cria o contexto SSL uma vez só: montá-lo a cada cliente é lento (sobretudo no Windows)."""
+    return httpx.create_ssl_context()
+
+
 def make_client(settings: Settings) -> httpx.AsyncClient:
     """Cliente com tempo limite, identificação (`User-Agent`) e redirecionamentos limitados."""
     contact = settings.contact_email or "nao-informado"
     return httpx.AsyncClient(
         timeout=httpx.Timeout(settings.source_timeout_seconds),
+        verify=_ssl_context(),
         headers={"User-Agent": f"AcademicSearchHub/{__version__} (+contato: {contact})"},
         limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
         follow_redirects=True,
