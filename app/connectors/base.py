@@ -46,6 +46,7 @@ class Connector(Protocol):
 
     slug: str
     name: str
+    kind: str  # "api" (consultada ao vivo) ou "oai" (índice local)
 
     def is_enabled(self) -> bool: ...
 

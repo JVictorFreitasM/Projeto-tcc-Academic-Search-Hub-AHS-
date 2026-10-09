@@ -129,6 +129,7 @@ def build_filter(query: SourceQuery) -> tuple[str | None, bool]:
 class OpenAlexConnector:
     slug = "openalex"
     name = "OpenAlex"
+    kind = "api"
     supports_year_sort = True
 
     def __init__(self, settings: Settings, client: httpx.AsyncClient | None = None) -> None:

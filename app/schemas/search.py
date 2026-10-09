@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from pydantic import BaseModel, Field, field_validator, model_serializer, model_validator
 
@@ -67,6 +67,17 @@ class SearchParams(BaseModel):
         if self.page_size > max_size:
             raise ValueError(f"page_size deve ser no máximo {max_size}")
         return self
+
+
+class SourceInfo(BaseModel):
+    """Estado público de uma fonte (rota /sources)."""
+
+    slug: str
+    name: str
+    kind: Literal["api", "oai"]
+    enabled: bool
+    status: Literal["ok", "disabled"]
+    message: str | None = None
 
 
 class SourceStatusOut(BaseModel):

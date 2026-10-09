@@ -107,6 +107,7 @@ def work_to_record(work: dict[str, Any]) -> RecordOut | None:
 class CoreConnector:
     slug = "core"
     name = "CORE"
+    kind = "api"
     # O CORE não ordena por ano: o orquestrador ordena a página combinada (6.4).
     supports_year_sort = False
 

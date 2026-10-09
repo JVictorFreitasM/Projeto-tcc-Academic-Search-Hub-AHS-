@@ -41,8 +41,11 @@ CORS_HEADERS = ["Authorization", "Content-Type"]
 
 
 @asynccontextmanager
-async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     yield
+    service = getattr(app.state, "search_service", None)
+    if service is not None:
+        await service.aclose()
     if db_session.get_engine.cache_info().currsize:
         await db_session.get_engine().dispose()
 

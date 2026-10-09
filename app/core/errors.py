@@ -123,13 +123,44 @@ async def _handle_app_error(request: Request, exc: Exception) -> JSONResponse:
     return _response(request, exc.status_code, body)
 
 
+def translate_validation_message(err: dict[str, Any]) -> str:
+    """Mensagem em português para os erros de validação mais comuns do Pydantic/FastAPI."""
+    ctx = err.get("ctx") or {}
+    kind = err.get("type", "")
+    table = {
+        "missing": "campo obrigatório",
+        "int_parsing": "deve ser um número inteiro",
+        "int_from_float": "deve ser um número inteiro",
+        "bool_parsing": "deve ser verdadeiro ou falso",
+        "string_type": "deve ser um texto",
+        "greater_than_equal": f"deve ser maior ou igual a {ctx.get('ge')}",
+        "less_than_equal": f"deve ser menor ou igual a {ctx.get('le')}",
+        "greater_than": f"deve ser maior que {ctx.get('gt')}",
+        "less_than": f"deve ser menor que {ctx.get('lt')}",
+        "string_too_short": f"deve ter ao menos {ctx.get('min_length')} caracteres",
+        "string_too_long": f"deve ter no máximo {ctx.get('max_length')} caracteres",
+        "too_short": f"deve ter ao menos {ctx.get('min_length')} itens",
+        "too_long": f"deve ter no máximo {ctx.get('max_length')} itens",
+        "json_invalid": "JSON inválido",
+        "model_attributes_type": "formato inválido",
+        "dict_type": "formato inválido",
+        "list_type": "deve ser uma lista",
+        "url_parsing": "endereço inválido",
+        "enum": "valor não permitido",
+    }
+    message = table.get(kind)
+    if message is not None:
+        return message
+    return str(err["msg"]).removeprefix("Value error, ")
+
+
 async def _handle_validation_error(request: Request, exc: Exception) -> JSONResponse:
     assert isinstance(exc, RequestValidationError)  # noqa: S101
     # Só campo e motivo: o valor recebido pode ser sensível e não é devolvido.
     details = [
         {
             "field": ".".join(str(part) for part in err["loc"] if part not in ("query", "body")),
-            "issue": str(err["msg"]).removeprefix("Value error, "),
+            "issue": translate_validation_message(err),
         }
         for err in exc.errors()
     ]

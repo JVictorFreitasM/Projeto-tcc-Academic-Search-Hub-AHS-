@@ -1,0 +1,80 @@
+{
+  "_aviso": "EXEMPLO COM DADOS FICTÍCIOS: conectores falsos, não são resultados reais das fontes.",
+  "requisicao": {
+    "metodo": "GET",
+    "caminho": "/api/v1/search",
+    "parametros": {
+      "q": "letramento digital",
+      "year_from": 2020,
+      "type": "article,thesis",
+      "page_size": 2
+    }
+  },
+  "resposta_200_fonte_core_com_timeout": {
+    "query": "letramento digital",
+    "page": 1,
+    "page_size": 2,
+    "total_estimated": 100,
+    "total_is_estimate": true,
+    "results": [
+      {
+        "id": "src:openalex:1",
+        "title": "Trabalho openalex 1 sobre educação",
+        "authors": [
+          {
+            "name": "Autor 1",
+            "orcid": null
+          }
+        ],
+        "abstract": null,
+        "year": 2021,
+        "doi": null,
+        "url": null,
+        "pdf_url": null,
+        "type": "other",
+        "language": null,
+        "keywords": [],
+        "sources": [
+          {
+            "source": "openalex",
+            "source_id": "1",
+            "url": null
+          }
+        ],
+        "is_favorite": false
+      }
+    ],
+    "sources_status": {
+      "openalex": {
+        "status": "ok",
+        "count": 1,
+        "total": 100,
+        "message": null
+      },
+      "core": {
+        "status": "timeout",
+        "count": 0,
+        "total": 0,
+        "message": "falhou"
+      }
+    }
+  },
+  "requisicao_invalida": {
+    "parametros": {
+      "q": "a"
+    },
+    "status": 422,
+    "corpo": {
+      "error": {
+        "code": "validation_error",
+        "message": "Parâmetros de busca inválidos.",
+        "details": [
+          {
+            "field": "q",
+            "issue": "a consulta deve ter de 2 a 200 caracteres"
+          }
+        ]
+      }
+    }
+  }
+}

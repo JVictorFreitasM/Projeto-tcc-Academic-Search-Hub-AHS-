@@ -14,10 +14,11 @@ import httpx
 
 from app.connectors.base import Connector, SourcePage, SourceQuery, SourceStatus
 from app.connectors.http import make_client
+from app.connectors.registry import build_connectors
 from app.core.config import Settings
 from app.core.errors import UpstreamError, ValidationAppError
 from app.schemas.record import RecordOut
-from app.schemas.search import SearchParams, SearchResponse, SourceStatusOut
+from app.schemas.search import SearchParams, SearchResponse, SourceInfo, SourceStatusOut
 from app.scraping.completion import complete_abstracts
 from app.scraping.polite_scraper import PoliteScraper
 from app.services.dedup import deduplicate
@@ -105,8 +106,26 @@ class SearchService:
             page = SourcePage(status=SourceStatus.ERROR, message="Falha ao consultar a fonte.")
         return _Outcome(page, round((time.perf_counter() - started) * 1000))
 
+    async def describe_sources(self) -> list[SourceInfo]:
+        """Estado público de cada fonte (sem endereços internos, chaves nem contagens)."""
+        states = await asyncio.gather(*(c.availability() for c in self._connectors))
+        return [
+            SourceInfo(
+                slug=c.slug,
+                name=c.name,
+                kind="oai" if getattr(c, "kind", "api") == "oai" else "api",
+                enabled=c.is_enabled(),
+                status="ok" if available else "disabled",
+                message=reason,
+            )
+            for c, (available, reason) in zip(self._connectors, states, strict=True)
+        ]
+
     async def search(
-        self, params: SearchParams, user_id: uuid.UUID | None = None
+        self,
+        params: SearchParams,
+        user_id: uuid.UUID | None = None,
+        favorite_lookup: FavoriteLookup | None = None,
     ) -> SearchResponse:
         requested = self._select(params)
         status: dict[str, SourceStatusOut] = {
@@ -174,7 +193,7 @@ class SearchService:
             results.sort(key=_year_sort_key)  # estável: empates mantêm a intercalação
 
         results = await self._complete_abstracts(results)
-        results = await self._mark_favorites(results, user_id)
+        results = await self._mark_favorites(results, user_id, favorite_lookup)
         return SearchResponse(
             query=params.q,
             page=params.page,
@@ -194,12 +213,16 @@ class SearchService:
         return merged
 
     async def _mark_favorites(
-        self, results: list[RecordOut], user_id: uuid.UUID | None
+        self,
+        results: list[RecordOut],
+        user_id: uuid.UUID | None,
+        favorite_lookup: FavoriteLookup | None,
     ) -> list[RecordOut]:
         """Devolve cópias marcadas; os objetos do conector nunca são alterados."""
-        if user_id is None or self._favorite_lookup is None or not results:
+        lookup = favorite_lookup or self._favorite_lookup
+        if user_id is None or lookup is None or not results:
             return results
-        favorites = await self._favorite_lookup(user_id, [r.id for r in results])
+        favorites = await lookup(user_id, [r.id for r in results])
         return [r.model_copy(update={"is_favorite": r.id in favorites}) for r in results]
 
     @classmethod
@@ -222,3 +245,8 @@ class SearchService:
             for slug, item in status.items()
             if item.message != NOT_SELECTED
         ]
+
+
+def build_default_service(settings: Settings) -> SearchService:
+    """Serviço da aplicação: todos os conectores configurados (OpenAlex, CORE e fontes OAI)."""
+    return SearchService(build_connectors(settings), settings)

@@ -51,6 +51,7 @@ class OaiLocalConnector:
     """Uma instância por fonte OAI (`slug`) declarada em `config/oai_sources.yml`."""
 
     supports_year_sort = True
+    kind = "oai"
 
     def __init__(
         self,
