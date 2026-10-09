@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import socket
 import sys
 import threading
@@ -58,33 +59,55 @@ def live_server() -> Iterator[LiveServer]:
     thread.join(timeout=10)
 
 
-@pytest.fixture(scope="module")
-def playwright_instance() -> Iterator[Playwright]:
-    """O Playwright precisa de subprocessos (ProactorEventLoop no Windows); a suíte usa Selector.
-
-    Escopo de módulo: o Playwright síncrono mantém um loop ativo na thread principal e precisa ser
-    encerrado antes dos testes assíncronos que vêm depois.
-    """
+def _start_playwright() -> Playwright:
+    """O Playwright precisa de subprocessos (ProactorEventLoop no Windows); a suíte usa Selector."""
     previous = asyncio.get_event_loop_policy()
     if sys.platform == "win32":
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", DeprecationWarning)
             asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
     try:
-        manager = sync_playwright().start()
+        return sync_playwright().start()
     finally:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", DeprecationWarning)
             asyncio.set_event_loop_policy(previous)
-    yield manager
+
+
+def _start_browser(attempts: int = 3) -> tuple[Playwright, Browser]:
+    """Inicia Playwright e Chromium. O driver às vezes cai ao iniciar sob carga: tenta de novo."""
+    last_error: Exception | None = None
+    for attempt in range(attempts):
+        manager = _start_playwright()
+        try:
+            return manager, manager.chromium.launch()
+        except Exception as exc:
+            last_error = exc
+            with contextlib.suppress(Exception):
+                manager.stop()
+            time.sleep(1 + attempt)
+    raise RuntimeError(f"não foi possível iniciar o navegador: {last_error}")
+
+
+@pytest.fixture(scope="module")
+def playwright_pair() -> Iterator[tuple[Playwright, Browser]]:
+    """Escopo de módulo: o Playwright síncrono mantém um loop ativo na thread principal e precisa
+    ser encerrado antes dos testes assíncronos que vêm depois."""
+    manager, chromium = _start_browser()
+    yield manager, chromium
+    with contextlib.suppress(Exception):
+        chromium.close()
     manager.stop()
 
 
 @pytest.fixture(scope="module")
-def browser(playwright_instance: Playwright) -> Iterator[Browser]:
-    chromium = playwright_instance.chromium.launch()
-    yield chromium
-    chromium.close()
+def playwright_instance(playwright_pair: tuple[Playwright, Browser]) -> Playwright:
+    return playwright_pair[0]
+
+
+@pytest.fixture(scope="module")
+def browser(playwright_pair: tuple[Playwright, Browser]) -> Browser:
+    return playwright_pair[1]
 
 
 @pytest.fixture

@@ -338,3 +338,21 @@ def test_expired_session_on_favorites_page_shows_login_notice(page: Page) -> Non
     page.goto("/favoritos.html")
     expect(page.locator("#aviso-login")).to_be_visible()
     assert page.evaluate("sessionStorage.getItem('ash.token')") is None
+
+
+def test_stored_xss_in_title_note_and_history_is_not_executed(page: Page, api: FakeApi) -> None:
+    payload = '<img src=x onerror="window.__xss=1"><script>window.__xss=2</script>'
+    api.add_favorite(
+        record(1, title=payload, abstract=payload, authors=[{"name": payload, "orcid": None}]),
+        payload,
+    )
+    api.add_history(payload)
+    page.goto("/favoritos.html")
+    expect(page.locator(".result")).to_have_count(1)
+    page.wait_for_timeout(300)
+    assert page.evaluate("window.__xss") is None
+    for selector in (".result img", ".result script", ".history-item img", ".history-item script"):
+        assert page.locator(selector).count() == 0, selector
+    assert "<img src=x" in page.locator(".result-title").inner_text()
+    assert page.get_by_label("Anotação").input_value() == payload  # no campo de texto, como texto
+    assert "<script>" in page.locator(".history-query").inner_text()
