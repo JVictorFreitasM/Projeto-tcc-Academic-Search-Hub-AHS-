@@ -106,6 +106,20 @@
           <h2 id="titulo-resultados" tabindex="-1">Resultados</h2>
           <p id="resumo-busca" class="muted"></p>
           <div id="avisos-busca" class="stack"></div>
+          <div id="barra-exportar" class="export-bar" hidden>
+            <p id="contagem-selecao" class="muted" aria-live="polite">Nenhum trabalho selecionado.</p>
+            <div class="cluster">
+              <label for="formato-exportar">Formato</label>
+              <select id="formato-exportar">
+                <option value="bibtex">BibTeX</option>
+                <option value="ris">RIS</option>
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+              </select>
+              <button type="button" id="exportar-selecionados" class="btn" disabled>Exportar selecionados</button>
+              <button type="button" id="limpar-selecao" class="btn-link" hidden>Limpar seleção</button>
+            </div>
+          </div>
           <div id="lista-resultados" aria-busy="false"></div>
           <nav id="paginacao" class="pagination" aria-label="Paginação dos resultados" hidden></nav>
           <section id="fontes-busca" class="sources-note" aria-label="Estado das fontes" hidden></section>

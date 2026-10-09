@@ -142,12 +142,14 @@ def test_results_are_rendered_as_cards(page: Page, api: Api) -> None:
     assert page.probe.errors == []  # type: ignore[attr-defined]
 
 
-def test_favorite_button_is_visible_and_disabled_for_visitors(page: Page, api: Api) -> None:
+def test_favorite_control_for_visitors_leads_to_login_keeping_the_search(
+    page: Page, api: Api
+) -> None:
     page.goto("/")
     search(page)
-    button = page.locator(".favorite-button").first
-    expect(button).to_have_text("Entre para salvar")
-    expect(button).to_have_attribute("aria-disabled", "true")
+    control = page.locator(".favorite-button").first
+    expect(control).to_have_text("Entre para salvar")
+    expect(control).to_have_attribute("href", "conta.html?voltar=%2F%3Fq%3Dletramento")
 
 
 def test_authors_are_limited_to_five_with_remaining_count(page: Page, api: Api) -> None:
@@ -200,7 +202,7 @@ def test_unsafe_urls_do_not_become_links(page: Page, api: Api) -> None:
     page.goto("/")
     search(page)
     expect(page.locator(".result")).to_have_count(1)
-    assert page.locator(".result a").count() == 0
+    assert page.locator(".result a:not(.favorite-button)").count() == 0  # só sobra o link de login
 
 
 def test_partial_failure_shows_warning_listing_failed_sources(page: Page, api: Api) -> None:
@@ -367,12 +369,14 @@ def test_enter_key_submits_and_keyboard_reaches_results(page: Page, api: Api) ->
     expect(page.locator(".result")).to_have_count(2)
     page.get_by_label("Buscar trabalhos").focus()
     visited = []
-    for _ in range(4):
+    for _ in range(6):
         page.keyboard.press("Tab")
         visited.append(page.evaluate("document.activeElement.textContent.trim().slice(0, 25)"))
     assert visited[0] == "Buscar"
     assert visited[1] == "Filtros"
-    assert visited[2].startswith("Letramento digital")
+    assert any(
+        text.startswith("Letramento digital") for text in visited[2:]
+    )  # chega ao primeiro resultado
 
 
 def test_new_search_cancels_the_previous_one(page: Page, api: Api) -> None:

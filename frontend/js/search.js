@@ -1,20 +1,21 @@
-// Tela de busca: consulta, resultados unificados, estados e paginação.
+// Tela de busca: consulta, resultados unificados, estados, paginação, favoritos e exportação.
 // Todo texto vindo da API entra por textContent (nunca innerHTML).
 import { api, ApiError } from "./api.js";
 import { announce, clear, el, must } from "./dom.js";
 import { focusElement, scrollToElement } from "./a11y.js";
+import { exportRecords, FORMAT_LABELS } from "./export.js";
+import { favoriteControl } from "./favorite-button.js";
 import { createFilters } from "./filters.js";
-import { TYPE_LABELS } from "./labels.js";
 import { readQuery, toApiParams, toQueryString, validateQuery } from "./query.js";
+import { abstractBlock, authorsLine, externalLink, isHttpUrl, metaLine, sourceBadges, titleContent } from "./record-view.js";
+import { subscribe } from "./state.js";
 
-const LANGUAGE_LABELS = { pt: "Português", en: "Inglês", es: "Espanhol", fr: "Francês" };
 const STATUS_TEXT = {
   timeout: "demorou demais para responder",
   error: "falhou",
   rate_limited: "atingiu o limite de requisições",
 };
-const MAX_AUTHORS = 5;
-const ABSTRACT_PREVIEW = 300;
+const MAX_EXPORT = 100;
 
 const ui = {
   form: must("#form-busca"),
@@ -27,12 +28,19 @@ const ui = {
   list: must("#lista-resultados"),
   pagination: must("#paginacao"),
   sources: must("#fontes-busca"),
+  exportBar: must("#barra-exportar"),
+  selectionCount: must("#contagem-selecao"),
+  exportFormat: must("#formato-exportar"),
+  exportButton: must("#exportar-selecionados"),
+  clearSelection: must("#limpar-selecao"),
 };
 
 let sourceNames = {};
 let filters = null;
 let controller = null;
 let current = null; // consulta em exibição
+let lastResponse = null; // última resposta exibida (para redesenhar ao entrar/sair)
+const selected = new Map(); // id -> trabalho escolhido para exportar (vale entre páginas)
 
 /** Fontes (rota pública /sources): nomes legíveis e estado; sem ela, usa o slug. */
 async function loadSources() {
@@ -48,82 +56,46 @@ async function loadSources() {
 
 const nameOf = (slug) => sourceNames[slug] ?? slug;
 
-function isHttpUrl(value) {
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
+function updateSelection() {
+  const total = selected.size;
+  ui.selectionCount.textContent = total === 0 ? "Nenhum trabalho selecionado." : `${total} ${total === 1 ? "trabalho selecionado" : "trabalhos selecionados"}.`;
+  ui.exportButton.disabled = total === 0;
+  ui.clearSelection.hidden = total === 0;
 }
 
-function externalLink(href, text, className) {
-  return el("a", { href, text, target: "_blank", rel: "noopener noreferrer", class: className });
-}
-
-function authorsLine(authors) {
-  if (!authors.length) return null;
-  const names = authors.slice(0, MAX_AUTHORS).map((a) => a.name);
-  const extra = authors.length - MAX_AUTHORS;
-  return el("p", { class: "result-authors", text: names.join(", ") + (extra > 0 ? ` e mais ${extra}` : "") });
-}
-
-function abstractBlock(text, id) {
-  if (!text) return null;
-  if (text.length <= ABSTRACT_PREVIEW) return el("p", { class: "result-abstract", text });
-  const cut = text.slice(0, ABSTRACT_PREVIEW).replace(/\s+\S*$/, "") + "…";
-  const paragraph = el("p", { class: "result-abstract", id, text: cut });
-  const toggle = el("button", {
-    type: "button",
-    class: "btn-link",
-    "aria-expanded": "false",
-    "aria-controls": id,
-    text: "Ler mais",
+function selectionControl(record, index) {
+  const id = `selecionar-${index}`;
+  const box = el("input", { type: "checkbox", id, checked: selected.has(record.id) });
+  box.addEventListener("change", () => {
+    if (box.checked && selected.size >= MAX_EXPORT) {
+      box.checked = false;
+      announce(`Você pode exportar até ${MAX_EXPORT} trabalhos por vez.`, "assertive");
+      return;
+    }
+    if (box.checked) selected.set(record.id, record);
+    else selected.delete(record.id);
+    updateSelection();
   });
-  toggle.addEventListener("click", () => {
-    const expanded = toggle.getAttribute("aria-expanded") === "true";
-    paragraph.textContent = expanded ? cut : text;
-    toggle.setAttribute("aria-expanded", String(!expanded));
-    toggle.textContent = expanded ? "Ler mais" : "Ler menos";
-  });
-  return el("div", {}, [paragraph, toggle]);
+  return el("div", { class: "check" }, [box, el("label", { for: id, text: "Selecionar para exportar" })]);
 }
 
 function renderRecord(record, index) {
-  const heading = isHttpUrl(record.url ?? "")
-    ? externalLink(record.url, record.title)
-    : el("span", { text: record.title });
-  const meta = [];
-  if (record.year) meta.push(el("span", { text: String(record.year) }));
-  meta.push(el("span", { text: TYPE_LABELS[record.type] ?? "Outro" }));
-  if (record.language) meta.push(el("span", { text: LANGUAGE_LABELS[record.language] ?? record.language.toUpperCase() }));
-
-  const badges = record.sources.map((s) => el("li", {}, [el("span", { class: "badge", text: nameOf(s.source) })]));
   const actions = [];
   if (isHttpUrl(record.pdf_url ?? "")) actions.push(externalLink(record.pdf_url, "Texto completo (PDF)"));
-  // Favoritos exigem conta: o botão é ligado à sessão pela OS-025.
-  actions.push(
-    el("button", {
-      type: "button",
-      class: "btn favorite-button",
-      "aria-disabled": "true",
-      "data-record-id": record.id,
-      text: "Entre para salvar",
-    }),
-  );
+  actions.push(favoriteControl(record));
 
   return el("li", { class: "result-item" }, [
     el("article", { class: "card result", "aria-labelledby": `titulo-${index}` }, [
-      el("h3", { id: `titulo-${index}`, class: "result-title" }, [heading]),
+      el("h3", { id: `titulo-${index}`, class: "result-title" }, [titleContent(record)]),
       authorsLine(record.authors),
-      el("p", { class: "result-meta muted" }, meta.flatMap((node, i) => (i ? [" · ", node] : [node]))),
+      metaLine(record),
       abstractBlock(record.abstract, `resumo-${index}`),
-      el("ul", { class: "badges", "aria-label": "Fontes deste trabalho" }, badges),
+      sourceBadges(record, nameOf),
+      selectionControl(record, index),
       el("div", { class: "result-actions cluster" }, actions),
     ]),
   ]);
 }
-
 function sourceProblems(statusMap) {
   return Object.entries(statusMap).filter(([, s]) => ["timeout", "error", "rate_limited"].includes(s.status));
 }
@@ -189,6 +161,7 @@ function renderPagination(response) {
 
 function renderLoading() {
   ui.area.hidden = false;
+  ui.exportBar.hidden = true;
   ui.list.setAttribute("aria-busy", "true");
   clear(ui.notices);
   ui.pagination.hidden = true;
@@ -202,6 +175,9 @@ function renderLoading() {
 }
 
 function renderResponse(response) {
+  lastResponse = response;
+  ui.exportBar.hidden = response.results.length === 0;
+  updateSelection();
   ui.list.setAttribute("aria-busy", "false");
   renderSummary(response);
   renderNotices(response);
@@ -226,6 +202,8 @@ function errorMessage(error) {
 }
 
 function renderFailure(error) {
+  lastResponse = null;
+  ui.exportBar.hidden = true;
   ui.list.setAttribute("aria-busy", "false");
   ui.summary.textContent = "";
   clear(ui.list);
@@ -315,4 +293,36 @@ loadSources().then((sources) => {
   filters.setFrom(initial);
   ui.input.value = initial.q;
   if (initial.q) search(initial, { replace: true });
+});
+
+// ---------- exportação dos resultados escolhidos ----------
+
+ui.exportButton.addEventListener("click", async () => {
+  const format = ui.exportFormat.value;
+  ui.exportButton.disabled = true;
+  try {
+    const filename = await exportRecords(format, [...selected.values()]);
+    announce(`Arquivo ${filename} gerado (${FORMAT_LABELS[format]}).`);
+  } catch (error) {
+    announce(error instanceof ApiError ? error.message : "Não foi possível exportar. Tente novamente.", "assertive");
+  } finally {
+    updateSelection();
+  }
+});
+
+ui.clearSelection.addEventListener("click", () => {
+  selected.clear();
+  for (const box of ui.list.querySelectorAll("input[type=checkbox]")) box.checked = false;
+  updateSelection();
+  announce("Seleção limpa.");
+});
+
+// Ao entrar ou sair, redesenha a última resposta (botões de favorito mudam), sem nova busca.
+let lastLoggedIn = null;
+subscribe((state) => {
+  if (lastLoggedIn !== null && lastLoggedIn !== state.loggedIn && lastResponse) {
+    clear(ui.list);
+    ui.list.append(el("ol", { class: "results-list" }, lastResponse.results.map(renderRecord)));
+  }
+  lastLoggedIn = state.loggedIn;
 });

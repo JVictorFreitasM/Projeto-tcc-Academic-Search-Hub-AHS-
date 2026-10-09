@@ -4,7 +4,10 @@ import { el } from "./dom.js";
 import { getState, subscribe } from "./state.js";
 
 /** Páginas do menu. Cada OS que cria uma página acrescenta o item aqui. */
-export const NAV_ITEMS = [{ href: "index.html", label: "Busca", id: "busca" }];
+export const NAV_ITEMS = [
+  { href: "index.html", label: "Busca", id: "busca" },
+  { href: "favoritos.html", label: "Favoritos", id: "favoritos" },
+];
 
 const FOOTER_LINKS = [
   { href: "privacidade.html", label: "Política de privacidade" },

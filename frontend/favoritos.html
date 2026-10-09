@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Favoritos e histórico — Academic Search Hub</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body data-page="favoritos">
+    <main id="conteudo" class="main">
+      <div class="container stack">
+        <h1 id="titulo-favoritos" tabindex="-1">Favoritos</h1>
+
+        <div id="aviso-login" class="alert alert-info" hidden>
+          <p>
+            <strong>Aviso:</strong> entre na sua conta para ver os trabalhos salvos e o histórico de
+            buscas.
+          </p>
+          <p><a id="link-entrar" href="conta.html">Entrar ou criar conta</a></p>
+        </div>
+
+        <div id="area-favoritos" class="stack" hidden>
+          <form id="form-busca-favoritos" class="search-row" role="search" aria-label="Buscar nos favoritos">
+            <label for="busca-favoritos" class="visually-hidden">Buscar nos favoritos</label>
+            <input id="busca-favoritos" type="search" placeholder="Buscar no título ou na anotação" autocomplete="off" />
+            <button type="submit" class="btn">Buscar nos favoritos</button>
+          </form>
+
+          <div class="export-bar">
+            <p id="contagem-favoritos" class="muted" aria-live="polite"></p>
+            <div class="cluster">
+              <label for="formato-favoritos">Formato</label>
+              <select id="formato-favoritos">
+                <option value="bibtex">BibTeX</option>
+                <option value="ris">RIS</option>
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+              </select>
+              <button type="button" id="exportar-favoritos" class="btn" disabled>Exportar todos</button>
+            </div>
+          </div>
+
+          <div id="lista-favoritos" aria-busy="false"></div>
+          <nav id="paginacao-favoritos" class="pagination" aria-label="Paginação dos favoritos" hidden></nav>
+        </div>
+
+        <section id="area-historico" class="stack" aria-labelledby="titulo-historico" hidden>
+          <h2 id="titulo-historico">Histórico de buscas</h2>
+          <p class="muted">Guardamos as 200 buscas mais recentes. Você pode apagar itens ou tudo.</p>
+          <div id="lista-historico"></div>
+          <nav id="paginacao-historico" class="pagination" aria-label="Paginação do histórico" hidden></nav>
+          <p><button type="button" id="limpar-historico" class="btn btn-danger" hidden>Limpar todo o histórico</button></p>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/favorites.js"></script>
+  </body>
+</html>
