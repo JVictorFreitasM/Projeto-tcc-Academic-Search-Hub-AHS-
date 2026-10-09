@@ -172,7 +172,8 @@ def test_signup_success_sends_consent_and_signs_in(page: Page, server: Server) -
         "email": "maria@exemplo.com",
         "password": "Senha12345",
     }
-    expect(page.locator("#conta-logada")).to_contain_text("Você entrou como Maria de Souza")
+    expect(page.locator("#conta-logada")).to_contain_text("Dados da conta")
+    expect(page.locator("#conta-logada")).to_contain_text("Maria de Souza")
     expect(page.locator("#conta-visitante")).to_be_hidden()
     expect(page.get_by_role("button", name="Sair")).to_be_visible()
 

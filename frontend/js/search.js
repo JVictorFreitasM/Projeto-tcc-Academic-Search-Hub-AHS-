@@ -326,3 +326,14 @@ subscribe((state) => {
   }
   lastLoggedIn = state.loggedIn;
 });
+
+// Depois de excluir a conta, a página inicial confirma a exclusão e limpa o parâmetro da URL.
+if (new URLSearchParams(window.location.search).get("conta_excluida") === "1") {
+  const notice = el("div", { class: "alert alert-success", role: "status" }, [
+    el("strong", { text: "Conta excluída. " }),
+    "Seus dados, favoritos e histórico foram apagados.",
+  ]);
+  ui.form.before(notice);
+  announce("Conta excluída. Seus dados foram apagados.");
+  window.history.replaceState(null, "", window.location.pathname);
+}

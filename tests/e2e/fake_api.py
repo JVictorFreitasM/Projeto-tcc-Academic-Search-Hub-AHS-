@@ -65,6 +65,12 @@ class FakeApi:
         self.search_total = 3
         self.calls: list[dict[str, Any]] = []
         self.fail: dict[str, tuple[int, dict[str, Any]]] = {}
+        self.user: dict[str, Any] = dict(USER)
+        self.password = "Senha12345"
+        self.policy_version = "1.0"
+        self.login_consent_required = False
+        self.deleted = False
+        self.taken_email = "ocupado@exemplo.com"
         if logged_in:
             page.add_init_script(f"sessionStorage.setItem('ash.token', '{TOKEN}')")
         page.route("**/api/v1/**", self._route)
@@ -135,10 +141,8 @@ class FakeApi:
         no: dict[str, str] = {}
         if path == "/sources":
             return 200, SOURCES, no
-        if path == "/me":
-            if auth == f"Bearer {TOKEN}":
-                return 200, USER, no
-            return 401, {"error": {"code": "unauthorized", "message": "Sessão inválida."}}, no
+        if path.startswith("/me") or path in ("/privacy", "/auth/login", "/auth/register"):
+            return self.account(method, path, body, auth)
         if path == "/search":
             return 200, self.search_body(params), no
         if path == "/favorites" and method == "POST":
@@ -243,3 +247,86 @@ class FakeApi:
             "page_size": size,
             "total": len(items),
         }
+
+    # ---- conta (OS-026) ----
+    def account(
+        self, method: str, path: str, body: Any, auth: str | None
+    ) -> tuple[int, Any, dict[str, str]]:
+        no: dict[str, str] = {}
+        unauthorized = (401, {"error": {"code": "unauthorized", "message": "Sessão inválida."}}, no)
+        wrong = (
+            403,
+            {"error": {"code": "invalid_password", "message": "Senha atual incorreta."}},
+            no,
+        )
+        if path == "/privacy":
+            return (
+                200,
+                {"version": self.policy_version, "content": "# Política de Privacidade\n\nTexto."},
+                no,
+            )
+        if path == "/auth/login":
+            if body["password"] != self.password:
+                return (
+                    401,
+                    {"error": {"code": "unauthorized", "message": "E-mail ou senha inválidos."}},
+                    no,
+                )
+            return (
+                200,
+                {
+                    "access_token": TOKEN,
+                    "token_type": "bearer",
+                    "expires_in": 3600,
+                    "consent_required": self.login_consent_required,
+                },
+                no,
+            )
+        if path == "/auth/register":
+            return 201, self.user, no
+        if auth != f"Bearer {TOKEN}" or self.deleted:
+            return unauthorized
+        if path == "/me" and method == "GET":
+            return 200, self.user, no
+        if path == "/me" and method == "PATCH":
+            if body.get("email") and body["email"] != self.user["email"]:
+                if body.get("current_password") != self.password:
+                    return wrong
+                if body["email"] == self.taken_email:
+                    return (
+                        409,
+                        {
+                            "error": {
+                                "code": "conflict",
+                                "message": "Não foi possível atualizar os dados.",
+                            }
+                        },
+                        no,
+                    )
+                self.user["email"] = body["email"]
+            if body.get("full_name"):
+                self.user["full_name"] = body["full_name"]
+            return 200, self.user, no
+        if path == "/me/password":
+            if body["current_password"] != self.password:
+                return wrong
+            self.password = body["new_password"]
+            return 204, None, no
+        if path == "/me/data-export":
+            data = json.dumps(
+                {"account": self.user, "favorites": self.favorites, "search_history": self.history}
+            ).encode()
+            headers = {
+                "Content-Type": "application/json",
+                "Content-Disposition": 'attachment; filename="meus-dados-20261009.json"',
+            }
+            return 200, data, headers
+        if path == "/me/consent":
+            self.user["consent_policy_version"] = self.policy_version
+            return 200, self.user, no
+        if path == "/me" and method == "DELETE":
+            if body.get("password") != self.password:
+                return wrong
+            self.deleted = True
+            return 204, None, no
+        return 404, {"error": {"code": "not_found", "message": "sem rota"}}, no

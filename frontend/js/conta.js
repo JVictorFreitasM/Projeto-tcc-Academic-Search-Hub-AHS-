@@ -1,5 +1,6 @@
 // Página "Entrar ou criar conta": formulários com erros por campo acessíveis.
-import { ApiError } from "./api.js";
+import { renderAccount, renderConsentRequired } from "./account.js";
+import { ApiError, api } from "./api.js";
 import { loadUser, login, register, restoreSession, safeReturnPath } from "./auth.js";
 import { announce, el, must } from "./dom.js";
 import { focusElement } from "./a11y.js";
@@ -84,9 +85,9 @@ loginForm.addEventListener("submit", async (event) => {
   }
   busy(loginForm, true, "Entrar", "Entrando…");
   try {
-    await login(email, password, must("#manter-conectado").checked);
+    const { consentRequired } = await login(email, password, must("#manter-conectado").checked);
     loginForm.reset();
-    afterSignIn("Você entrou na conta.");
+    afterSignIn("Você entrou na conta.", { consentRequired });
   } catch (error) {
     const message = error instanceof ApiError ? (error.status === 401 ? error.message : apiMessage(error)) : "Ocorreu um erro inesperado.";
     setSummary(must("#erro-login"), message);
@@ -178,9 +179,10 @@ signupForm.addEventListener("submit", async (event) => {
 
 // ---------- depois de entrar ----------
 
-function afterSignIn(message) {
+function afterSignIn(message, { consentRequired = false } = {}) {
   const back = safeReturnPath(new URLSearchParams(window.location.search).get("voltar"));
-  if (back) {
+  // Com nova versão da política para aceitar, a pessoa fica aqui até aceitar.
+  if (back && !consentRequired) {
     window.location.assign(back);
     return;
   }
@@ -189,22 +191,40 @@ function afterSignIn(message) {
   focusElement(title);
 }
 
+let policyVersion = null; // versão atual da política (GET /privacy), buscada sob demanda
+
+async function currentPolicyVersion() {
+  if (policyVersion) return policyVersion;
+  try {
+    policyVersion = (await api("/privacy", { auth: false })).version;
+  } catch {
+    policyVersion = null;
+  }
+  return policyVersion;
+}
+
+async function drawLoggedArea(user) {
+  const version = await currentPolicyVersion();
+  loggedBox.replaceChildren();
+  if (version && user.consent_policy_version !== version) {
+    renderConsentRequired(loggedBox, version, (updated) => renderAccount(loggedBox, updated));
+  } else {
+    renderAccount(loggedBox, user);
+  }
+}
+
 function render() {
   const { loggedIn, user } = getState();
   visitor.hidden = loggedIn;
   loggedBox.hidden = !loggedIn;
   title.textContent = loggedIn ? "Minha conta" : "Entrar ou criar conta";
-  loggedBox.replaceChildren();
-  if (loggedIn) {
-    loggedBox.append(
-      el("div", { class: "card stack" }, [
-        el("p", { text: user ? `Você entrou como ${user.full_name} (${user.email}).` : "Você está conectado." }),
-        el("p", {}, [el("a", { href: "index.html", text: "Ir para a busca" })]),
-      ]),
-    );
+  if (!loggedIn) {
+    loggedBox.replaceChildren();
+    return;
   }
+  if (user) drawLoggedArea(user);
+  else loggedBox.replaceChildren(el("p", { class: "muted", text: "Carregando seus dados…" }));
 }
-
 subscribe(render);
 render();
 restoreSession().then(() => {
