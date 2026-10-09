@@ -1,0 +1,59 @@
+﻿OS-010 - EXPLAIN (ANALYZE) de uma busca no índice local.
+ATENÇÃO: medição feita com 30.000 registros SINTÉTICOS (fonte 'explain_demo', removidos ao final),
+no PostgreSQL local de desenvolvimento. NÃO é uma colheita real: nenhuma fonte OAI foi colhida
+ainda (ver docs/evidencias/os-009-fontes.md). Repetir com a colheita real antes de citar no TCC.
+
+O uso do paginador est� desativado.
+DELETE 0
+INSERT 0 30000
+ANALYZE
+          ?column?           
+-----------------------------
+ registros sintéticos: 30000
+(1 linha)
+
+                                                       QUERY PLAN                                                        
+-------------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=35.708..35.718 rows=20.00 loops=1)
+   Buffers: shared hit=1300
+   ->  Sort (actual time=35.700..35.705 rows=20.00 loops=1)
+         Sort Key: (ts_rank_cd(search_vector, '''educaca'''::tsquery)) DESC, year DESC NULLS LAST, id
+         Sort Method: top-N heapsort  Memory: 27kB
+         Buffers: shared hit=1300
+         ->  Bitmap Heap Scan on oai_records (actual time=2.071..32.759 rows=2571.00 loops=1)
+               Recheck Cond: ((year >= 2000) AND (year <= 2010))
+               Filter: ((NOT deleted) AND (search_vector @@ '''educaca'''::tsquery) AND (source = 'explain_demo'::text))
+               Rows Removed by Filter: 6856
+               Heap Blocks: exact=1285
+               Buffers: shared hit=1297
+               ->  Bitmap Index Scan on ix_oai_records_year (actual time=1.493..1.493 rows=9427.00 loops=1)
+                     Index Cond: ((year >= 2000) AND (year <= 2010))
+                     Index Searches: 1
+                     Buffers: shared hit=12
+ Planning:
+   Buffers: shared hit=59
+ Planning Time: 1.628 ms
+ Execution Time: 35.799 ms
+(20 linhas)
+
+                                                    QUERY PLAN                                                     
+-------------------------------------------------------------------------------------------------------------------
+ Aggregate (actual time=17.735..17.736 rows=1.00 loops=1)
+   Buffers: shared hit=1297
+   ->  Bitmap Heap Scan on oai_records (actual time=2.184..16.921 rows=2571.00 loops=1)
+         Recheck Cond: ((year >= 2000) AND (year <= 2010))
+         Filter: ((NOT deleted) AND (search_vector @@ '''educaca'''::tsquery) AND (source = 'explain_demo'::text))
+         Rows Removed by Filter: 6856
+         Heap Blocks: exact=1285
+         Buffers: shared hit=1297
+         ->  Bitmap Index Scan on ix_oai_records_year (actual time=1.625..1.625 rows=9427.00 loops=1)
+               Index Cond: ((year >= 2000) AND (year <= 2010))
+               Index Searches: 1
+               Buffers: shared hit=12
+ Planning:
+   Buffers: shared hit=1
+ Planning Time: 0.454 ms
+ Execution Time: 17.815 ms
+(16 linhas)
+
+DELETE 30000

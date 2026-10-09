@@ -117,6 +117,9 @@ class CoreConnector:
     def is_enabled(self) -> bool:
         return bool(self._settings.core_api_key)
 
+    async def availability(self) -> tuple[bool, str | None]:
+        return (True, None) if self.is_enabled() else (False, "Chave do CORE não configurada.")
+
     async def search(self, query: SourceQuery) -> SourcePage:
         if not self.is_enabled():
             return SourcePage(
