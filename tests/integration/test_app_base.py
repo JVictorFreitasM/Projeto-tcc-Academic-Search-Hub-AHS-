@@ -192,6 +192,11 @@ async def test_rate_limit_returns_429_in_standard_format(
     monkeypatch.setattr(main_module, "FRONTEND_DIR", tmp_path / "inexistente")
     app = create_app(settings())
 
+    def no_database() -> None:
+        raise RuntimeError("sem banco neste teste")
+
+    app.state.session_factory = no_database  # o evento rate_limited não deve sujar o banco
+
     @app.get("/limitado")
     @limiter.limit("2/minute")
     async def limited(request: Request) -> dict[str, str]:

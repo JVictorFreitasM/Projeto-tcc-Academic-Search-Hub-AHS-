@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
-from app.api.v1 import health
+from app.api.v1 import auth, health
 from app.schemas.common import ErrorResponse
 
 ERROR_RESPONSES: dict[int | str, dict[str, object]] = {
@@ -15,3 +15,4 @@ ERROR_RESPONSES: dict[int | str, dict[str, object]] = {
 
 api_router = APIRouter(responses=ERROR_RESPONSES)
 api_router.include_router(health.router)
+api_router.include_router(auth.router)

@@ -22,6 +22,22 @@ Swagger UI do FastAPI carrega os arquivos do CDN `cdn.jsdelivr.net` e tem um scr
 (o Swagger UI injeta estilos). Em produção, `DOCS_ENABLED=false` desliga `/api/docs` e
 `/api/openapi.json`.
 
+## Controles por risco (parcial; a OS-027 consolida os dez)
+
+| Risco (2017) | Controle | Onde | Teste |
+|---|---|---|---|
+| A2 Autenticação quebrada | Senhas com **Argon2id** (padrões do `argon2-cffi`), com novo hash quando os parâmetros mudam | `app/core/security.py` | `tests/unit/test_security.py`, `test_rehash_on_login_when_parameters_are_weaker` |
+| A2 | Mensagem e tempo semelhantes para e-mail inexistente e senha errada (verificação contra hash falso) | `app/services/auth_service.py` | `test_wrong_password_and_unknown_email_look_identical` |
+| A2 | Cadastro com e-mail repetido devolve 409 genérico (não revela se o e-mail existe) | `auth_service.register` | `test_duplicate_email_gives_generic_409` |
+| A2 | Limite de tentativas: `RATE_LIMIT_AUTH` (padrão 5/minuto por IP) em login e cadastro, com evento `rate_limited` | `app/core/rate_limit.py`, `app/api/v1/auth.py` | `test_sixth_login_in_a_minute_is_429_and_records_event` |
+| A2 | JWT HS256 com algoritmo **fixo**, `exp`, `iss`, `iat`, `sub` e `jti` obrigatórios; recusa `alg=none`, expirado, adulterado, outro emissor e outra chave; sem `SECRET_KEY` não emite nem valida | `app/core/security.py` | `test_security.py`, `test_me_requires_a_valid_token` |
+| A3 Exposição de dados sensíveis | `password_hash` nunca sai em respostas (`UserOut`); senha não aparece em log, resposta nem evento | `app/schemas/user.py`, filtro de log | `test_password_never_appears_in_logs_or_responses` |
+| A3 | IP só em hash HMAC-SHA256 com sal derivado de `SECRET_KEY`; `security_events.details` sem e-mail, senha, token ou nome | `hash_ip`, `app/services/security_events.py` | `test_ip_is_never_stored_in_clear_and_events_have_no_email` |
+| A7 XSS | `Content-Security-Policy` sem `unsafe-inline` na API e no frontend; o frontend (Fase 3) não usa `innerHTML` com dados externos | `app/core/security_headers.py` | `test_security_headers_on_every_response` |
+
+Os parâmetros do Argon2id são os **padrões da biblioteca** `argon2-cffi` (perfil de baixa memória da
+RFC 9106), sem valores inventados; ver `docs/DECISOES.md`.
+
 ## Cabeçalhos de segurança (A6)
 
 Presentes em todas as respostas (`app/core/security_headers.py`; teste

@@ -85,6 +85,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     )
     app.state.settings = settings
     app.state.limiter = limiter
+    app.state.session_factory = None  # padrão: db.session.get_sessionmaker() (testes podem trocar)
     app.openapi = lambda: _build_openapi(app)  # type: ignore[method-assign]
 
     register_exception_handlers(app)

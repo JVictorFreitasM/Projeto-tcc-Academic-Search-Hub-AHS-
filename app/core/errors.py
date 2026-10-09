@@ -129,7 +129,7 @@ async def _handle_validation_error(request: Request, exc: Exception) -> JSONResp
     details = [
         {
             "field": ".".join(str(part) for part in err["loc"] if part not in ("query", "body")),
-            "issue": str(err["msg"]),
+            "issue": str(err["msg"]).removeprefix("Value error, "),
         }
         for err in exc.errors()
     ]
