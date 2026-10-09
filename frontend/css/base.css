@@ -81,6 +81,11 @@ svg {
   outline: none; /* destinos de foco programático (títulos) não precisam de anel */
 }
 
+/* O atributo hidden precisa vencer regras de display dos componentes. */
+[hidden] {
+  display: none !important;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

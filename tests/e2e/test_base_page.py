@@ -15,8 +15,9 @@ def test_home_opens_without_console_or_csp_errors(page: Page) -> None:
 
 def test_landmarks_and_title(page: Page) -> None:
     page.goto("/")
-    for landmark in ("header", "nav", "main", "footer"):
+    for landmark in ("header", "main", "footer"):
         assert page.locator(landmark).count() == 1, landmark
+    assert page.get_by_role("navigation", name="Principal").count() == 1
     assert page.title().startswith("Academic Search Hub")
     assert (
         page.get_attribute("meta[name=viewport]", "content")

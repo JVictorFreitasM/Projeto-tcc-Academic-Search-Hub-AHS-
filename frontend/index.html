@@ -15,13 +15,45 @@
   </head>
   <body data-page="busca">
     <main id="conteudo" class="main">
-      <div class="container">
+      <div class="container stack">
         <h1>Busca de trabalhos acadêmicos</h1>
-        <p class="muted">
-          Página em construção: a busca unificada chega na próxima etapa do desenvolvimento.
-        </p>
+
+        <form id="form-busca" class="search-form" role="search" novalidate>
+          <div class="field">
+            <label for="campo-busca">Buscar trabalhos</label>
+            <div class="search-row">
+              <input
+                id="campo-busca"
+                name="q"
+                type="search"
+                autocomplete="off"
+                maxlength="200"
+                aria-describedby="ajuda-busca erro-busca"
+                placeholder="Ex.: letramento digital"
+              />
+              <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+            <p id="erro-busca" class="error-text" hidden></p>
+            <p id="ajuda-busca" class="hint">
+              Dicas: use aspas para uma expressão exata (<q>ensino médio</q>) e um sinal de menos
+              para excluir um termo (<q>-fundamental</q>). Isso vale para as fontes locais (BDTD,
+              UFPI, UESPI e SciELO); nas fontes externas (OpenAlex e CORE) o comportamento pode
+              variar.
+            </p>
+          </div>
+        </form>
+
+        <section id="area-resultados" aria-labelledby="titulo-resultados" hidden>
+          <h2 id="titulo-resultados" tabindex="-1">Resultados</h2>
+          <p id="resumo-busca" class="muted"></p>
+          <div id="avisos-busca" class="stack"></div>
+          <div id="lista-resultados" aria-busy="false"></div>
+          <nav id="paginacao" class="pagination" aria-label="Paginação dos resultados" hidden></nav>
+          <section id="fontes-busca" class="sources-note" aria-label="Estado das fontes" hidden></section>
+        </section>
       </div>
     </main>
     <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/search.js"></script>
   </body>
 </html>
