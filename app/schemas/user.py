@@ -22,6 +22,15 @@ def normalize_email(value: str) -> str:
     return email
 
 
+def check_password_rules(password: str, email: str | None = None) -> str:
+    """Regras de senha compartilhadas pelo cadastro e pela troca de senha."""
+    if not any(c.isalpha() for c in password) or not any(c.isdigit() for c in password):
+        raise ValueError("a senha deve ter ao menos uma letra e um número")
+    if email and email.lower() in password.lower():
+        raise ValueError("a senha não pode conter o e-mail")
+    return password
+
+
 class UserCreate(BaseModel):
     full_name: str = Field(min_length=2, max_length=120)
     email: str
@@ -50,12 +59,7 @@ class UserCreate(BaseModel):
 
     @model_validator(mode="after")
     def _password_rules(self) -> Self:
-        if not any(c.isalpha() for c in self.password) or not any(
-            c.isdigit() for c in self.password
-        ):
-            raise ValueError("a senha deve ter ao menos uma letra e um número")
-        if self.email in self.password.lower():
-            raise ValueError("a senha não pode conter o e-mail")
+        check_password_rules(self.password, self.email)
         return self
 
 
@@ -87,3 +91,40 @@ class TokenOut(BaseModel):
     token_type: str = "bearer"  # noqa: S105 (tipo do esquema OAuth, não é segredo)
     expires_in: int = Field(description="Validade do token em segundos")
     consent_required: bool = False
+
+
+class MeUpdate(BaseModel):
+    """Correção de dados (LGPD art. 18, III). Trocar o e-mail exige a senha atual."""
+
+    full_name: str | None = Field(default=None, min_length=2, max_length=120)
+    email: str | None = None
+    current_password: str | None = Field(default=None, max_length=MAX_PASSWORD)
+
+    @field_validator("full_name")
+    @classmethod
+    def _name(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = " ".join(value.split())
+        if len(value) < 2:
+            raise ValueError("informe o nome completo")
+        return value
+
+    @field_validator("email")
+    @classmethod
+    def _email(cls, value: str | None) -> str | None:
+        return None if value is None else normalize_email(value)
+
+
+class PasswordChange(BaseModel):
+    current_password: str = Field(min_length=1, max_length=MAX_PASSWORD)
+    new_password: str = Field(min_length=MIN_PASSWORD, max_length=MAX_PASSWORD)
+
+
+class AccountDelete(BaseModel):
+    password: str = Field(min_length=1, max_length=MAX_PASSWORD)
+
+
+class PrivacyPolicyOut(BaseModel):
+    version: str
+    content: str = Field(description="Texto da política em Markdown simples")

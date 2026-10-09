@@ -9,7 +9,7 @@ from app.core.rate_limit import auth_limit, limiter
 from app.core.security import create_access_token
 from app.schemas.common import ErrorResponse
 from app.schemas.user import LoginIn, TokenOut, UserCreate, UserOut
-from app.services import auth_service
+from app.services import account_service, auth_service
 
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
 
@@ -53,6 +53,7 @@ async def login(
     return TokenOut(
         access_token=create_access_token(user.id, settings),
         expires_in=settings.access_token_expire_minutes * 60,
+        consent_required=account_service.consent_required(user, settings),
     )
 
 

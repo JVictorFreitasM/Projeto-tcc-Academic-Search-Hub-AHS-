@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
-from app.api.v1 import auth, export, favorites, health, history, search
+from app.api.v1 import auth, export, favorites, health, history, me, search
 from app.schemas.common import ErrorResponse
 
 ERROR_RESPONSES: dict[int | str, dict[str, object]] = {
@@ -20,3 +20,5 @@ api_router.include_router(search.router)
 api_router.include_router(export.router)  # antes de /favorites/{id}
 api_router.include_router(favorites.router)
 api_router.include_router(history.router)
+api_router.include_router(me.router)
+api_router.include_router(me.privacy_router)
