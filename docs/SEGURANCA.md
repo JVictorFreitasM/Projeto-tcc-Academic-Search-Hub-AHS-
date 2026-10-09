@@ -35,6 +35,15 @@ Swagger UI do FastAPI carrega os arquivos do CDN `cdn.jsdelivr.net` e tem um scr
 | A3 | IP só em hash HMAC-SHA256 com sal derivado de `SECRET_KEY`; `security_events.details` sem e-mail, senha, token ou nome | `hash_ip`, `app/services/security_events.py` | `test_ip_is_never_stored_in_clear_and_events_have_no_email` |
 | A7 XSS | `Content-Security-Policy` sem `unsafe-inline` na API e no frontend; o frontend (Fase 3) não usa `innerHTML` com dados externos | `app/core/security_headers.py` | `test_security_headers_on_every_response` |
 
+### A5 Controle de acesso quebrado: favoritos (OS-017)
+
+Todo acesso a favorito filtra por `user_id` **e** `id` (`app/services/favorite_service.py`,
+`_get_owned`). Quando o favorito não existe **ou** pertence a outro usuário, a resposta é a mesma:
+**404** (nunca 403), de modo que a API não revela se um id existe. Sem token, as quatro rotas
+respondem 401. Limites contra abuso de armazenamento: retrato de até 20 KB, anotação de até 1.000
+caracteres e 2.000 favoritos por usuário. Testes: `tests/integration/test_favorites.py`
+(`test_user_b_gets_404_for_user_a_favorite`, `test_without_token_is_401`).
+
 Os parâmetros do Argon2id são os **padrões da biblioteca** `argon2-cffi` (perfil de baixa memória da
 RFC 9106), sem valores inventados; ver `docs/DECISOES.md`.
 
