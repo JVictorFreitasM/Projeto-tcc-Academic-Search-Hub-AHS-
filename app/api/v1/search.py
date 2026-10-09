@@ -15,6 +15,7 @@ from app.core.errors import ValidationAppError
 from app.core.rate_limit import limiter, search_limit
 from app.schemas.common import RECORD_TYPE_VALUES, ErrorResponse, RecordType
 from app.schemas.search import SearchParams, SearchResponse, SourceInfo
+from app.services import history_service
 from app.services.favorite_service import favorite_ids_for
 from app.services.search_service import SearchService, build_default_service
 
@@ -36,13 +37,14 @@ def get_search_service(request: Request) -> SearchService:
     return service
 
 
-async def _noop_history(user_id: uuid.UUID, params: SearchParams, total: int) -> None:
-    """Ponto de chamada do histórico; a OS-018 troca por `record_search`."""
+async def _record_history(user_id: uuid.UUID, params: SearchParams, total: int) -> None:
+    await history_service.record_search(user_id, params, total)
 
 
 def get_history_recorder(request: Request) -> HistoryRecorder:
+    """Gravador do histórico (os testes podem trocá-lo em `app.state.history_recorder`)."""
     recorder: HistoryRecorder | None = getattr(request.app.state, "history_recorder", None)
-    return recorder or _noop_history
+    return recorder or _record_history
 
 
 def _csv(value: str | None) -> list[str] | None:
