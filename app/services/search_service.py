@@ -10,11 +10,16 @@ import uuid
 from collections.abc import Sequence
 from dataclasses import dataclass
 
+import httpx
+
 from app.connectors.base import Connector, SourcePage, SourceQuery, SourceStatus
+from app.connectors.http import make_client
 from app.core.config import Settings
 from app.core.errors import UpstreamError, ValidationAppError
 from app.schemas.record import RecordOut
 from app.schemas.search import SearchParams, SearchResponse, SourceStatusOut
+from app.scraping.completion import complete_abstracts
+from app.scraping.polite_scraper import PoliteScraper
 from app.services.dedup import deduplicate
 from app.services.favorite_service import FavoriteLookup
 
@@ -42,10 +47,30 @@ class SearchService:
         connectors: Sequence[Connector],
         settings: Settings,
         favorite_lookup: FavoriteLookup | None = None,
+        scraper: PoliteScraper | None = None,
     ) -> None:
         self._connectors = list(connectors)
         self._settings = settings
         self._favorite_lookup = favorite_lookup
+        self._scraper = scraper
+        self._scraper_client: httpx.AsyncClient | None = None
+
+    async def aclose(self) -> None:
+        """Libera o cliente HTTP da raspagem, se tiver sido criado."""
+        if self._scraper_client is not None:
+            await self._scraper_client.aclose()
+            self._scraper_client = None
+            self._scraper = None
+
+    async def _complete_abstracts(self, results: list[RecordOut]) -> list[RecordOut]:
+        """Raspagem complementar (D8): desligada por padrão; falhas não alteram sources_status."""
+        if not self._settings.scraping_enabled:
+            return results
+        if self._scraper is None:
+            # Um único raspador por serviço, para a pausa por domínio valer entre buscas.
+            self._scraper_client = make_client(self._settings)
+            self._scraper = PoliteScraper(self._scraper_client)
+        return await complete_abstracts(results, self._scraper)
 
     @property
     def slugs(self) -> list[str]:
@@ -148,6 +173,7 @@ class SearchService:
         if params.sort == "year_desc" or needs_manual_sort:
             results.sort(key=_year_sort_key)  # estável: empates mantêm a intercalação
 
+        results = await self._complete_abstracts(results)
         results = await self._mark_favorites(results, user_id)
         return SearchResponse(
             query=params.q,
