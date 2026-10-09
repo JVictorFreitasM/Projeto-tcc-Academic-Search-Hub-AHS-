@@ -37,6 +37,12 @@ def build_app() -> FastAPI:
     async def app_error() -> None:
         raise NotFoundError("Trabalho não encontrado.", details=[{"field": "id", "issue": "x"}])
 
+    @app.get("/with-extra")
+    async def with_extra() -> None:
+        raise UpstreamError(
+            "Fontes falharam.", extra={"sources_status": {"core": {"status": "error"}}}
+        )
+
     @app.get("/validate")
     async def validate(q: str = Query(min_length=2)) -> dict[str, str]:
         return {"q": q}
@@ -120,3 +126,12 @@ def test_error_hierarchy(error_class: type[AppError], status: int, code: str) ->
     error = error_class()
     assert (error.status_code, error.code) == (status, code)
     assert error.message
+
+
+def test_app_error_extra_is_added_next_to_error(client: TestClient) -> None:
+    response = client.get("/with-extra")
+    assert response.status_code == 502
+    body = response.json()
+    assert set(body) == {"error", "sources_status"}
+    assert body["error"]["code"] == "upstream_error"
+    assert body["sources_status"]["core"]["status"] == "error"

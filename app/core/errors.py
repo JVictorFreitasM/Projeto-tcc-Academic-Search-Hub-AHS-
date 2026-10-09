@@ -27,11 +27,13 @@ class AppError(Exception):
         code: str | None = None,
         status_code: int | None = None,
         details: list[dict[str, str]] | None = None,
+        extra: dict[str, Any] | None = None,
     ) -> None:
         self.message = message or self.default_message
         self.code = code or self.code
         self.status_code = status_code or self.status_code
         self.details = details
+        self.extra = extra  # chaves acrescentadas ao lado de "error" (ex.: sources_status no 502)
         super().__init__(self.message)
 
 
@@ -115,7 +117,10 @@ def _response(request: Request, status_code: int, body: dict[str, Any]) -> JSONR
 
 async def _handle_app_error(request: Request, exc: Exception) -> JSONResponse:
     assert isinstance(exc, AppError)  # noqa: S101
-    return _response(request, exc.status_code, error_body(exc.code, exc.message, exc.details))
+    body = error_body(exc.code, exc.message, exc.details)
+    if exc.extra:
+        body.update(exc.extra)
+    return _response(request, exc.status_code, body)
 
 
 async def _handle_validation_error(request: Request, exc: Exception) -> JSONResponse:
