@@ -1,0 +1,61 @@
+[
+  {
+    "id": "doi:10.9999/exemplo.1",
+    "title": "Letramento digital na educação básica: um estudo de caso",
+    "authors": [
+      {
+        "name": "Maria Souza",
+        "orcid": null
+      },
+      {
+        "name": "João Pedro de Albuquerque",
+        "orcid": null
+      }
+    ],
+    "abstract": "Resumo fictício, apenas para demonstrar o formato do arquivo exportado.",
+    "year": 2021,
+    "doi": "10.9999/exemplo.1",
+    "url": "https://exemplo.org/trabalho/1",
+    "pdf_url": null,
+    "type": "article",
+    "language": "pt",
+    "keywords": [
+      "educação",
+      "tecnologia"
+    ],
+    "sources": [
+      {
+        "source": "openalex",
+        "source_id": "W1",
+        "url": null
+      }
+    ],
+    "is_favorite": false
+  },
+  {
+    "id": "src:bdtd:oai:exemplo:2",
+    "title": "Ensino de matemática & jogos: 50% de adesão",
+    "authors": [
+      {
+        "name": "Ana Lima",
+        "orcid": null
+      }
+    ],
+    "abstract": null,
+    "year": 2019,
+    "doi": null,
+    "url": null,
+    "pdf_url": null,
+    "type": "thesis",
+    "language": "pt",
+    "keywords": [],
+    "sources": [
+      {
+        "source": "bdtd",
+        "source_id": "oai:exemplo:2",
+        "url": null
+      }
+    ],
+    "is_favorite": false
+  }
+]
