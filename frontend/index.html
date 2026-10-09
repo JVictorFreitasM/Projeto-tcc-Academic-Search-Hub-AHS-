@@ -41,6 +41,65 @@
               variar.
             </p>
           </div>
+
+          <div class="filters">
+            <button
+              type="button"
+              id="botao-filtros"
+              class="btn"
+              aria-expanded="false"
+              aria-controls="painel-filtros"
+            >
+              Filtros
+            </button>
+            <ul id="filtros-ativos" class="active-filters" aria-label="Filtros ativos" hidden></ul>
+
+            <div id="painel-filtros" class="filters-panel card" hidden>
+              <fieldset class="field">
+                <legend>Ano de publicação</legend>
+                <div class="year-row">
+                  <div class="field">
+                    <label for="ano-de">De</label>
+                    <input id="ano-de" type="number" inputmode="numeric" aria-describedby="erro-anos" />
+                  </div>
+                  <div class="field">
+                    <label for="ano-ate">Até</label>
+                    <input id="ano-ate" type="number" inputmode="numeric" aria-describedby="erro-anos" />
+                  </div>
+                </div>
+                <p id="erro-anos" class="error-text" hidden></p>
+                <p class="hint">
+                  Registros sem ano são ocultados quando há filtro de ano (as fontes locais não
+                  trazem esses registros).
+                </p>
+              </fieldset>
+
+              <fieldset class="field">
+                <legend>Tipo de publicação</legend>
+                <div class="check"><input type="checkbox" id="tipo-article" name="type" value="article" /><label for="tipo-article">Artigo</label></div>
+                <div class="check"><input type="checkbox" id="tipo-thesis" name="type" value="thesis" /><label for="tipo-thesis">Tese ou dissertação</label></div>
+                <div class="check"><input type="checkbox" id="tipo-preprint" name="type" value="preprint" /><label for="tipo-preprint">Preprint</label></div>
+                <div class="check"><input type="checkbox" id="tipo-book" name="type" value="book" /><label for="tipo-book">Livro</label></div>
+                <div class="check"><input type="checkbox" id="tipo-other" name="type" value="other" /><label for="tipo-other">Outro</label></div>
+              </fieldset>
+
+              <fieldset class="field">
+                <legend>Fontes</legend>
+                <div id="filtro-fontes"></div>
+              </fieldset>
+
+              <fieldset class="field">
+                <legend>Ordenação</legend>
+                <div class="check"><input type="radio" id="ordem-relevance" name="sort" value="relevance" checked /><label for="ordem-relevance">Relevância</label></div>
+                <div class="check"><input type="radio" id="ordem-year" name="sort" value="year_desc" /><label for="ordem-year">Mais recentes</label></div>
+              </fieldset>
+
+              <div class="cluster">
+                <button type="button" id="aplicar-filtros" class="btn btn-primary">Aplicar</button>
+                <button type="button" id="limpar-filtros" class="btn">Limpar</button>
+              </div>
+            </div>
+          </div>
         </form>
 
         <section id="area-resultados" aria-labelledby="titulo-resultados" hidden>

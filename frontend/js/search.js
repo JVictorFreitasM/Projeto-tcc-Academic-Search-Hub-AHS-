@@ -3,15 +3,10 @@
 import { api, ApiError } from "./api.js";
 import { announce, clear, el, must } from "./dom.js";
 import { focusElement, scrollToElement } from "./a11y.js";
+import { createFilters } from "./filters.js";
+import { TYPE_LABELS } from "./labels.js";
 import { readQuery, toApiParams, toQueryString, validateQuery } from "./query.js";
 
-const TYPE_LABELS = {
-  article: "Artigo",
-  thesis: "Tese ou dissertação",
-  preprint: "Preprint",
-  book: "Livro",
-  other: "Outro",
-};
 const LANGUAGE_LABELS = { pt: "Português", en: "Inglês", es: "Espanhol", fr: "Francês" };
 const STATUS_TEXT = {
   timeout: "demorou demais para responder",
@@ -35,16 +30,19 @@ const ui = {
 };
 
 let sourceNames = {};
+let filters = null;
 let controller = null;
 let current = null; // consulta em exibição
 
-/** Nomes legíveis das fontes (rota pública /sources); sem ela, usa o slug. */
-async function loadSourceNames() {
+/** Fontes (rota pública /sources): nomes legíveis e estado; sem ela, usa o slug. */
+async function loadSources() {
   try {
     const sources = await api("/sources", { auth: false, timeoutMs: 8000 });
     sourceNames = Object.fromEntries(sources.map((s) => [s.slug, s.name]));
+    return sources;
   } catch {
     sourceNames = {};
+    return [];
   }
 }
 
@@ -265,6 +263,8 @@ async function search(query, { push = false, focus = false, replace = false } = 
   showQueryError(null);
   current = query;
   ui.input.value = query.q;
+  filters?.setFrom(query);
+  filters?.remember(query);
   const qs = toQueryString(query);
   const url = `${window.location.pathname}${qs ? `?${qs}` : ""}`;
   if (push) window.history.pushState(null, "", url);
@@ -286,16 +286,17 @@ async function search(query, { push = false, focus = false, replace = false } = 
   }
 }
 
+/** Nova busca (página 1) com o texto do campo e os filtros do painel. */
+function submitSearch() {
+  const result = filters ? filters.collect() : { filters: {} };
+  if (result.error) return;
+  search({ q: ui.input.value.trim(), page: 1, ...result.filters }, { push: true, focus: true });
+}
+
 ui.form.addEventListener("submit", (event) => {
   event.preventDefault();
-  search({ ...readQuery(""), q: ui.input.value.trim(), page: 1, ...currentFilters() }, { push: true, focus: true });
+  submitSearch();
 });
-
-/** Filtros ativos (a OS-023 liga o painel de filtros); por ora, os que estão na URL. */
-function currentFilters() {
-  const { q, page, ...filters } = readQuery();
-  return filters;
-}
 
 window.addEventListener("popstate", () => {
   const query = readQuery();
@@ -308,8 +309,10 @@ window.addEventListener("popstate", () => {
   }
 });
 
-loadSourceNames().then(() => {
+loadSources().then((sources) => {
+  filters = createFilters({ sources, onChange: submitSearch });
   const initial = readQuery();
+  filters.setFrom(initial);
   ui.input.value = initial.q;
   if (initial.q) search(initial, { replace: true });
 });

@@ -49,7 +49,7 @@ select = ["E", "F", "I", "B", "UP", "S", "ASYNC", "SIM", "RUF"]
 
 [tool.ruff.lint.per-file-ignores]
 # Testes podem usar assert (S101) e valores fixos que parecem senhas (S105, S106).
-"tests/**" = ["S101", "S105", "S106", "E501"]
+"tests/**" = ["S101", "S105", "S106", "E501", "RUF001"]
 # Migrações carregam SQL literal em linhas longas.
 "migrations/**" = ["E501"]
 

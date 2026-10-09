@@ -371,7 +371,8 @@ def test_enter_key_submits_and_keyboard_reaches_results(page: Page, api: Api) ->
         page.keyboard.press("Tab")
         visited.append(page.evaluate("document.activeElement.textContent.trim().slice(0, 25)"))
     assert visited[0] == "Buscar"
-    assert visited[1].startswith("Letramento digital")
+    assert visited[1] == "Filtros"
+    assert visited[2].startswith("Letramento digital")
 
 
 def test_new_search_cancels_the_previous_one(page: Page, api: Api) -> None:
