@@ -1,0 +1,206 @@
+/* Componentes: botões, campos, cartões, avisos, selos e carregamento. */
+
+/* Botões */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--color-surface);
+}
+
+.btn-primary {
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  color: var(--color-on-primary);
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.btn-danger {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.btn-link {
+  min-height: var(--touch-min);
+  padding-inline: var(--space-2);
+  font: inherit;
+  color: var(--color-primary);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+/* Campos de formulário */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.field label,
+.field legend {
+  font-weight: 600;
+}
+
+.field .hint {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.field .error-text {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  accent-color: var(--color-primary);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Cartões */
+.card {
+  padding: var(--space-4);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Avisos: o texto de rótulo ("Erro:", "Aviso:") garante que a cor não é o único sinal. */
+.alert {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid currentcolor;
+  border-radius: var(--radius-md);
+}
+
+.alert-error {
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+.alert-success {
+  color: var(--color-success);
+  background: var(--color-success-bg);
+}
+
+.alert-warning {
+  color: var(--color-warning-text);
+  background: var(--color-warning-bg);
+}
+
+.alert-info {
+  color: var(--color-info-text);
+  background: var(--color-info-bg);
+}
+
+.alert > :last-child {
+  margin-bottom: 0;
+}
+
+/* Selos (fonte, tipo): sempre com texto, nunca só cor */
+.badge {
+  display: inline-block;
+  padding: 0.125rem var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-badge-text);
+  background: var(--color-badge-bg);
+  border: 1px solid currentcolor;
+  border-radius: 999px;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+/* Carregamento (esqueleto) */
+.skeleton {
+  display: block;
+  height: 1rem;
+  margin-bottom: var(--space-2);
+  background: linear-gradient(90deg, var(--color-surface), var(--color-border), var(--color-surface));
+  background-size: 200% 100%;
+  border-radius: var(--radius-sm);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
