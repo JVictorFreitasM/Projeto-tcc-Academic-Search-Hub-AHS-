@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SINTÉTICA: tentativa de XXE; o cliente deve RECUSAR este documento -->
+<!DOCTYPE OAI-PMH [
+  <!ENTITY segredo SYSTEM "file:///c:/windows/win.ini">
+]>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+  <responseDate>2026-10-08T12:00:00Z</responseDate>
+  <request verb="Identify">https://oai.exemplo.org/oai</request>
+  <Identify>
+    <repositoryName>&segredo;</repositoryName>
+  </Identify>
+</OAI-PMH>

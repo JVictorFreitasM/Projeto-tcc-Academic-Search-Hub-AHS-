@@ -1,0 +1,44 @@
+# Fontes OAI-PMH colhidas para o índice local (ver docs/DECISOES.md e a seção 5.5 das OS).
+#
+# Cada fonte só é colhida e pesquisada com `enabled: true`. As URLs abaixo estão como
+# TODO-VERIFICAR até a validação manual (passo manual 0 da OS-009):
+#   python -m app.harvest.cli identify <slug>
+#   python -m app.harvest.cli sets <slug>
+#   python -m app.harvest.cli run <slug> --limit 50 --dry-run
+# Não chute endereços: confirme com o `Identify` do servidor.
+sources:
+  - slug: scielo
+    name: SciELO
+    base_url: TODO-VERIFICAR
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: false
+    default_type: article
+    type_map: {}
+
+  - slug: bdtd
+    name: BDTD (IBICT)
+    base_url: TODO-VERIFICAR
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: false
+    default_type: thesis
+    type_map: {}
+
+  - slug: ufpi
+    name: Repositório da UFPI
+    base_url: TODO-VERIFICAR
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: false
+    default_type: other
+    type_map: {}
+
+  - slug: uespi
+    name: Repositório da UESPI
+    base_url: TODO-VERIFICAR
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: false
+    default_type: other
+    type_map: {}

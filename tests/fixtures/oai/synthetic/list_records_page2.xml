@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SINTÉTICA -->
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <responseDate>2026-10-08T12:00:01Z</responseDate>
+  <request verb="ListRecords" resumptionToken="tok-2">https://oai.exemplo.org/oai</request>
+  <ListRecords>
+    <record>
+      <header>
+        <identifier>oai:exemplo:3</identifier>
+        <datestamp>2026-09-29</datestamp>
+      </header>
+      <metadata>
+        <oai_dc:dc>
+          <dc:title>Sem dc:type nem identificadores</dc:title>
+        </oai_dc:dc>
+      </metadata>
+    </record>
+    <record>
+      <header>
+        <identifier>oai:exemplo:4</identifier>
+        <datestamp>2026-09-29</datestamp>
+      </header>
+      <metadata>
+        <oai_dc:dc>
+          <dc:creator>Registro sem título deve ser ignorado</dc:creator>
+        </oai_dc:dc>
+      </metadata>
+    </record>
+    <resumptionToken/>
+  </ListRecords>
+</OAI-PMH>

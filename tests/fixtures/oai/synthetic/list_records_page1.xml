@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SINTÉTICA: modelada no protocolo OAI-PMH 2.0; substituir por página real de cada fonte (OS-009, passo manual 0) -->
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <responseDate>2026-10-08T12:00:00Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc">https://oai.exemplo.org/oai</request>
+  <ListRecords>
+    <record>
+      <header>
+        <identifier>oai:exemplo:1</identifier>
+        <datestamp>2026-09-30</datestamp>
+        <setSpec>teses</setSpec>
+      </header>
+      <metadata>
+        <oai_dc:dc>
+          <dc:title xml:lang="pt">Educação digital no ensino médio</dc:title>
+          <dc:title xml:lang="en">Digital education in high school</dc:title>
+          <dc:creator>SILVA, João P.</dc:creator>
+          <dc:creator>Souza, Maria</dc:creator>
+          <dc:subject>Educação</dc:subject>
+          <dc:subject>educação</dc:subject>
+          <dc:subject>Tecnologia</dc:subject>
+          <dc:description xml:lang="pt">Resumo curto.</dc:description>
+          <dc:description xml:lang="en">This is the longer abstract of the dissertation, with &lt;b&gt;markup&lt;/b&gt; &amp; entities.</dc:description>
+          <dc:date>2020-05-10</dc:date>
+          <dc:type>info:eu-repo/semantics/masterThesis</dc:type>
+          <dc:type>Dissertação</dc:type>
+          <dc:identifier>http://repo.exemplo.org/handle/1/1</dc:identifier>
+          <dc:identifier>https://doi.org/10.1234/ABC.2020</dc:identifier>
+          <dc:identifier>http://repo.exemplo.org/bitstream/handle/1/1/arquivo.pdf</dc:identifier>
+          <dc:language>por</dc:language>
+        </oai_dc:dc>
+      </metadata>
+    </record>
+    <record>
+      <header>
+        <identifier>oai:exemplo:2</identifier>
+        <datestamp>2026-09-30T10:20:30Z</datestamp>
+      </header>
+      <metadata>
+        <oai_dc:dc>
+          <dc:title>Somente DOI e sem data</dc:title>
+          <dc:identifier>doi:10.9999/so-doi</dc:identifier>
+        </oai_dc:dc>
+      </metadata>
+    </record>
+    <resumptionToken completeListSize="4" cursor="0">tok-2</resumptionToken>
+  </ListRecords>
+</OAI-PMH>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SINTÉTICA -->
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+  <responseDate>2026-10-08T12:00:00Z</responseDate>
+  <request verb="ListRecords">https://oai.exemplo.org/oai</request>
+  <error code="badResumptionToken">Token expirado.</error>
+</OAI-PMH>

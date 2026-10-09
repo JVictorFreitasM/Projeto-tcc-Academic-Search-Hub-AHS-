@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SINTÉTICA -->
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+  <responseDate>2026-10-08T12:00:00Z</responseDate>
+  <request verb="Identify">https://oai.exemplo.org/oai</request>
+  <Identify>
+    <repositoryName>Repositório de Exemplo</repositoryName>
+    <baseURL>https://oai.exemplo.org/oai</baseURL>
+    <protocolVersion>2.0</protocolVersion>
+    <adminEmail>admin@exemplo.org</adminEmail>
+    <earliestDatestamp>2002-01-01</earliestDatestamp>
+    <deletedRecord>persistent</deletedRecord>
+    <granularity>YYYY-MM-DD</granularity>
+  </Identify>
+</OAI-PMH>
