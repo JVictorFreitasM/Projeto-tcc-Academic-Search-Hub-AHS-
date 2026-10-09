@@ -1,13 +1,42 @@
 // Estrutura comum das páginas: link "Pular para o conteúdo", cabeçalho com navegação, rodapé e
 // região aria-live. Tudo é criado com elementos DOM (sem innerHTML).
 import { el } from "./dom.js";
+import { getState, subscribe } from "./state.js";
 
 /** Páginas do menu. Cada OS que cria uma página acrescenta o item aqui. */
 export const NAV_ITEMS = [{ href: "index.html", label: "Busca", id: "busca" }];
 
-const FOOTER_LINKS = [{ href: "/api/docs", label: "API (documentação)" }];
+const FOOTER_LINKS = [
+  { href: "privacidade.html", label: "Política de privacidade" },
+  { href: "/api/docs", label: "API (documentação)" },
+];
 
-function buildNav(current) {
+function firstName(user) {
+  return user?.full_name?.split(" ")[0] ?? "";
+}
+
+/** Itens do menu que dependem da sessão: "Entrar" ou "Minha conta" + "Sair". */
+function authItems(current, onLogout) {
+  const { loggedIn, user } = getState();
+  if (!loggedIn) {
+    return [
+      el("li", { "data-auth": "" }, [
+        el("a", { href: "conta.html", text: "Entrar", "aria-current": current === "conta" ? "page" : false }),
+      ]),
+    ];
+  }
+  const label = user ? `Minha conta (${firstName(user)})` : "Minha conta";
+  return [
+    el("li", { "data-auth": "" }, [
+      el("a", { href: "conta.html", text: label, "aria-current": current === "conta" ? "page" : false }),
+    ]),
+    el("li", { "data-auth": "" }, [
+      el("button", { type: "button", class: "nav-link", text: "Sair", onclick: onLogout }),
+    ]),
+  ];
+}
+
+function buildNav(current, onLogout) {
   const items = NAV_ITEMS.map((item) =>
     el("li", {}, [
       el("a", {
@@ -17,13 +46,18 @@ function buildNav(current) {
       }),
     ]),
   );
-  return el("nav", { class: "site-nav", id: "menu-principal", "aria-label": "Principal" }, [
-    el("ul", { id: "menu-itens" }, items),
-  ]);
+  const list = el("ul", { id: "menu-itens" }, items);
+  const render = () => {
+    list.querySelectorAll("[data-auth]").forEach((node) => node.remove());
+    list.append(...authItems(current, onLogout));
+  };
+  render();
+  subscribe(render);
+  return el("nav", { class: "site-nav", id: "menu-principal", "aria-label": "Principal" }, [list]);
 }
 
-function buildHeader(current) {
-  const nav = buildNav(current);
+function buildHeader(current, onLogout) {
+  const nav = buildNav(current, onLogout);
   const toggle = el("button", {
     type: "button",
     class: "btn nav-toggle",
@@ -52,9 +86,7 @@ function buildHeader(current) {
 }
 
 function buildFooter() {
-  const links = [...FOOTER_LINKS].map((item) =>
-    el("li", {}, [el("a", { href: item.href, text: item.label })]),
-  );
+  const links = FOOTER_LINKS.map((item) => el("li", {}, [el("a", { href: item.href, text: item.label })]));
   return el("footer", { class: "site-footer" }, [
     el("div", { class: "container" }, [
       el("ul", {}, links),
@@ -67,14 +99,14 @@ function buildFooter() {
 
 /**
  * Monta a estrutura comum. A página deve ter `<main id="conteudo" class="main">`.
- * @param {{current?: string}} [options] `current` marca o item do menu da página atual
+ * @param {{current?: string, onLogout?: () => void}} [options] `current` marca o item do menu atual
  */
-export function renderShell({ current } = {}) {
+export function renderShell({ current, onLogout = () => {} } = {}) {
   if (document.getElementById("announcer")) return; // já montado
   const main = document.getElementById("conteudo");
   const skip = el("a", { class: "skip-link", href: "#conteudo", text: "Pular para o conteúdo" });
   document.body.prepend(skip);
-  main?.before(buildHeader(current));
+  main?.before(buildHeader(current, onLogout));
   main?.after(buildFooter());
   document.body.append(
     el("div", {

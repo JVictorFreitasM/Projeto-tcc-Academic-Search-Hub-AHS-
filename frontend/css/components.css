@@ -346,3 +346,36 @@ fieldset {
 legend {
   padding: 0;
 }
+
+/* Conta */
+.auth-grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 60rem) {
+  .auth-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.password-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.password-row input {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+/* Texto longo (política de privacidade) */
+.prose {
+  max-width: 48rem;
+}
+
+.prose h2 {
+  margin-top: var(--space-5);
+}

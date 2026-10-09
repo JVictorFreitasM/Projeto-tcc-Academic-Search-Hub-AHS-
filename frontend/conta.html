@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Entrar ou criar conta — Academic Search Hub</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body data-page="conta">
+    <main id="conteudo" class="main">
+      <div class="container stack">
+        <h1 id="titulo-conta" tabindex="-1">Entrar ou criar conta</h1>
+        <p class="muted">
+          Você não precisa de conta para buscar. A conta serve para salvar favoritos e manter o
+          histórico das suas buscas.
+        </p>
+
+        <div id="conta-visitante" class="auth-grid">
+          <section class="card" aria-labelledby="titulo-entrar">
+            <h2 id="titulo-entrar">Entrar</h2>
+            <form id="form-login" class="stack" novalidate>
+              <div id="erro-login" class="alert alert-error" role="alert" hidden></div>
+              <div class="field">
+                <label for="email-login">E-mail</label>
+                <input id="email-login" name="email" type="email" autocomplete="email" required />
+                <p id="erro-email-login" class="error-text" hidden></p>
+              </div>
+              <div class="field">
+                <label for="senha-login">Senha</label>
+                <div class="password-row">
+                  <input id="senha-login" name="password" type="password" autocomplete="current-password" required />
+                  <button type="button" class="btn toggle-password" aria-pressed="false" data-target="senha-login">Mostrar senha</button>
+                </div>
+                <p id="erro-senha-login" class="error-text" hidden></p>
+              </div>
+              <div class="check">
+                <input id="manter-conectado" name="keep" type="checkbox" />
+                <label for="manter-conectado">Manter conectado nesta aba</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+          </section>
+
+          <section class="card" aria-labelledby="titulo-cadastro">
+            <h2 id="titulo-cadastro">Criar conta</h2>
+            <form id="form-cadastro" class="stack" novalidate>
+              <div id="erro-cadastro" class="alert alert-error" role="alert" hidden></div>
+              <div class="field">
+                <label for="nome-cadastro">Nome completo</label>
+                <input id="nome-cadastro" name="full_name" type="text" autocomplete="name" maxlength="120" required />
+                <p id="erro-nome-cadastro" class="error-text" hidden></p>
+              </div>
+              <div class="field">
+                <label for="email-cadastro">E-mail</label>
+                <input id="email-cadastro" name="email" type="email" autocomplete="email" required />
+                <p id="erro-email-cadastro" class="error-text" hidden></p>
+              </div>
+              <div class="field">
+                <label for="senha-cadastro">Senha</label>
+                <p id="regras-senha" class="hint">
+                  A senha precisa ter de 10 a 128 caracteres, com ao menos uma letra e um número, e
+                  não pode conter o seu e-mail.
+                </p>
+                <div class="password-row">
+                  <input id="senha-cadastro" name="password" type="password" autocomplete="new-password" aria-describedby="regras-senha erro-senha-cadastro" required />
+                  <button type="button" class="btn toggle-password" aria-pressed="false" data-target="senha-cadastro">Mostrar senha</button>
+                </div>
+                <p id="erro-senha-cadastro" class="error-text" hidden></p>
+              </div>
+              <div class="field">
+                <div class="check">
+                  <input id="consentimento" name="accept_privacy_policy" type="checkbox" aria-describedby="erro-consentimento" />
+                  <label for="consentimento">
+                    Li e aceito a
+                    <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
+                  </label>
+                </div>
+                <p id="erro-consentimento" class="error-text" hidden></p>
+              </div>
+              <button type="submit" class="btn btn-primary">Criar conta</button>
+            </form>
+          </section>
+        </div>
+
+        <div id="conta-logada" hidden></div>
+      </div>
+    </main>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/conta.js"></script>
+  </body>
+</html>
