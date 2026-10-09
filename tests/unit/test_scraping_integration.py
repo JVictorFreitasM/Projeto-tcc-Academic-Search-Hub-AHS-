@@ -121,7 +121,14 @@ async def test_scraping_enabled_completes_abstract_without_touching_sources_stat
     without = await disabled.search(SearchParams(q="educação"))
     assert route.called
     assert with_scraping.results[0].abstract == "Resumo raspado."
-    assert with_scraping.sources_status == without.sources_status
+
+    def comparable(response):  # type: ignore[no-untyped-def]
+        # duration_ms varia a cada execução (modo desenvolvimento); o resto deve ser idêntico
+        return {
+            k: v.model_dump(exclude={"duration_ms"}) for k, v in response.sources_status.items()
+        }
+
+    assert comparable(with_scraping) == comparable(without)
     await service.aclose()
 
 
