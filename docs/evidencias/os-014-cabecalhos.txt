@@ -1,0 +1,47 @@
+== GET /api/v1/health (servidor real: python -m app.run, 127.0.0.1:8000, APP_ENV=development) ==
+HTTP/1.1 200 OK
+date: Fri, 09 Oct 2026 12:34:15 GMT
+server: uvicorn
+content-length: 49
+content-type: application/json
+vary: Origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+referrer-policy: no-referrer
+permissions-policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+content-security-policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+x-request-id: 22e72754-d095-4619-80d9-d28e40e8d0fe
+
+{"status":"ok","database":"ok","version":"0.1.0"}
+
+
+== GET /api/docs (so cabecalhos; a pagina e o Swagger UI) ==
+HTTP/1.1 200 OK
+date: Fri, 09 Oct 2026 12:34:39 GMT
+server: uvicorn
+content-length: 960
+content-type: text/html; charset=utf-8
+vary: Origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+referrer-policy: no-referrer
+permissions-policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+content-security-policy: default-src 'self'; img-src 'self' data: https://fastapi.tiangolo.com; script-src 'self' https://cdn.jsdelivr.net 'sha256-TsjSCX4yUK50HmnZXTe4FVW3iPTz1cIqzuXQu1ozcFU='; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+x-request-id: f87430fe-b838-4405-aa27-bfc48161a990
+
+
+== GET /rota-inexistente ==
+HTTP/1.1 404 Not Found
+date: Fri, 09 Oct 2026 12:34:15 GMT
+server: uvicorn
+content-length: 67
+content-type: application/json
+vary: Origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+referrer-policy: no-referrer
+permissions-policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+content-security-policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+x-request-id: 8cb00b97-711e-4753-9686-fec6e287a918
+
+{"error":{"code":"not_found","message":"Recurso não encontrado."}}

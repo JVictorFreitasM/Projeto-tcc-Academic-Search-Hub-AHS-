@@ -18,7 +18,7 @@ COMMANDS: dict[str, list[list[str]]] = {
     "format": [["uv", "run", "ruff", "check", "--fix", "."], ["uv", "run", "ruff", "format", "."]],
     "typecheck": [["uv", "run", "mypy"]],
     "test": [["uv", "run", "pytest"]],
-    "run": [["uv", "run", "uvicorn", "app.main:app", "--reload"]],
+    "run": [["uv", "run", "python", "-m", "app.run"]],
 }
 COMMANDS["check"] = COMMANDS["lint"] + COMMANDS["typecheck"] + COMMANDS["test"]
 
