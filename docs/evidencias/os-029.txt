@@ -1,0 +1,20 @@
+Exemplo de saida da CLI de eventos (OS-029).
+ATENCAO: eventos SINTETICOS gerados so para esta demonstracao (hashes e datas ficticios),
+gravados num banco de desenvolvimento e apagados em seguida. Nao sao dados reais.
+
+$ python -m app.cli_security events
+data (UTC)	tipo	ip (hash)	detalhes
+2026-10-13 09:00:31	login_success	3a7f1c9e5b2d	{}
+2026-10-12 09:00:31	login_failed	9c01d4e87a6b	{}
+2026-10-12 09:00:31	rate_limited	9c01d4e87a6b	{"path": "/api/v1/auth/login"}
+2026-10-11 09:00:31	account_registered	3a7f1c9e5b2d	{}
+2026-03-27 09:00:31	login_failed	5e5e5e5e5e5e	{}
+5 evento(s).
+
+$ python -m app.cli_security purge --older-than-days 180
+1 evento(s) com mais de 180 dias apagado(s).
+
+$ python -m app.cli_security events --type rate_limited
+data (UTC)	tipo	ip (hash)	detalhes
+2026-10-12 09:00:31	rate_limited	9c01d4e87a6b	{"path": "/api/v1/auth/login"}
+1 evento(s).

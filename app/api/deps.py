@@ -10,8 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import Settings
 from app.core.errors import AuthError
-from app.core.rate_limit import client_ip_hash
-from app.core.security import decode_access_token
+from app.core.security import client_ip_hash, decode_access_token
 from app.db.session import get_session
 from app.models import User
 

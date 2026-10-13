@@ -17,7 +17,7 @@ from slowapi.util import get_remote_address
 
 from app.core.config import Settings, get_settings
 from app.core.errors import error_body
-from app.core.security import hash_ip
+from app.core.security import client_ip_hash
 from app.db.session import get_sessionmaker
 from app.services.security_events import record_event
 
@@ -34,10 +34,6 @@ def auth_limit() -> str:
 def search_limit() -> str:
     """Limite da busca (`RATE_LIMIT_SEARCH`), lido a cada requisição."""
     return get_settings().rate_limit_search
-
-
-def client_ip_hash(request: Request, settings: Settings) -> str:
-    return hash_ip(get_remote_address(request), settings.secret_key)
 
 
 async def rate_limit_handler(request: Request, exc: Exception) -> JSONResponse:

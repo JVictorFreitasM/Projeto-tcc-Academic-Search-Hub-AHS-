@@ -12,6 +12,8 @@ from typing import Any
 import jwt
 from argon2 import PasswordHasher
 from argon2.exceptions import InvalidHashError, VerificationError
+from fastapi import Request
+from slowapi.util import get_remote_address
 
 from app.core.config import ConfigError, Settings
 from app.core.errors import AuthError
@@ -29,6 +31,11 @@ def hash_ip(ip: str, secret_key: str) -> str:
     """Devolve o hash do IP com sal derivado de `SECRET_KEY` (o IP nunca vai em claro aos logs)."""
     salt = hashlib.sha256(b"ip-hash-salt:" + secret_key.encode()).digest()
     return hmac.new(salt, ip.encode(), hashlib.sha256).hexdigest()
+
+
+def client_ip_hash(request: Request, settings: Settings) -> str:
+    """Hash do IP do cliente (mesma origem usada pelo limite de requisições)."""
+    return hash_ip(get_remote_address(request), settings.secret_key)
 
 
 def hash_password(password: str) -> str:

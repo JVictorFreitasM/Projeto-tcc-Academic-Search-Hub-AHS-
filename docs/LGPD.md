@@ -40,6 +40,24 @@ privacidade (`app/content/privacy_pt.md`, servida em `GET /api/v1/privacy`).
 - **Pendência do desenvolvedor:** preencher o contato do responsável (`{CONTATO_DO_RESPONSAVEL}`)
   em `app/content/privacy_pt.md` antes de publicar.
 
+## Eventos de segurança (OS-029)
+
+- **O que é registrado** (tabela `security_events`): apenas o **tipo** do evento (`account_registered`,
+  `login_success`, `login_failed`, `rate_limited`, `password_changed`, `data_exported`,
+  `account_deleted`), a data e um **hash** do IP (HMAC-SHA256 com sal derivado de `SECRET_KEY`).
+  Alguns eventos trazem `details` técnicos sem dado pessoal (ex.: o caminho da rota no
+  `rate_limited`). O identificador do usuário fica nos eventos da conta, **exceto** em
+  `account_deleted`, que é gravado sem ele.
+- **O que nunca é registrado:** e-mail, nome, senha, token, User-Agent nem o IP em claro. A função
+  única `record_event` **recusa** detalhes com essas chaves (mesmo aninhadas) e com valores que
+  pareçam e-mail ou IP.
+- **Por que:** segurança e auditoria (LGPD art. 46; OWASP A10), com o mínimo de dados (art. 6º, III).
+- **Retenção:** período limitado definido **pelo projeto** (180 dias, escolha de projeto, não
+  exigência legal). O comando `python -m app.cli_security purge --older-than-days N` apaga o que for
+  mais antigo; o administrador deve rodá-lo periodicamente (por exemplo, no `cron`).
+- **Consulta:** `python -m app.cli_security events [--type X] [--since AAAA-MM-DD] [--limit N]`, só
+  por linha de comando (não há painel nem rota de administração).
+
 ## Histórico de buscas (OS-018)
 
 - **Quem tem histórico:** somente usuários com conta. Buscas de visitantes **não são gravadas**.
