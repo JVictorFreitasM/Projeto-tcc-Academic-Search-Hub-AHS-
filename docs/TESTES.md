@@ -12,6 +12,7 @@ Todos os comandos usam `python tasks.py <alvo>` (não há `make` no Windows).
 | `python tasks.py test-integration` | só `integration` (PostgreSQL de teste) |
 | `python tasks.py test-contract` | só `contract` (fixtures dos conectores) |
 | `python tasks.py test-e2e` | `e2e` e `a11y` (Chromium via Playwright) |
+| `python tasks.py test-a11y` | só `a11y` (axe; regrava `docs/evidencias/os-031-axe.txt`) |
 | `python tasks.py test-stats` | conta testes por marcador e resume a cobertura (grava `docs/evidencias/os-030-cobertura.txt`) |
 | `STRICT_FIXTURES=1 uv run pytest tests/contract` | lista as fixtures sintéticas ainda não trocadas por respostas reais |
 

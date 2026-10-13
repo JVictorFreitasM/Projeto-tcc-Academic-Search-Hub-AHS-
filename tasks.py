@@ -2,7 +2,7 @@
 
 Uso: python tasks.py <alvo>
 Alvos: install, lint, format, typecheck, test, test-unit, test-integration,
-       test-contract, test-e2e, test-stats, run, check, sast
+       test-contract, test-e2e, test-a11y, test-stats, run, check, sast
 """
 
 from __future__ import annotations
@@ -23,6 +23,7 @@ COMMANDS: dict[str, list[list[str]]] = {
     "test-integration": [["uv", "run", "pytest", "-m", "integration", "--no-cov"]],
     "test-contract": [["uv", "run", "pytest", "-m", "contract", "--no-cov"]],
     "test-e2e": [["uv", "run", "pytest", "-m", "e2e or a11y", "--no-cov"]],
+    "test-a11y": [["uv", "run", "pytest", "-m", "a11y", "--no-cov"]],
     "test-stats": [["uv", "run", "python", "scripts/test_stats.py"]],
     "run": [["uv", "run", "python", "-m", "app.run"]],
     "sast": [
