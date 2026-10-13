@@ -82,4 +82,64 @@ de segurança encontrados em OS anteriores, já corrigidos: vazamento da chave d
 
 ## Análise estática
 
-Preenchida na OS-028.
+<a id="analise-estatica"></a>
+
+Referência: Nunes et al. (2018) — combinar ferramentas amplia a detecção, mas nenhuma cobre tudo.
+Saídas brutas em `docs/evidencias/sast/` (alvo `python tasks.py sast`; resumo gerado por
+`scripts/sast_summary.py`). Executado em **09/10/2026**.
+
+| Ferramenta | Versão | O que analisa | Executou? |
+|---|---|---|---|
+| bandit | 1.9.4 | falhas comuns de segurança em Python (`app/`) | sim |
+| semgrep | 1.180.0 | regras `p/python` e `p/owasp-top-ten` do registro público (223 regras; `app/` e `frontend/`, 101 arquivos) | sim |
+| pip-audit | 2.10.1 | vulnerabilidades conhecidas das dependências travadas (`requirements.lock`) | sim |
+| ruff (regras `S`, equivalentes às do bandit) | 0.16.10 | `app/`, com `--ignore-noqa` para mostrar também o que foi justificado | sim |
+
+O semgrep **rodou** (instalado em ambiente isolado, fora das dependências do projeto, porque não há
+build oficial para Windows no gerenciador do projeto); o `ruff` com `S` foi acrescentado como
+quarta ferramenta, e não como substituto.
+
+### Quadro comparativo (calculado por script, sobre o código **antes** das correções, commit `d91f62c`)
+
+Fonte: `docs/evidencias/sast/antes-das-correcoes/RESUMO.md`.
+
+| Ferramenta | Achados | Pontos distintos (arquivo+linha) |
+|---|---|---|
+| bandit | 8 | 8 |
+| semgrep | 0 | 0 |
+| ruff-S | 9 | 9 |
+| pip-audit | 0 (86 dependências analisadas) | n/a |
+
+| Par | Pontos em comum |
+|---|---|
+| bandit x semgrep | 0 |
+| bandit x ruff-S | 8 |
+| semgrep x ruff-S | 0 |
+
+Leitura honesta: as ferramentas **não** apontaram o mesmo conjunto. O ruff achou um ponto que o
+bandit não achou (`token_type = "bearer"`, falso positivo), o semgrep não apontou nada nas 223
+regras usadas e o `pip-audit` olha outra coisa (dependências). Zero achados do semgrep **não**
+significa ausência de falhas: significa que aquelas regras não encontraram nada neste código.
+
+### Tabela de triagem
+
+| Ferramenta | Achado | Arquivo:linha (antes) | Severidade informada | Decisão | Correção |
+|---|---|---|---|---|---|
+| bandit, ruff-S | B101/S101 `assert` usado para estreitar tipo (6 ocorrências) | `app/core/errors.py` 119, 158, 172; `app/core/rate_limit.py` 45; `app/harvest/harvester.py` 183, 190 | baixa | **corrigido** | `assert` trocado por verificação explícita que levanta erro (`raise`/`_require_run`), que continua valendo com `python -O`; commit `chore(os-028)` |
+| bandit, ruff-S | B105/S105 "senha embutida": `'AcademicSearchHub'` | `app/scraping/polite_scraper.py:22` | baixa | **falso positivo** | É o nome público do agente no `robots.txt`; `# nosec B105` com a justificativa escrita ao lado |
+| bandit, ruff-S | B105/S105: `'Senha atual incorreta.'` | `app/services/account_service.py:23` | baixa | **falso positivo** | É uma mensagem de erro; `# nosec B105` com justificativa |
+| ruff-S | S105: `token_type = "bearer"` | `app/schemas/user.py:91` | n/d | **falso positivo** | É o tipo do esquema OAuth, não um segredo; `# nosec B105` com justificativa (só o ruff apontou) |
+| semgrep | nenhum | — | — | — | 223 regras, 101 arquivos, 0 achados |
+| pip-audit | nenhuma vulnerabilidade conhecida | — | — | — | 86 dependências analisadas |
+
+Depois das correções: bandit 0, semgrep 0, pip-audit 0; o ruff com `--ignore-noqa` ainda mostra
+os 3 falsos positivos acima, que estão justificados no código
+(`docs/evidencias/sast/RESUMO.md`).
+
+### Limites desta análise
+
+- Análise **estática**: não executa o sistema e não substitui testes de intrusão.
+- Cobertura de regras: as que as ferramentas trazem. O frontend foi analisado só pelo semgrep e
+  pelas varreduras próprias de `tests/unit/test_code_hygiene.py`.
+- As versões acima valem para 09/10/2026; novas versões de dependências ou de regras podem
+  encontrar outras coisas. Rodar `python tasks.py sast` de novo antes de entregar.

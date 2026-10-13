@@ -1,7 +1,7 @@
 """Tarefas de desenvolvimento (substitui o Makefile, que não existe no Windows).
 
 Uso: python tasks.py <alvo>
-Alvos: install, lint, format, typecheck, test, run, check
+Alvos: install, lint, format, typecheck, test, run, check, sast
 """
 
 from __future__ import annotations
@@ -19,6 +19,10 @@ COMMANDS: dict[str, list[list[str]]] = {
     "typecheck": [["uv", "run", "mypy"]],
     "test": [["uv", "run", "pytest"]],
     "run": [["uv", "run", "python", "-m", "app.run"]],
+    "sast": [
+        ["uv", "run", "python", "scripts/run_sast.py"],
+        ["uv", "run", "python", "scripts/sast_summary.py", "--write"],
+    ],
 }
 COMMANDS["check"] = COMMANDS["lint"] + COMMANDS["typecheck"] + COMMANDS["test"]
 

@@ -42,7 +42,8 @@ def client_ip_hash(request: Request, settings: Settings) -> str:
 
 async def rate_limit_handler(request: Request, exc: Exception) -> JSONResponse:
     """429 no formato padrão de erro, com `Retry-After`, registrando o evento `rate_limited`."""
-    assert isinstance(exc, RateLimitExceeded)  # noqa: S101
+    if not isinstance(exc, RateLimitExceeded):
+        raise exc
     settings: Settings = request.app.state.settings
     try:
         factory = getattr(request.app.state, "session_factory", None) or get_sessionmaker()

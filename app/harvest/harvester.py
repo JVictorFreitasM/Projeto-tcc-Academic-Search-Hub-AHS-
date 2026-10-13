@@ -58,6 +58,13 @@ class HarvestSummary:
     samples: list[dict[str, Any]] = field(default_factory=list)
 
 
+def _require_run(run_id: uuid.UUID | None) -> uuid.UUID:
+    """Fora do modo de simulação sempre existe um registro de colheita."""
+    if run_id is None:
+        raise HarvestError("Colheita sem registro de execução.")
+    return run_id
+
+
 async def last_ok_date(session: AsyncSession, slug: str) -> date | None:
     """Data de início da última colheita bem-sucedida da fonte."""
     started = (
@@ -180,16 +187,25 @@ async def harvest_source(
                     summary.samples.append(row)
                 rows.clear()
             elif len(rows) >= batch_size:
-                assert run_id is not None  # noqa: S101
                 await _flush(
-                    factory, source.slug, rows, deleted_ids, run_id, summary,
+                    factory,
+                    source.slug,
+                    rows,
+                    deleted_ids,
+                    _require_run(run_id),
+                    summary,
                     oai.last_resumption_token,
-                )  # fmt: skip
+                )
                 rows, deleted_ids = {}, set()
         if not dry_run:
-            assert run_id is not None  # noqa: S101
             await _flush(
-                factory, source.slug, rows, deleted_ids, run_id, summary, oai.last_resumption_token
+                factory,
+                source.slug,
+                rows,
+                deleted_ids,
+                _require_run(run_id),
+                summary,
+                oai.last_resumption_token,
             )
     except OaiError as exc:
         await _finish(factory, run_id, "error", str(exc), summary)

@@ -20,7 +20,7 @@ from app.services.auth_service import get_user_by_email
 from app.services.security_events import record_event
 
 UPDATE_FAILED = "Não foi possível atualizar os dados."
-WRONG_PASSWORD = "Senha atual incorreta."  # noqa: S105 (mensagem de erro, não é senha)
+WRONG_PASSWORD = "Senha atual incorreta."  # noqa: S105  # nosec B105 - mensagem de erro exibida ao usuário, não é uma senha
 
 
 def _require_password(user: User, password: str | None) -> None:

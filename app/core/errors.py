@@ -116,7 +116,8 @@ def _response(request: Request, status_code: int, body: dict[str, Any]) -> JSONR
 
 
 async def _handle_app_error(request: Request, exc: Exception) -> JSONResponse:
-    assert isinstance(exc, AppError)  # noqa: S101
+    if not isinstance(exc, AppError):
+        raise exc
     body = error_body(exc.code, exc.message, exc.details)
     if exc.extra:
         body.update(exc.extra)
@@ -155,7 +156,8 @@ def translate_validation_message(err: dict[str, Any]) -> str:
 
 
 async def _handle_validation_error(request: Request, exc: Exception) -> JSONResponse:
-    assert isinstance(exc, RequestValidationError)  # noqa: S101
+    if not isinstance(exc, RequestValidationError):
+        raise exc
     # Só campo e motivo: o valor recebido pode ser sensível e não é devolvido.
     details = [
         {
@@ -169,7 +171,8 @@ async def _handle_validation_error(request: Request, exc: Exception) -> JSONResp
 
 
 async def _handle_http_exception(request: Request, exc: Exception) -> JSONResponse:
-    assert isinstance(exc, StarletteHTTPException)  # noqa: S101
+    if not isinstance(exc, StarletteHTTPException):
+        raise exc
     code = _HTTP_CODES.get(exc.status_code, "http_error")
     message = _HTTP_MESSAGES.get(exc.status_code, "Não foi possível concluir a operação.")
     return _response(request, exc.status_code, error_body(code, message))

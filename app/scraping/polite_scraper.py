@@ -19,7 +19,7 @@ MIN_DELAY_SECONDS = 2.0
 MAX_PAGE_BYTES = 1024 * 1024
 MAX_REDIRECTS = 3
 HTML_TYPES = ("text/html", "application/xhtml+xml")
-ROBOTS_TOKEN = "AcademicSearchHub"  # noqa: S105 (nome do agente no robots.txt, não é segredo)
+ROBOTS_TOKEN = "AcademicSearchHub"  # noqa: S105  # nosec B105 - nome público do agente no robots.txt, não é um segredo
 
 Clock = Callable[[], float]
 Sleep = Callable[[float], Awaitable[None]]

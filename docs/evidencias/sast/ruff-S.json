@@ -1,0 +1,59 @@
+[
+  {
+    "cell": null,
+    "code": "S105",
+    "end_location": {
+      "column": 31,
+      "row": 91
+    },
+    "filename": "C:\\Users\\Copperline\\Desktop\\projeto tcc\\academic-search-hub\\app\\schemas\\user.py",
+    "fix": null,
+    "location": {
+      "column": 23,
+      "row": 91
+    },
+    "message": "Possible hardcoded password assigned to: \"token_type\"",
+    "name": "hardcoded-password-string",
+    "noqa_row": 91,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/hardcoded-password-string"
+  },
+  {
+    "cell": null,
+    "code": "S105",
+    "end_location": {
+      "column": 35,
+      "row": 22
+    },
+    "filename": "C:\\Users\\Copperline\\Desktop\\projeto tcc\\academic-search-hub\\app\\scraping\\polite_scraper.py",
+    "fix": null,
+    "location": {
+      "column": 16,
+      "row": 22
+    },
+    "message": "Possible hardcoded password assigned to: \"ROBOTS_TOKEN\"",
+    "name": "hardcoded-password-string",
+    "noqa_row": 22,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/hardcoded-password-string"
+  },
+  {
+    "cell": null,
+    "code": "S105",
+    "end_location": {
+      "column": 42,
+      "row": 23
+    },
+    "filename": "C:\\Users\\Copperline\\Desktop\\projeto tcc\\academic-search-hub\\app\\services\\account_service.py",
+    "fix": null,
+    "location": {
+      "column": 18,
+      "row": 23
+    },
+    "message": "Possible hardcoded password assigned to: \"WRONG_PASSWORD\"",
+    "name": "hardcoded-password-string",
+    "noqa_row": 23,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/hardcoded-password-string"
+  }
+]

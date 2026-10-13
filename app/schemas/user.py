@@ -88,7 +88,7 @@ class UserOut(BaseModel):
 
 class TokenOut(BaseModel):
     access_token: str
-    token_type: str = "bearer"  # noqa: S105 (tipo do esquema OAuth, não é segredo)
+    token_type: str = "bearer"  # noqa: S105  # nosec B105 - tipo do esquema OAuth ("bearer"), não é um segredo
     expires_in: int = Field(description="Validade do token em segundos")
     consent_required: bool = False
 
