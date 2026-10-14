@@ -31,6 +31,12 @@ devolvidos pelas fontes menos resultados exibidos. Porém a página corta o resu
 o que se misturaria com a fusão. Por isso o valor só é calculado quando a soma das fontes não passa
 do `page_size`; caso contrário fica vazio ("não determinável"), em vez de um número enganoso.
 
+## Atenção descoberta depois (OS-034)
+
+A API só envia `sources_status.duration_ms` com `APP_ENV=development`. Medindo em produção, a coluna
+de duração por fonte fica vazia; o tempo total continua sendo gravado. Avisado em
+`ROTEIRO_MANUAL.md` e em `RELATORIO.md`.
+
 ## Verificação
 
 - Testes unitários dos dois scripts passam (aritmética conferida com valores fictícios: médias,

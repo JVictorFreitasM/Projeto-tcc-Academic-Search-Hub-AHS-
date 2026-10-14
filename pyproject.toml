@@ -3,6 +3,8 @@ name = "academic-search-hub"
 version = "0.1.0"
 description = "Aplicação web para busca unificada em repositórios acadêmicos de acesso aberto (TCC UESPI)."
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
     "fastapi",

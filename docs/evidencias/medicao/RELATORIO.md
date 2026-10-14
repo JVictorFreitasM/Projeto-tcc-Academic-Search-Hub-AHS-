@@ -49,6 +49,8 @@ PENDENTE (desenvolvedor): colar aqui o resumo gerado.
   comparação.
 - **A medição manual depende de quem a faz:** familiaridade com as fontes, cansaço e a ordem das
   consultas influenciam o tempo. O critério de "resultado útil" é humano.
+- **Duração por fonte:** a API só a envia com `APP_ENV=development`. Medindo em produção, essa
+  coluna fica vazia e vale só o tempo total; anote em qual modo a medição foi feita.
 - **Cache e primeira execução:** a primeira busca de uma consulta pode ser mais lenta que as
   seguintes; o script grava todas as execuções, sem descartar nenhuma.
 - **Duplicatas fundidas:** só são calculadas quando a página não corta resultados; caso contrário o

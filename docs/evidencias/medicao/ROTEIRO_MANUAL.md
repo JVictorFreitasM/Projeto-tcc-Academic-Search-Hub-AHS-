@@ -61,7 +61,10 @@ uv run python scripts/measure_search.py --base-url http://127.0.0.1:8000 --runs 
 ```
 
 O primeiro comando calcula média, mínimo e máximo por método e consulta. O segundo mede o tempo da
-aplicação em si (rede e fontes), em `resultado-AAAAMMDD.csv` e `.md`. Depois preencha
+aplicação em si (rede e fontes), em `resultado-AAAAMMDD.csv` e `.md`. **Atenção:** a API só envia a
+duração por fonte (`duration_ms`) com `APP_ENV=development`; em produção essa coluna fica vazia (o
+tempo total, medido pelo script, continua sendo gravado). Para ter as duas, suba o servidor de
+medição com `APP_ENV=development` e anote isso no relatório. Depois preencha
 `RELATORIO.md` copiando os números **como saíram**, sem arredondar para melhor nem tirar conclusões
 que os dados não sustentem.
 
