@@ -1,0 +1,51 @@
+# Nginx na frente do Uvicorn (OS-037). Exemplo NÃO executado neste projeto: ajuste e teste
+# (`nginx -t`) no seu servidor. Troque exemplo.org pelo seu domínio.
+#
+# Decisão: o Nginx encaminha TUDO para a aplicação, inclusive o frontend (HTML, CSS e JS). É a
+# aplicação que envia os cabeçalhos de segurança (CSP, HSTS em produção, X-Content-Type-Options,
+# etc.). Se o Nginx servisse os arquivos estáticos direto, esses cabeçalhos teriam de ser repetidos
+# aqui e poderiam divergir. Por isso NÃO há `add_header` de segurança neste arquivo: eles viriam
+# duplicados em cima dos da aplicação.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name exemplo.org;
+
+    # Validação do certificado gratuito (Let's Encrypt, com certbot --webroot)
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    # Nginx 1.25.1 ou mais novo. Em versões antigas, use: listen 443 ssl http2;
+    http2 on;
+    server_name exemplo.org;
+
+    ssl_certificate     /etc/letsencrypt/live/exemplo.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/exemplo.org/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+
+    # O maior corpo da API é a exportação de até 100 registros; 1 MB sobra.
+    client_max_body_size 1m;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        # Um único valor, o do cliente que o Nginx viu: não repassa o que o cliente mandou, então
+        # ninguém forja o IP usado no limite de requisições. A aplicação só confia neste
+        # cabeçalho quando ele vem de 127.0.0.1 (app/run.py).
+        proxy_set_header X-Forwarded-For   $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+    }
+}

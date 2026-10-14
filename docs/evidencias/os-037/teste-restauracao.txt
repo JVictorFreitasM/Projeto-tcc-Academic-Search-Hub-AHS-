@@ -1,0 +1,39 @@
+Teste de backup e restauração (OS-037)
+Data: 14/10/2026 11:24  |  PostgreSQL: 18.4
+Máquina de desenvolvimento (Windows), Git Bash, pg_dump/pg_restore do PostgreSQL 18. Dados FICTÍCIOS.
+
+1) Banco de origem (ash_backup_src): criado, extensões, migrações e dados fictícios
+   alembic upgrade head: 
+   dados fictícios inseridos (arquivo seed.sql)
+   medidas na ORIGEM (tabela | linhas | md5 do conteúdo):
+     users|2|a41a463c968205b14325114aaef91c2b
+     favorites|1|1dc9f59fcda3ab2cd77b00b62490ba1d
+     search_history|1|d6153b59b83dbaa2f444963fd0159945
+     oai_records|2|39872eb6ba0fca7100cf25783e78d6d0
+     security_events|1|02e3037f97c866c0279f7efa6c473a48
+     busca pt_unaccent educacao em oai_records|1|
+
+2) Backup com scripts/backup_db.sh (pg_dump de verdade)
+   saída do script (código 0, 3.2 s): backup_db: gerado C:\Users\COPPER~1\AppData\Local\Temp\ash-backup-teste/academic_search-20261014-112430.dump (19198 bytes); 1 cópia(s) mantida(s) em C:\Users\COPPER~1\AppData\Local\Temp\ash-backup-teste
+   arquivo: academic_search-20261014-112430.dump  tamanho: 19198 bytes
+   sobras .partial: 0
+   pg_restore --list (linhas): 57
+
+3) Restauração em banco NOVO (ash_backup_restore), como app_user, SEM pré-criar as extensões
+   pg_restore: código 0, 1.2 s. Saída: 
+   medidas na RESTAURAÇÃO:
+     users|2|a41a463c968205b14325114aaef91c2b
+     favorites|1|1dc9f59fcda3ab2cd77b00b62490ba1d
+     search_history|1|d6153b59b83dbaa2f444963fd0159945
+     oai_records|2|39872eb6ba0fca7100cf25783e78d6d0
+     security_events|1|02e3037f97c866c0279f7efa6c473a48
+     busca pt_unaccent educacao em oai_records|1|
+
+4) Comparação origem x restauração (linhas, md5 e busca): IGUAIS
+   gatilho do search_vector na restauração: 1
+   função immutable_unaccent presente: 1
+   extensões na restauração: pg_trgm, pgcrypto, plpgsql, unaccent
+
+5) Limpeza: bancos de teste apagados e cópia removida
+   bancos de teste restantes: nenhum
+RESULTADO: backup gerado e restaurado com os mesmos dados.

@@ -1,0 +1,10 @@
+# Alternativa ao Nginx: Caddy (OS-037). Exemplo NÃO executado neste projeto.
+# O Caddy obtém e renova o certificado gratuito (Let's Encrypt) sozinho e já envia
+# X-Forwarded-For e X-Forwarded-Proto. Não adicione cabeçalhos de segurança aqui: eles vêm da
+# aplicação (ver deploy/nginx.conf.example).
+exemplo.org {
+	request_body {
+		max_size 1MB
+	}
+	reverse_proxy 127.0.0.1:8000
+}

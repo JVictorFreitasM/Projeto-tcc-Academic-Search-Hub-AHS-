@@ -150,7 +150,8 @@ app/            código da aplicação (api, services, connectors, harvest, scra
 frontend/       páginas e módulos JavaScript (sem build)
 migrations/     migrações do Alembic
 config/         fontes OAI-PMH (oai_sources.yml)
-scripts/        capturas de tela, medição, SAST, verificação da documentação
+deploy/         exemplos de implantação: serviço systemd, proxy reverso, cron (docs/IMPLANTACAO.md)
+scripts/        capturas de tela, medição, SAST, backup do banco, verificação da documentação
 tests/          unit, integration, contract, e2e e a11y
 docs/           documentação (veja abaixo) e evidências para o TCC
 ```
@@ -162,6 +163,9 @@ docs/           documentação (veja abaixo) e evidências para o TCC
 | `docs/EXECUCAO.md` | Banco, migrações, colheita, execução simples em produção |
 | `docs/API.md` | Rotas, exemplos, erros, limites e autoavaliação REST |
 | `docs/ARQUITETURA.md` | Componentes, sequência da busca, modelo de dados, fluxo de colheita |
+| `docs/IMPLANTACAO.md` | Serviço, proxy com HTTPS, colheita agendada, backup e restauração, lista de verificação |
+| `docs/USABILIDADE.md` | Avaliação heurística (Nielsen), problemas, correções e roteiro de teste com usuários |
+| `docs/FONTES_CANDIDATAS.md` | Fontes gratuitas que dá para adicionar (OAI-PMH e REST), verificadas |
 | `docs/SEGURANCA.md` | OWASP Top 10 (2017) verificado por teste e análise estática |
 | `docs/LGPD.md` | Dados tratados, base legal e direitos do titular |
 | `docs/ACESSIBILIDADE.md` | Verificação com axe, checklist WCAG 2.1 e testes manuais |
@@ -182,6 +186,8 @@ docs/           documentação (veja abaixo) e evidências para o TCC
 - **A raspagem de resumos vem desligada por padrão** (`SCRAPING_ENABLED=false`) e deve ser usada só
   onde os termos da fonte permitirem.
 - **O limite de requisições é em memória:** vale para um único processo do servidor.
+- **Não há recuperação de senha:** o sistema não envia e-mail; o cadastro avisa. Quem esquece a
+  senha não tem como recuperar a conta.
 - **Fontes OAI reais ainda não validadas:** os endereços de BDTD, UFPI, UESPI e SciELO estão por
   confirmar e as fontes seguem desligadas até isso (ver `docs/PENDENCIAS_DESENVOLVEDOR.md`).
 

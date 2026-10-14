@@ -1,0 +1,33 @@
+Verificação local da aplicação em modo PRODUÇÃO (OS-037)
+Data: 14/10/2026 11:24 | Máquina de desenvolvimento (Windows), sem proxy e sem HTTPS (só o servidor da aplicação)
+Banco: o de desenvolvimento do projeto. SECRET_KEY: gerada agora, descartada ao fim; não é mostrada.
+
+== DOCS_ENABLED=false (servidor subiu: True)
+   GET /api/v1/health -> HTTP 200 {"status":"ok","database":"ok","version":"0.1.0"}
+   GET /api/docs -> HTTP 404
+   GET /api/openapi.json -> HTTP 404
+   GET / -> HTTP 200
+   GET /api/v1/privacy -> HTTP 200
+   cabeçalho Strict-Transport-Security : max-age=31536000; includeSubDomains
+   cabeçalho Content-Security-Policy : default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; frame-ancestors 'none'; base-ur
+   cabeçalho X-Content-Type-Options : nosniff
+   cabeçalho X-Frame-Options : DENY
+   cabeçalho Referrer-Policy : no-referrer
+   cabeçalho X-Request-ID : 7b952fb5-9620-4b6c-a76a-fd1abfd335c3
+
+== DOCS_ENABLED=true (servidor subiu: True)
+   GET /api/v1/health -> HTTP 200 {"status":"ok","database":"ok","version":"0.1.0"}
+   GET /api/docs -> HTTP 200
+   GET /api/openapi.json -> HTTP 200
+   GET / -> HTTP 200
+   GET /api/v1/privacy -> HTTP 200
+   cabeçalho Strict-Transport-Security : max-age=31536000; includeSubDomains
+   cabeçalho Content-Security-Policy : default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; frame-ancestors 'none'; base-ur
+   cabeçalho X-Content-Type-Options : nosniff
+   cabeçalho X-Frame-Options : DENY
+   cabeçalho Referrer-Policy : no-referrer
+   cabeçalho X-Request-ID : ea57d2fc-5981-4283-9f2c-f6e74b70b6f3
+
+== Produção com SECRET_KEY vazia (configuração criada sem ler o .env): recusada: Value error, SECRET_KEY é obrigatória e precisa ter ao menos 32 caracteres
+== Produção com ALLOWED_ORIGINS=*: recusada: Value error, ALLOWED_ORIGINS não pode conter '*' em produção
+Porta 8000 livre ao final: sim

@@ -132,3 +132,23 @@ Depois de uma queda, a recuperação do banco pode levar alguns minutos.
   de citá-las, e o texto das dez heurísticas.
 - [ ] **(Opcional) Teste com 3 a 5 colegas**, com o roteiro de 4 tarefas de `docs/USABILIDADE.md`,
   seção 6, sem medir tempo e sem calcular porcentagem.
+
+## 9. Implantação, colheita agendada e backup (OS-037)
+
+Os exemplos de `deploy/` **não foram executados** (não há servidor nem domínio). Detalhes e a lista de
+verificação em `docs/IMPLANTACAO.md`, seção 10.
+
+- [ ] **Decidir onde o sistema vai rodar.** Se for só na sua máquina, para a defesa, o TCC deve dizer
+  isso e não descrever um ambiente de produção.
+- [ ] **Se for publicar:** instalar no servidor, preencher `/etc/academic-search-hub/env` (com uma
+  `SECRET_KEY` gerada lá), ativar o serviço, configurar o Nginx ou o Caddy com HTTPS e conferir os
+  itens "PENDENTE" da lista de verificação.
+- [ ] **Confirmar que o serviço sobe sozinho** depois de reiniciar a máquina.
+- [ ] **Confirmar que a colheita agendada rodou** e que `status` mostra o resultado (depende das
+  fontes OAI da seção 2).
+- [ ] **Repetir o teste de restauração no servidor real**, com o banco real, e anotar a data e o
+  resultado em `docs/IMPLANTACAO.md`, seção 9.
+- [ ] **Copiar os backups para fora da máquina** (não está automatizado): uma cópia só no servidor não
+  protege contra perda dele.
+- [ ] **Conferir o texto da política de privacidade** (`app/content/privacy_pt.md`): ele deve avisar
+  que contas excluídas ficam nas cópias de segurança por até 7 dias.

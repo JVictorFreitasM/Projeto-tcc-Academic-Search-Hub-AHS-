@@ -1,0 +1,32 @@
+# Tarefas agendadas do Academic Search Hub (OS-037). Exemplo NÃO executado neste projeto.
+#
+# Instale como o usuário do serviço:  crontab deploy/crontab.example   (ou `crontab -e` e cole)
+# Pré-requisito: crie a pasta de logs, de escrita do usuário do serviço:
+#   sudo install -d -o academicsearch -g academicsearch /var/log/academic-search
+# Gire os logs com o logrotate do sistema, se quiser.
+#
+# Nenhum segredo aqui: a colheita lê o arquivo de ambiente do serviço; o backup lê só a linha
+# DATABASE_URL= desse mesmo arquivo (sem executá-lo).
+
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+APP=/opt/academic-search-hub
+ENV_FILE=/etc/academic-search-hub/env
+
+# Colheita OAI-PMH de todas as fontes habilitadas, todo dia às 03:00. Ela é incremental (só pede o
+# que mudou desde a última colheita bem-sucedida), então uma vez por dia basta. O `flock` evita
+# duas colheitas ao mesmo tempo se uma demorar. O comando termina com erro se alguma fonte falhar,
+# e o motivo fica no log.
+0 3 * * * cd $APP && set -a && . $ENV_FILE && set +a && flock -n /tmp/academic-search-colheita.lock .venv/bin/python -m app.harvest.cli run-all >> /var/log/academic-search/colheita.log 2>&1
+
+# Backup do banco todo dia às 03:30, com as 7 cópias mais recentes em BACKUP_DIR.
+30 3 * * * cd $APP && BACKUP_DIR=/var/backups/academic-search-hub scripts/backup_db.sh >> /var/log/academic-search/backup.log 2>&1
+
+# Eventos de segurança: apaga os com mais de 180 dias, todo domingo às 04:00 (retenção definida em
+# docs/LGPD.md). Precisa do ambiente do serviço, como a colheita.
+0 4 * * 0 cd $APP && set -a && . $ENV_FILE && set +a && .venv/bin/python -m app.cli_security purge --older-than-days 180 >> /var/log/academic-search/seguranca.log 2>&1
+
+# Para ver o resultado da colheita (rode à mão, com o ambiente carregado):
+#   cd /opt/academic-search-hub && set -a && . /etc/academic-search-hub/env && set +a \
+#     && .venv/bin/python -m app.harvest.cli status
+# e o final do log:  tail -n 40 /var/log/academic-search/colheita.log

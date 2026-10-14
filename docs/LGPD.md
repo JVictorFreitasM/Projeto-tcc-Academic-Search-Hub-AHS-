@@ -71,3 +71,16 @@ privacidade (`app/content/privacy_pt.md`, servida em `GET /api/v1/privacy`).
   (tudo); excluir a conta apaga o histórico em cascata.
 - **Acesso:** cada usuário só enxerga o próprio histórico (`GET /api/v1/history`).
 - **Efeito sobre a busca:** a gravação ocorre depois da resposta e, se falhar, a busca não é afetada.
+
+## Cópias de segurança (OS-037)
+
+O banco tem uma cópia de segurança diária (`scripts/backup_db.sh`, `docs/IMPLANTACAO.md`), com as 7
+mais recentes guardadas, só legíveis pelo usuário do serviço. Duas consequências para a LGPD:
+
+- **As cópias têm dados pessoais** (nome, e-mail, hash da senha, favoritos, histórico). Têm a mesma
+  proteção do banco: pasta e arquivos com permissão só do dono, e cópias fora da máquina devem ir
+  para um local também restrito.
+- **Uma conta excluída continua existindo nas cópias antigas** até elas serem substituídas
+  (**até 7 dias** com a retenção padrão de 7 cópias diárias). A política de privacidade
+  (`app/content/privacy_pt.md`) deve dizer isso; confira o texto antes de publicar. Ao restaurar uma
+  cópia, as exclusões feitas depois dela **voltam** e precisam ser refeitas.

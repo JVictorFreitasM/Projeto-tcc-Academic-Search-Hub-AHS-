@@ -1,0 +1,40 @@
+# Serviço systemd de exemplo para o Academic Search Hub (OS-037).
+# NÃO foi executado neste projeto: confira no seu servidor antes de confiar nele.
+#
+# Instalação (como root):
+#   cp deploy/academic-search.service /etc/systemd/system/
+#   systemctl daemon-reload
+#   systemctl enable --now academic-search
+# Ver o estado e os logs:
+#   systemctl status academic-search
+#   journalctl -u academic-search -f
+#
+# Ajuste User, Group, WorkingDirectory e ExecStart ao seu servidor. Nenhum segredo fica neste
+# arquivo: eles vêm do EnvironmentFile (modelo em deploy/academic-search.env.example).
+[Unit]
+Description=Academic Search Hub (API e frontend)
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=academicsearch
+Group=academicsearch
+WorkingDirectory=/opt/academic-search-hub
+EnvironmentFile=/etc/academic-search-hub/env
+# Um único processo: o limite de requisições é em memória (docs/SEGURANCA.md).
+# O servidor escuta só em 127.0.0.1:8000, atrás do proxy reverso.
+ExecStart=/opt/academic-search-hub/.venv/bin/python -m app.run
+Restart=on-failure
+RestartSec=5
+
+# Endurecimento básico
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target
