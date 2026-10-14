@@ -401,3 +401,16 @@ def test_new_search_cancels_the_previous_one(page: Page, api: Api) -> None:
     expect(page.locator(".result-title")).to_have_text(
         "Resultado de rapida"
     )  # a antiga não sobrescreve
+
+
+def test_text_typed_while_sources_load_is_not_erased(page: Page, api: Api) -> None:
+    """Regressão (OS-032): ao terminar de carregar as fontes, a página apagava o que já fora digitado."""
+    held: list[Route] = []
+    page.route("**/api/v1/sources", lambda route: held.append(route))  # segura a resposta
+    page.goto("/")
+    page.get_by_label("Buscar trabalhos").fill("letramento")
+    page.wait_for_timeout(200)
+    assert held, "a página deveria ter pedido as fontes"
+    held[0].fulfill(status=200, json=SOURCES)
+    page.wait_for_timeout(300)
+    expect(page.get_by_label("Buscar trabalhos")).to_have_value("letramento")

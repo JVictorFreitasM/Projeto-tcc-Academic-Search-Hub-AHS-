@@ -291,8 +291,12 @@ loadSources().then((sources) => {
   filters = createFilters({ sources, onChange: submitSearch });
   const initial = readQuery();
   filters.setFrom(initial);
-  ui.input.value = initial.q;
-  if (initial.q) search(initial, { replace: true });
+  // Só preenche com a consulta da URL: sem ela, não apaga o que a pessoa já digitou enquanto as
+  // fontes carregavam (achado pelo fluxo de ponta a ponta da OS-032).
+  if (initial.q) {
+    ui.input.value = initial.q;
+    search(initial, { replace: true });
+  }
 });
 
 // ---------- exportação dos resultados escolhidos ----------
