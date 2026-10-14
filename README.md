@@ -163,6 +163,7 @@ docs/           documentação (veja abaixo) e evidências para o TCC
 | `docs/EXECUCAO.md` | Banco, migrações, colheita, execução simples em produção |
 | `docs/API.md` | Rotas, exemplos, erros, limites e autoavaliação REST |
 | `docs/ARQUITETURA.md` | Componentes, sequência da busca, modelo de dados, fluxo de colheita |
+| `docs/CONTINUAR_EM_CASA.md` | Onde o projeto está, como preparar outro computador e o que falta, em ordem |
 | `docs/IMPLANTACAO.md` | Serviço, proxy com HTTPS, colheita agendada, backup e restauração, lista de verificação |
 | `docs/USABILIDADE.md` | Avaliação heurística (Nielsen), problemas, correções e roteiro de teste com usuários |
 | `docs/FONTES_CANDIDATAS.md` | Fontes gratuitas que dá para adicionar (OAI-PMH e REST), verificadas |
