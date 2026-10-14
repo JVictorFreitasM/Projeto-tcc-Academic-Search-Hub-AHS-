@@ -35,11 +35,16 @@ com os `[VERIFICAR]` que restarem e com o pacote de evidências do TCC.
 - [ ] **Trocar as fixtures sintéticas** por respostas reais: `STRICT_FIXTURES=1 uv run pytest
   tests/contract` lista as que faltam.
 - [ ] **Endereços OAI-PMH reais** de cada fonte, em `config/oai_sources.yml`, e depois habilitar
-  (`enabled: true`) e rodar a colheita. Situação encontrada nos testes da IA:
-  - BDTD e UESPI: desafio anti-robô impediu a verificação;
-  - UFPI: respondeu 502;
-  - SciELO: sem OAI nos caminhos testados.
+  (`enabled: true`) e rodar a colheita. Situação encontrada em **14/10/2026** (detalhes em
+  `docs/FONTES_CANDIDATAS.md`):
+  - **UFPI** e **UESPI:** o OAI responde (`https://repositorio.ufpi.br/oai/request` e
+    `https://repositorio.uespi.br/oai/request`), mas **não devolve registros** (`noRecordsMatch`).
+    Pedir ao administrador para reindexar o OAI e testar de novo com `--dry-run`;
+  - **BDTD:** desafio anti-robô (sem XML);
+  - **SciELO:** nenhum endereço OAI respondeu; há API REST (ArticleMeta), sem busca por texto.
   Enquanto não validadas, ficam `enabled: false`.
+- [ ] **Decidir se amplia as fontes** além das seis do TCC (UFPE, UFMG, DOAJ...). Ver
+  `docs/FONTES_CANDIDATAS.md`, seção 5.
 - [ ] **Rodar a colheita** das fontes OAI e conferir o estado (`status`) antes de medir.
 
 ## 3. Testes com pessoas (a IA não pode simular)
