@@ -142,4 +142,25 @@ os 3 falsos positivos acima, que estão justificados no código
 - Cobertura de regras: as que as ferramentas trazem. O frontend foi analisado só pelo semgrep e
   pelas varreduras próprias de `tests/unit/test_code_hygiene.py`.
 - As versões acima valem para 09/10/2026; novas versões de dependências ou de regras podem
-  encontrar outras coisas. Rodar `python tasks.py sast` de novo antes de entregar.
+  encontrar outras coisas. Rodar `python tasks.py sast` de novo antes de entregar (feito em
+  14/10/2026, abaixo).
+
+### Reexecução final (OS-035, 14/10/2026)
+
+Saídas brutas atuais em `docs/evidencias/sast/` (com `versoes.json`):
+
+| Ferramenta (versão) | Achados | Observação |
+|---|---|---|
+| bandit 1.9.4 | 0 | `app/` |
+| semgrep 1.180.0 | 0 | 102 arquivos de `app/` e `frontend/`, 0 erros; as regras são `p/python` e `p/owasp-top-ten` do registro, e o número de regras de hoje não foi conferido |
+| ruff com regras `S` (0.16.10), `--ignore-noqa` | 3 | os mesmos 3 falsos positivos da tabela acima (`token_type`, `ROBOTS_TOKEN`, `WRONG_PASSWORD`), justificados no código |
+| pip-audit 2.10.1 | 0 | 86 dependências analisadas |
+
+**Defeito do próprio script, achado e corrigido nesta reexecução:** numa primeira tentativa o executável
+do semgrep estava quebrado (ambiente isolado desfeito), mas `scripts/run_sast.py` reaproveitou o
+`semgrep.json` de 09/10 e o resumo disse "semgrep rodou, 0 achados". Agora o script **apaga as
+saídas antigas antes de rodar**, trata como falha qualquer ferramenta sem saída nova ou com código
+de erro e termina com status de erro (`tests/unit/test_run_sast.py`). O semgrep foi reinstalado num
+ambiente novo e rodou de verdade; a saída de hoje é a que está no repositório.
+
+Zero achado não é prova de ausência de falhas; vale o que está em "Limites desta análise".

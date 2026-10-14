@@ -2,15 +2,15 @@ Testes por marcador (coletados por `pytest --collect-only`):
 
 | Marcador | Testes |
 |---|---|
-| unit | 704 |
+| unit | 793 |
 | integration | 227 |
 | contract | 8 |
-| e2e | 118 |
-| a11y | 0 |
-| **total** | **1057** |
+| e2e | 132 |
+| a11y | 33 |
+| **total** | **1193** |
 
-Cobertura de linhas de app/ (pytest-cov): 98.0%
-(linhas cobertas 3051 de 3112)
+Cobertura de linhas de app/ (pytest-cov): 98.1%
+(linhas cobertas 3052 de 3112)
 Arquivos com menor cobertura:
    83.9%  scraping/completion.py
    91.7%  run.py

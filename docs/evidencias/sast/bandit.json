@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2026-10-09T15:23:05Z",
+  "generated_at": "2026-10-14T14:41:18Z",
   "metrics": {
     "_totals": {
       "CONFIDENCE.HIGH": 0,
@@ -11,7 +11,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 4488,
+      "loc": 4604,
       "nosec": 0,
       "skipped_tests": 2
     },
@@ -50,7 +50,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 39,
+      "loc": 38,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -168,6 +168,19 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 135,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "app\\cli_security.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 64,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -362,7 +375,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 53,
+      "loc": 51,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -375,7 +388,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 63,
+      "loc": 68,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -908,7 +921,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 29,
+      "loc": 79,
       "nosec": 0,
       "skipped_tests": 0
     },

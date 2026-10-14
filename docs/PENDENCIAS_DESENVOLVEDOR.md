@@ -1,10 +1,23 @@
 # Pendências do desenvolvedor
 
 Lista do que só você pode fazer (a IA não tem as chaves, as fontes reais nem pessoas para testar).
-Marque `[x]` quando terminar e escreva a data e uma observação. A OS-035 vai consolidar esta lista
-com os `[VERIFICAR]` que restarem e com o pacote de evidências do TCC.
+Marque `[x]` quando terminar e escreva a data e uma observação. A OS-035 consolidou esta lista com
+os `[VERIFICAR]` que restaram e com o pacote de evidências do TCC (`docs/evidencias/PACOTE.md`);
+a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDADE_TCC.md`.
 
-Última atualização: 14/10/2026 (feita após a OS-033).
+Última atualização: 14/10/2026 (revisão final, OS-035).
+
+> Para retomar o trabalho em outro computador, com a ordem sugerida e o passo a passo, veja
+> `docs/CONTINUAR_EM_CASA.md`.
+
+## O que mais pesa para o TCC (resumo)
+
+1. **Chaves e fontes reais** (seção 2): sem elas, nenhuma das seis fontes foi validada com dados reais.
+2. **Medição manual de tempo** (seção 4): sem ela, o TCC não pode afirmar redução de tempo de busca.
+3. **Contato do responsável na política de privacidade** (seção 1): hoje aparece um marcador na página.
+4. **Testes de acessibilidade com pessoas** (seção 3).
+5. **Decisões suas** (seções 1 e 8): nomes das 4 rotas, caixa "manter conectado", fontes extras.
+6. **Onde o sistema vai rodar** (seção 9): se for só na sua máquina, o TCC deve dizer isso.
 
 ## 1. Decisões que dependem de você
 
@@ -80,12 +93,13 @@ Registrar o resultado na tabela de `docs/ACESSIBILIDADE.md`.
 
 ## 6. Antes de entregar
 
-- [ ] **Testar o README em uma pasta limpa** (quando a OS-034 terminar): seguir só o README, anotar
-  o que faltou.
-- [ ] **Restaurar um backup e conferir a implantação** (OS-037).
+- [ ] **Testar o README em uma pasta limpa:** clonar o repositório numa pasta nova, seguir só o
+  README e anotar o que faltou em `docs/os/OS-034-relatorio.md` (a OS-034 não pôde fazer isso).
+- [ ] **Restaurar um backup e conferir a implantação** no ambiente onde for rodar (seção 9).
 - [ ] **Decidir se quer a etiqueta `v1.0.0`** no Git (só é criada se você pedir).
-- [ ] **Enviar os commits ao GitHub** (`git push origin master:main`): o remoto está atrás do
-  local (OS-032 em diante).
+- [ ] **Enviar os commits ao GitHub** (`git push origin master:main`): o remoto parou na OS-031;
+  tudo depois (OS-032 em diante) só existe localmente até você pedir o envio.
+- [ ] **Ler a lista de divergências** (`docs/CONFORMIDADE_TCC.md`, seção 4) e ajustar o texto do TCC.
 
 ## 7. Itens `[VERIFICAR]` ainda abertos
 
