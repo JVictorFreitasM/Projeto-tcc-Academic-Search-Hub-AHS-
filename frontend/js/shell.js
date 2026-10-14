@@ -6,7 +6,8 @@ import { getState, subscribe } from "./state.js";
 /** Páginas do menu. Cada OS que cria uma página acrescenta o item aqui. */
 export const NAV_ITEMS = [
   { href: "index.html", label: "Busca", id: "busca" },
-  { href: "favoritos.html", label: "Favoritos", id: "favoritos" },
+  // O histórico de buscas mora nesta página: o rótulo avisa, para a pessoa saber onde achá-lo.
+  { href: "favoritos.html", label: "Favoritos e histórico", id: "favoritos" },
 ];
 
 const FOOTER_LINKS = [

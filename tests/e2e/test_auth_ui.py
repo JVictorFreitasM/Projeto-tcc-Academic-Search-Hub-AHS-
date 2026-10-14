@@ -240,11 +240,57 @@ def test_token_never_goes_to_local_storage(page: Page, server: Server) -> None:
     assert page.evaluate("localStorage.length") == 0
 
 
-def test_without_keep_signed_in_nothing_is_stored(page: Page, server: Server) -> None:
-    page.goto("/conta.html")
+def sign_in(page: Page) -> None:
     page.locator("#email-login").fill("maria@exemplo.com")
     page.locator("#senha-login").fill("Senha12345")
     page.get_by_role("button", name="Entrar").last.click()
+
+
+def test_signup_warns_that_there_is_no_password_recovery(page: Page, server: Server) -> None:
+    """Avaliação de usabilidade (OS-036): quem esquece a senha não tem como recuperá-la."""
+    page.goto("/conta.html")
+    expect(page.locator("#regras-senha")).to_contain_text("não tem recuperação de senha por e-mail")
+
+
+def test_keep_signed_in_is_on_by_default_and_the_session_survives_navigation(
+    page: Page, server: Server
+) -> None:
+    """Regressão (OS-036): sem isso, quem entrava era deslogado ao abrir a próxima página."""
+    page.goto("/conta.html")
+    expect(page.get_by_label("Manter conectado nesta aba")).to_be_checked()
+    expect(page.locator("#ajuda-manter")).to_contain_text("entrar de novo ao abrir outra página")
+    sign_in(page)
+    expect(page.locator("#conta-logada")).to_be_visible()
+    assert page.evaluate("localStorage.length") == 0  # nunca em localStorage
+    assert page.evaluate("sessionStorage.getItem('ash.token')") == "tok-123"
+    page.goto("/privacidade.html")  # navegação completa para outra página
+    expect(page.get_by_role("link", name="Minha conta (Maria)")).to_be_visible()
+
+
+def test_login_that_returns_to_the_previous_page_stays_signed_in(
+    page: Page, server: Server
+) -> None:
+    """O caminho de "Entre para salvar": entrar e voltar à página de origem, ainda logado."""
+    page.goto("/conta.html?voltar=%2Fprivacidade.html")
+    sign_in(page)
+    page.wait_for_url("**/privacidade.html")
+    expect(page.get_by_role("link", name="Minha conta (Maria)")).to_be_visible()
+
+
+def test_signup_keeps_the_session_when_another_page_is_opened(page: Page, server: Server) -> None:
+    page.goto("/conta.html")
+    fill_signup(page)
+    page.get_by_role("button", name="Criar conta").click()
+    expect(page.get_by_role("heading", level=1)).to_have_text("Minha conta")
+    assert page.evaluate("localStorage.length") == 0
+    page.goto("/privacidade.html")
+    expect(page.get_by_role("link", name="Minha conta (Maria)")).to_be_visible()
+
+
+def test_without_keep_signed_in_nothing_is_stored(page: Page, server: Server) -> None:
+    page.goto("/conta.html")
+    page.get_by_label("Manter conectado nesta aba").uncheck()  # a escolha continua possível
+    sign_in(page)
     expect(page.locator("#conta-logada")).to_be_visible()
     assert page.evaluate("sessionStorage.length") == 0 and page.evaluate("localStorage.length") == 0
     page.reload()

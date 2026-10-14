@@ -37,9 +37,13 @@
                 <p id="erro-senha-login" class="error-text" hidden></p>
               </div>
               <div class="check">
-                <input id="manter-conectado" name="keep" type="checkbox" />
+                <input id="manter-conectado" name="keep" type="checkbox" checked aria-describedby="ajuda-manter" />
                 <label for="manter-conectado">Manter conectado nesta aba</label>
               </div>
+              <p id="ajuda-manter" class="muted">
+                Sem esta opção, é preciso entrar de novo ao abrir outra página. Desmarque em um
+                computador de uso compartilhado.
+              </p>
               <button type="submit" class="btn btn-primary">Entrar</button>
             </form>
           </section>
@@ -62,7 +66,8 @@
                 <label for="senha-cadastro">Senha</label>
                 <p id="regras-senha" class="hint">
                   A senha precisa ter de 10 a 128 caracteres, com ao menos uma letra e um número, e
-                  não pode conter o seu e-mail.
+                  não pode conter o seu e-mail. Este sistema não tem recuperação de senha por
+                  e-mail: guarde a sua senha em local seguro.
                 </p>
                 <div class="password-row">
                   <input id="senha-cadastro" name="password" type="password" autocomplete="new-password" aria-describedby="regras-senha erro-senha-cadastro" required />

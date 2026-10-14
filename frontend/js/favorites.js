@@ -62,7 +62,8 @@ function noteEditor(item, index) {
   const status = el("p", { class: "hint", role: "status" });
   area.addEventListener("input", () => {
     counter.textContent = `${area.value.length}/${NOTE_MAX}`;
-    status.textContent = "";
+    // Deixa claro que o texto digitado ainda não foi guardado (avaliação de usabilidade, OS-036).
+    status.textContent = area.value === (item.note ?? "") ? "" : "Alterações ainda não salvas.";
   });
   const save = el("button", { type: "button", class: "btn", text: "Salvar anotação" });
   save.addEventListener("click", async () => {

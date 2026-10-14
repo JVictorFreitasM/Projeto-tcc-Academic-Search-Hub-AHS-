@@ -118,3 +118,17 @@ Start-Process "$b\pg_ctl.exe" -ArgumentList "-D","`"$d`"","-o","`"-p 5434`"","-l
 ```
 
 Depois de uma queda, a recuperação do banco pode levar alguns minutos.
+
+## 8. Decisões da avaliação de usabilidade (OS-036)
+
+- [ ] **Confirmar a mudança do login:** a caixa "Manter conectado nesta aba" agora vem marcada por
+  padrão (divergência da OS-021; motivo e como reverter em `docs/USABILIDADE.md`, seção 4, e em
+  `docs/DECISOES.md`). Se discordar, peça para voltar ao padrão antigo.
+- [ ] **Preencher o contato do responsável** na política (`{CONTATO_DO_RESPONSAVEL}` aparece como
+  texto na página; severidade 3 na avaliação, problema P2). É o mesmo item da seção 1.
+- [ ] **Decidir sobre a recuperação de senha:** hoje não existe (exigiria envio de e-mail). O
+  cadastro avisa. Decida se o TCC cita isso como limitação.
+- [ ] **Conferir as referências** de Nielsen e Molich (1990) e Nielsen (1994) na fonte original antes
+  de citá-las, e o texto das dez heurísticas.
+- [ ] **(Opcional) Teste com 3 a 5 colegas**, com o roteiro de 4 tarefas de `docs/USABILIDADE.md`,
+  seção 6, sem medir tempo e sem calcular porcentagem.

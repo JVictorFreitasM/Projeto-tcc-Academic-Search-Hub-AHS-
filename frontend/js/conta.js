@@ -86,7 +86,7 @@ loginForm.addEventListener("submit", async (event) => {
   busy(loginForm, true, "Entrar", "Entrando…");
   try {
     const { consentRequired } = await login(email, password, must("#manter-conectado").checked);
-    loginForm.reset();
+    loginForm.reset(); // a caixa "manter conectado" volta a vir marcada
     afterSignIn("Você entrou na conta.", { consentRequired });
   } catch (error) {
     const message = error instanceof ApiError ? (error.status === 401 ? error.message : apiMessage(error)) : "Ocorreu um erro inesperado.";

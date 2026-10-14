@@ -11,14 +11,18 @@ export async function login(email, password, keepInTab) {
   return { consentRequired: Boolean(token.consent_required) };
 }
 
-/** Cria a conta (consentimento obrigatório) e já entra. */
+/**
+ * Cria a conta (consentimento obrigatório) e já entra. A sessão fica guardada na aba (como a caixa
+ * "manter conectado" do login, marcada por padrão): o site tem várias páginas, e sem isso a pessoa
+ * seria deslogada ao abrir a próxima (achado da avaliação de usabilidade, OS-036).
+ */
 export async function register({ fullName, email, password, accepted }) {
   await api("/auth/register", {
     method: "POST",
     auth: false,
     body: { full_name: fullName, email, password, accept_privacy_policy: accepted },
   });
-  return login(email, password, false);
+  return login(email, password, true);
 }
 
 /** Busca os dados da conta e guarda no estado. */

@@ -180,6 +180,27 @@ def test_edit_note_with_counter(page: Page, api: FakeApi) -> None:
     assert area.get_attribute("maxlength") == "1000"
 
 
+def test_note_shows_when_changes_are_not_saved_yet(page: Page, api: FakeApi) -> None:
+    """Avaliação de usabilidade (OS-036): o texto digitado e ainda não guardado precisa avisar."""
+    api.add_favorite(record(1), "nota original")
+    page.goto("/favoritos.html")
+    area = page.get_by_label("Anotação")
+    status = page.locator(".note-editor [role=status]")
+    expect(status).to_have_text("")
+    area.fill("nota alterada")
+    expect(status).to_have_text("Alterações ainda não salvas.")
+    area.fill("nota original")  # voltou ao valor guardado: nada pendente
+    expect(status).to_have_text("")
+    area.fill("nota alterada de novo")
+    expect(status).to_have_text("Alterações ainda não salvas.")
+    page.get_by_role("button", name="Salvar anotação").click()
+    expect(status).to_have_text("Anotação salva.")
+    area.fill("nota alterada de novo!")  # depois de salvar, compara com o novo valor guardado
+    expect(status).to_have_text("Alterações ainda não salvas.")
+    area.fill("nota alterada de novo")
+    expect(status).to_have_text("")
+
+
 def test_remove_asks_for_confirmation(page: Page, api: FakeApi) -> None:
     api.add_favorite(record(1))
     page.goto("/favoritos.html")
@@ -326,10 +347,21 @@ def test_pages_have_no_horizontal_scroll_on_small_screens(page: Page, api: FakeA
 def test_favorites_menu_item_and_current_page_marker(page: Page, api: FakeApi) -> None:
     page.set_viewport_size({"width": 1280, "height": 800})
     page.goto("/favoritos.html")
-    expect(page.get_by_role("link", name="Favoritos", exact=True)).to_have_attribute(
+    expect(page.get_by_role("link", name="Favoritos e histórico", exact=True)).to_have_attribute(
         "aria-current", "page"
     )
-    expect(page.get_by_role("heading", level=1)).to_have_text("Favoritos")
+    expect(page.get_by_role("heading", level=1)).to_have_text("Favoritos e histórico")
+
+
+@pytest.mark.parametrize("width", [600, 640, 768])
+def test_logged_in_header_with_the_longer_menu_label_does_not_overflow(
+    page: Page, api: FakeApi, width: int
+) -> None:
+    """O rótulo "Favoritos e histórico" não pode empurrar o cabeçalho para fora da tela."""
+    page.set_viewport_size({"width": width, "height": 800})
+    page.goto("/favoritos.html")
+    expect(page.get_by_role("button", name="Sair")).to_be_visible()
+    assert page.evaluate("document.documentElement.scrollWidth") <= width
 
 
 def test_expired_session_on_favorites_page_shows_login_notice(page: Page) -> None:

@@ -49,8 +49,9 @@ Pontos de projeto:
 - **Sem estado no servidor:** autenticação por token JWT em cada requisição. O limite de
   requisições fica em memória, por isso o servidor roda com um processo (`app/run.py`).
 - **Frontend sem build:** módulos JavaScript nativos, `textContent` em vez de HTML montado, política
-  de segurança de conteúdo sem `unsafe-inline`; o token vive só em memória (ou na aba, se a pessoa
-  pedir).
+  de segurança de conteúdo sem `unsafe-inline`; o token fica em memória e, por padrão, também na
+  aba (`sessionStorage`, que some ao fechar a aba; a pessoa pode desmarcar "manter conectado" no
+  login), **nunca** em `localStorage`.
 - **Fontes externas só são acessadas** pelos conectores e pela CLI de colheita; os testes bloqueiam
   qualquer rede que não seja a do próprio computador.
 
