@@ -1,0 +1,8 @@
+# Consultas da medição (OS-033). Uma por linha; linhas em branco e iniciadas por # são ignoradas.
+#
+# PENDENTE (desenvolvedor): escreva aqui as 5 consultas, sobre temas dos cursos da UESPI.
+# A IA não escolhe as consultas: elas definem o que o TCC afirma ter medido.
+# Use as MESMAS 5 consultas na medição da aplicação (scripts/measure_search.py) e na manual.
+#
+# Exemplo de formato (apague e troque pelas suas):
+# tema de um dos cursos
