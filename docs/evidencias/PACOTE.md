@@ -26,6 +26,9 @@ reais, pessoas, servidor). A lista completa, com como fazer cada item, está em
 
 **Pronto**
 - Mapeamento dos campos de cada fonte para a estrutura única: `docs/evidencias/os-005-mapeamento.md`.
+- **Validação real do OpenAlex** (15/10/2026): resposta real como fixture, 11 chamadas ao vivo com filtros,
+  tipos, ordenação e paginação, e a busca pela aplicação inteira: `docs/evidencias/os-007-validacao-real.md` e
+  `docs/evidencias/os-007-validacao-real.txt`.
 - Estado real das fontes OAI-PMH na validação: `docs/evidencias/os-009-fontes.md`; situação atual e
   candidatas verificadas: `docs/FONTES_CANDIDATAS.md`.
 - Exemplo e sequência da deduplicação: `docs/evidencias/os-011-exemplo.md`,
@@ -36,8 +39,8 @@ reais, pessoas, servidor). A lista completa, com como fazer cada item, está em
 - Testes de contrato das fontes: `tests/contract/test_fixtures_contract.py`.
 
 **Falta**
-- Respostas reais das APIs (OpenAlex e CORE) e chaves; endereços OAI reais e a colheita de cada fonte.
-- Trocar as fixtures sintéticas por respostas reais (`STRICT_FIXTURES=1 uv run pytest tests/contract`
+- Resposta real do CORE e a chave dele (o OpenAlex já foi validado); endereços OAI reais e a colheita de cada fonte.
+- Trocar as fixtures sintéticas restantes (CORE e OAI) por respostas reais (`STRICT_FIXTURES=1 uv run pytest tests/contract`
   lista as que faltam).
 - Medir a raspagem numa busca real (`scripts/measure_scraping.py`).
 - Medição de tempo (busca manual versus aplicação): instrumentos prontos em

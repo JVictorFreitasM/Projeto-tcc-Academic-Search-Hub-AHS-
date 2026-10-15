@@ -19,21 +19,67 @@ from app.schemas.record import RecordOut
 
 pytestmark = pytest.mark.unit
 
-FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "openalex" / "search_ok.json"
+FIXTURES = Path(__file__).resolve().parents[1] / "fixtures" / "openalex"
+REAL = FIXTURES / "search_ok.json"  # resposta REAL da API (14/10/2026, `search=educação`)
+FIXTURE = (
+    FIXTURES / "edge_cases.json"
+)  # sintética e permanente: casos de borda que o real não cobre
 KEY = "CHAVE-SECRETA-123"
 
 
 def load_fixture() -> dict:  # type: ignore[type-arg]
+    """Casos de borda (sintética): os testes detalhados de mapeamento usam esta."""
     return json.loads(FIXTURE.read_text(encoding="utf-8"))
+
+
+def load_real() -> dict:  # type: ignore[type-arg]
+    return json.loads(REAL.read_text(encoding="utf-8"))
 
 
 def connector(key: str = KEY) -> OpenAlexConnector:
     return OpenAlexConnector(Settings(_env_file=None, openalex_api_key=key))  # type: ignore[call-arg]
 
 
-def test_fixture_is_marked_synthetic() -> None:
-    """Enquanto a fixture for sintética, a pendência fica visível (DECISOES.md e OS-030)."""
-    assert load_fixture().get("_synthetic") is True
+def test_edge_case_fixture_is_synthetic_and_permanent_but_the_main_one_is_real() -> None:
+    edge = load_fixture()
+    assert edge.get("_synthetic") is True and edge.get("_permanent") is True
+    assert "_synthetic" not in load_real()  # a resposta real não leva marca de sintética
+
+
+@respx.mock
+async def test_real_openalex_response_maps_to_valid_records() -> None:
+    """Resposta REAL do OpenAlex (14/10/2026): todo trabalho vira um registro válido."""
+    real = load_real()
+    respx.get(BASE_URL).mock(return_value=httpx.Response(200, json=real))
+    page = await connector().search(SourceQuery(q="educação", page_size=5))
+    assert page.status is SourceStatus.OK
+    assert page.total == real["meta"]["count"] == 1_418_364
+    assert len(page.records) == len(real["results"]) == 5
+    assert all(isinstance(r, RecordOut) for r in page.records)
+    first = page.records[0]
+    assert first.id == "doi:10.1590/s0102-88392000000200002"
+    assert first.title == "Perspectivas atuais da educação"
+    assert (first.year, first.type, first.language) == (2000, RecordType.ARTICLE, "pt")
+    assert [(a.name, a.orcid) for a in first.authors] == [("Moaçir Gadotti", "0000-0001-7565-2618")]
+    assert first.doi == "10.1590/s0102-88392000000200002"
+    assert first.url == "https://doi.org/10.1590/s0102-88392000000200002"
+    assert first.pdf_url is not None and first.pdf_url.startswith("https://www.scielo.br/")
+    assert first.abstract is not None and first.abstract.startswith("O conhecimento tem presença")
+    assert first.keywords[:2] == ["future of education", "globalization"]
+    assert first.sources[0].model_dump() == {
+        "source": "openalex",
+        "source_id": "W2086978462",
+        "url": "https://openalex.org/W2086978462",
+    }
+
+
+def test_real_response_has_no_secret_and_every_work_has_what_the_mapping_needs() -> None:
+    text = REAL.read_text(encoding="utf-8")
+    assert "api_key" not in text.lower()  # a chave nunca fica na fixture
+    for work in load_real()["results"]:
+        assert work["id"].startswith("https://openalex.org/W")
+        assert work["title"] and isinstance(work["publication_year"], int)
+        assert isinstance(work["authorships"], list) and work["authorships"]
 
 
 def test_reconstruct_abstract_example_from_spec() -> None:

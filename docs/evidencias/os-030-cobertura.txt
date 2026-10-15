@@ -2,12 +2,12 @@ Testes por marcador (coletados por `pytest --collect-only`):
 
 | Marcador | Testes |
 |---|---|
-| unit | 793 |
+| unit | 795 |
 | integration | 227 |
-| contract | 8 |
+| contract | 9 |
 | e2e | 132 |
 | a11y | 33 |
-| **total** | **1193** |
+| **total** | **1196** |
 
 Cobertura de linhas de app/ (pytest-cov): 98.1%
 (linhas cobertas 3052 de 3112)

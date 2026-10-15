@@ -12,7 +12,7 @@ a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDAD
 
 ## O que mais pesa para o TCC (resumo)
 
-1. **Chaves e fontes reais** (seção 2): sem elas, nenhuma das seis fontes foi validada com dados reais.
+1. **Chaves e fontes reais** (seção 2): só o OpenAlex foi validado com dados reais (15/10/2026); faltam o CORE e as quatro fontes OAI.
 2. **Medição manual de tempo** (seção 4): sem ela, o TCC não pode afirmar redução de tempo de busca.
 3. **Contato do responsável na política de privacidade** (seção 1): hoje aparece um marcador na página.
 4. **Testes de acessibilidade com pessoas** (seção 3).
@@ -41,12 +41,13 @@ a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDAD
 
 ## 2. Chaves e fontes reais (OS-007 a OS-010)
 
-- [ ] **Chave do OpenAlex** (`OPENALEX_API_KEY` no `.env`) e gravar uma resposta real em
-  `tests/fixtures/openalex/` no lugar da fixture sintética.
+- [x] **Chave do OpenAlex** (`OPENALEX_API_KEY` no `.env`) e resposta real gravada em
+  `tests/fixtures/openalex/search_ok.json` (feito em 15/10/2026; ver `docs/evidencias/os-007-validacao-real.md`).
+  **Atenção:** a chave só existe no `.env` deste computador; recoloque-a no `.env` de outro.
 - [ ] **Chave do CORE** (`CORE_API_KEY` no `.env`) e gravar uma resposta real em
   `tests/fixtures/core/` no lugar da fixture sintética.
-- [ ] **Trocar as fixtures sintéticas** por respostas reais: `STRICT_FIXTURES=1 uv run pytest
-  tests/contract` lista as que faltam.
+- [ ] **Trocar as demais fixtures sintéticas** por respostas reais (falta o CORE e as de OAI):
+  `STRICT_FIXTURES=1 uv run pytest tests/contract` lista as que faltam. O OpenAlex já está real.
 - [ ] **Endereços OAI-PMH reais** de cada fonte, em `config/oai_sources.yml`, e depois habilitar
   (`enabled: true`) e rodar a colheita. Situação encontrada em **14/10/2026** (detalhes em
   `docs/FONTES_CANDIDATAS.md`):
@@ -105,7 +106,7 @@ Registrar o resultado na tabela de `docs/ACESSIBILIDADE.md`.
 
 Dependem de chamada real às fontes ou de importação manual; nada disso foi confirmado.
 
-- [ ] **OpenAlex:** sintaxe dos filtros de ano (`publication_year:A-B`), de tipo (`type:a|b`) e da
+- [x] **OpenAlex (resolvido em 15/10/2026):** sintaxe dos filtros de ano (`publication_year:A-B`), de tipo (`type:a|b`) e da
   ordenação (`sort=publication_year:desc`); campos `authorships[].author.display_name`, `.orcid` e
   `primary_location.landing_page_url`. (`docs/DECISOES.md`, OS-007; `docs/evidencias/os-005-mapeamento.md`)
 - [ ] **CORE:** filtros embutidos em `q` (`yearPublished>=A AND yearPublished<=B`,

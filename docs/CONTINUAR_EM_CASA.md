@@ -13,7 +13,7 @@ Repositório: <https://github.com/JVictorFreitasM/Projeto-tcc-Academic-Search-Hu
 - **O que falta não é código: é o que só você pode fazer** (chaves, fontes reais, pessoas para testar,
   medição, servidor). A matriz do TCC (`docs/CONFORMIDADE_TCC.md`) tem 8 itens `Atende` e 7
   `Atende parcialmente`, e os parciais são justamente esses.
-- Nenhuma fonte real foi validada nem colhida. Nenhum número de tempo foi medido.
+- **Só o OpenAlex foi validado com dados reais** (15/10/2026); nenhuma fonte foi colhida. Nenhum número de tempo foi medido.
 
 ## 2. Antes de sair deste computador
 
@@ -88,11 +88,11 @@ A lista completa e detalhada, com caixas para marcar, está em
 
 ### B. Fontes reais (o que mais pesa: nenhuma foi validada)
 
-1. **Chaves gratuitas:** OpenAlex (<https://openalex.org>) e CORE (<https://core.ac.uk/services/api>);
-   ponha em `OPENALEX_API_KEY` e `CORE_API_KEY` no `.env`, e preencha `CONTACT_EMAIL`.
+1. **Chaves gratuitas:** a do **OpenAlex já foi usada e validada** (15/10/2026), mas ela só existe no
+   `.env` do computador de onde você saiu: **recoloque-a em `OPENALEX_API_KEY` no `.env` de casa**. A do
+   CORE (<https://core.ac.uk/services/api>) ainda falta: ponha em `CORE_API_KEY`; confira `CONTACT_EMAIL`.
 2. **Gravar respostas reais** no lugar das fixtures sintéticas:
-   - OpenAlex: salvar a resposta de `GET https://api.openalex.org/works?search=educação&per-page=5&api_key=...`
-     em `tests/fixtures/openalex/search_ok.json`;
+   - OpenAlex: **já feito** (`tests/fixtures/openalex/search_ok.json` é resposta real);
    - CORE: salvar a resposta de `GET /v3/search/works/?q=educação&limit=5` (com a chave, como o
      conector monta em `app/connectors/core_api.py`) em `tests/fixtures/core/search_ok.json`;
    - OAI: `uv run python -m app.harvest.cli dump <fonte>` grava o `Identify` e uma página de registros.

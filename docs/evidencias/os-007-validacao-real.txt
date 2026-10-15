@@ -1,0 +1,50 @@
+Validação real do OpenAlex pela aplicação (OS-007), 15/10/2026
+Servidor da aplicação em modo desenvolvimento, chave do OpenAlex lida do .env (não exibida).
+Só o OpenAlex tem chave: CORE sem chave e fontes OAI desligadas aparecem como indisponíveis.
+
+servidor subiu: True
+GET /api/v1/sources:
+   openalex  api  enabled=True status=ok 
+   core      api  enabled=False status=disabled Chave do CORE não configurada.
+   scielo    oai  enabled=False status=disabled Fonte ainda não colhida
+   bdtd      oai  enabled=False status=disabled Fonte ainda não colhida
+   ufpi      oai  enabled=False status=disabled Fonte ainda não colhida
+   uespi     oai  enabled=False status=disabled Fonte ainda não colhida
+
+GET /api/v1/search (letramento digital, sem filtros)
+   total estimado=46894  resultados=5  estimativa=True
+   fonte openalex  status=ok       registros=5 total=46894 duracao_ms=2262 
+   fonte core      status=disabled registros=0 total=0 duracao_ms= Chave do CORE não configurada.
+   fonte scielo    status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte bdtd      status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte ufpi      status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte uespi     status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   - 2022 [article] LETRAMENTO DIGITAL E ENSINO
+   - 2022 [article] Letramento digital
+   - 2026 [article] Letramento Digital
+
+GET /api/v1/search (ano 2018 a 2022 e tipo tese)
+   total estimado=1704  resultados=5  estimativa=True
+   fonte openalex  status=ok       registros=5 total=1704 duracao_ms=1068 
+   fonte core      status=disabled registros=0 total=0 duracao_ms= Chave do CORE não configurada.
+   fonte scielo    status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte bdtd      status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte ufpi      status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte uespi     status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   - 2018 [thesis] Práticas de letramento digital
+   - 2019 [thesis] Letramento digital no primeiro ano do ensino fundamental
+   - 2019 [thesis] Práticas de letramento digital no ensino superior: algumas consideraçõ
+
+GET /api/v1/search (ordenada por ano (mais recentes))
+   total estimado=151654  resultados=5  estimativa=True
+   fonte openalex  status=ok       registros=5 total=151654 duracao_ms=1255 
+   fonte core      status=disabled registros=0 total=0 duracao_ms= Chave do CORE não configurada.
+   fonte scielo    status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte bdtd      status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte ufpi      status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   fonte uespi     status=disabled registros=0 total=0 duracao_ms= Fonte ainda não colhida
+   - 2026 [article] Tangram como ferramenta tecnológica e educativa
+   - 2026 [article] Currículo e diversidade cultural em Moçambique
+   - 2026 [article] Políticas Linguísticas e direitos inclusivos: desafios ligados à alfab
+
+Porta 8000 livre ao final: sim

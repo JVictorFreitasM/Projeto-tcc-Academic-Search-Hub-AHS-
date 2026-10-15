@@ -41,7 +41,9 @@ def synthetic_fixtures() -> list[str]:
     found: list[str] = []
     for folder in ("openalex", "core"):
         for path in sorted((FIXTURES / folder).glob("*.json")):
-            if load_json(path).get("_synthetic") is True:
+            data = load_json(path)
+            # `_permanent`: casos de borda sintéticos que ficam de propósito (não são pendência)
+            if data.get("_synthetic") is True and data.get("_permanent") is not True:
                 found.append(path.relative_to(FIXTURES).as_posix())
     for path in sorted((FIXTURES / "oai").rglob("*.xml")):
         if SYNTHETIC_XML_MARK in path.read_text(encoding="utf-8"):
@@ -102,8 +104,18 @@ def test_every_synthetic_fixture_is_marked_as_such() -> None:
 
 def test_synthetic_fixtures_are_discoverable() -> None:
     found = synthetic_fixtures()
-    assert "openalex/search_ok.json" in found and "core/search_ok.json" in found
+    assert "core/search_ok.json" in found  # ainda sintética: falta a chave do CORE
     assert any(name.startswith("oai/synthetic/") for name in found)
+
+
+def test_openalex_main_fixture_is_real_and_the_edge_cases_are_not_a_pending_item() -> None:
+    """A resposta real do OpenAlex (14/10/2026) saiu da lista de pendentes."""
+    found = synthetic_fixtures()
+    assert "openalex/search_ok.json" not in found
+    assert "openalex/edge_cases.json" not in found  # sintética permanente, de propósito
+    assert "_synthetic" not in load_json(FIXTURES / "openalex" / "search_ok.json")
+    edge = load_json(FIXTURES / "openalex" / "edge_cases.json")
+    assert edge["_synthetic"] is True and edge["_permanent"] is True
 
 
 @pytest.mark.skipif(os.environ.get("STRICT_FIXTURES") != "1", reason="defina STRICT_FIXTURES=1")

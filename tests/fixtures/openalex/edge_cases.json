@@ -1,0 +1,159 @@
+{
+  "_synthetic": true,
+  "_permanent": true,
+  "_note": "Fixture SINTÉTICA e PERMANENTE de casos de borda do OpenAlex (autor sem nome, registro mínimo, tese, tipo 'other'), que uma resposta real não garante cobrir. NÃO é pendência: a resposta real está em search_ok.json.",
+  "meta": {
+    "count": 12345,
+    "db_response_time_ms": 25,
+    "page": 1,
+    "per_page": 3
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W1000000001",
+      "doi": "https://doi.org/10.1234/Exemplo.2021.001",
+      "title": "Letramento digital na <i>educação</i> básica",
+      "display_name": "Letramento digital na educação básica",
+      "publication_year": 2021,
+      "publication_date": "2021-05-03",
+      "type": "article",
+      "language": "pt",
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A1",
+            "display_name": "Maria Souza",
+            "orcid": "https://orcid.org/0000-0002-1825-0097"
+          }
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A2",
+            "display_name": "João Pereira",
+            "orcid": null
+          }
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A3",
+            "display_name": null
+          }
+        }
+      ],
+      "abstract_inverted_index": {
+        "Este": [
+          0
+        ],
+        "estudo": [
+          1
+        ],
+        "analisa": [
+          2
+        ],
+        "o": [
+          3,
+          6
+        ],
+        "letramento": [
+          4
+        ],
+        "digital": [
+          5
+        ],
+        "uso": [
+          7
+        ],
+        "de": [
+          8
+        ],
+        "tecnologias.": [
+          9
+        ]
+      },
+      "primary_location": {
+        "landing_page_url": "https://revista.exemplo.org/artigo/1",
+        "pdf_url": "https://revista.exemplo.org/artigo/1.pdf"
+      },
+      "best_oa_location": {
+        "pdf_url": "https://repositorio.exemplo.org/1.pdf"
+      },
+      "open_access": {
+        "is_oa": true,
+        "oa_url": "https://repositorio.exemplo.org/1.pdf"
+      },
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/digital-literacy",
+          "display_name": "Digital literacy",
+          "score": 0.9
+        },
+        {
+          "id": "https://openalex.org/keywords/education",
+          "display_name": "Education",
+          "score": 0.7
+        }
+      ]
+    },
+    {
+      "id": "https://openalex.org/W1000000002",
+      "doi": null,
+      "title": "Obra mínima",
+      "display_name": "Obra mínima",
+      "publication_year": null,
+      "type": "dataset",
+      "language": null,
+      "authorships": [],
+      "abstract_inverted_index": null,
+      "primary_location": null,
+      "best_oa_location": null,
+      "open_access": {
+        "is_oa": false,
+        "oa_url": null
+      },
+      "keywords": []
+    },
+    {
+      "id": "https://openalex.org/W1000000003",
+      "doi": "https://doi.org/10.5555/tese.2019.7",
+      "title": "Dissertação sobre ensino de matemática",
+      "display_name": "Dissertação sobre ensino de matemática",
+      "publication_year": 2019,
+      "type": "dissertation",
+      "language": "pt",
+      "authorships": [
+        {
+          "author": {
+            "id": "https://openalex.org/A4",
+            "display_name": "Ana Lima",
+            "orcid": null
+          }
+        }
+      ],
+      "abstract_inverted_index": {
+        "Resumo": [
+          0
+        ],
+        "curto.": [
+          1
+        ]
+      },
+      "primary_location": {
+        "landing_page_url": "javascript:alert(1)",
+        "pdf_url": "data:text/html,x"
+      },
+      "best_oa_location": null,
+      "open_access": {
+        "is_oa": false,
+        "oa_url": null
+      },
+      "keywords": [
+        {
+          "display_name": "Matemática"
+        }
+      ]
+    }
+  ]
+}

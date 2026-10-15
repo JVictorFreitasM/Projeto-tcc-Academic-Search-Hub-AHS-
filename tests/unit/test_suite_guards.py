@@ -85,7 +85,8 @@ def test_strict_fixtures_lists_the_pending_synthetic_ones() -> None:
     assert result.returncode != 0
     output = result.stdout
     assert "Fixtures sintéticas pendentes" in output
-    assert "openalex/search_ok.json" in output and "core/search_ok.json" in output
+    assert "core/search_ok.json" in output  # o OpenAlex já tem resposta real (14/10/2026)
+    assert "openalex/" not in output
     assert "oai/synthetic/list_records_page1.xml" in output
 
 

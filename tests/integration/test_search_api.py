@@ -262,7 +262,9 @@ async def test_sources_endpoint_lists_state_without_leaking(env: None) -> None:
 
 
 async def test_sources_endpoint_with_real_registry(env: None, tmp_path: Any) -> None:
-    app = create_app()  # registro real: OpenAlex, CORE e as 4 fontes do YAML (desabilitadas)
+    # Registro real: OpenAlex, CORE e as 4 fontes do YAML (desabilitadas). A configuração NÃO lê o
+    # `.env` do desenvolvedor (que pode ter chaves reais): o teste precisa valer em qualquer máquina.
+    app = create_app(Settings(_env_file=None, secret_key=SECRET))  # type: ignore[call-arg]
     async with client_for(app) as client:
         response = await client.get("/api/v1/sources")
     slugs = [item["slug"] for item in response.json()]
