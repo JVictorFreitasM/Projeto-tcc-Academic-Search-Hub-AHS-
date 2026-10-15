@@ -49,7 +49,7 @@ Decisão: **corrigido** (com o teste que o prova), **aceito** (com justificativa
 | # | Tela | Problema | Sev. | Decisão |
 |---|---|---|---|---|
 | P1 | Conta | Sem marcar "manter conectado", o login só valia na página atual: quem clicava em "Entre para salvar", entrava e era devolvido à busca continuava deslogado (laço de login); o cadastro também deslogava ao abrir outra página | **3** | **Corrigido** |
-| P2 | Política de privacidade | O texto mostra o marcador `{CONTATO_DO_RESPONSAVEL}` no lugar do contato do responsável | **3** | **Aberto** (só o autor define o contato) |
+| P2 | Política de privacidade | O texto mostrava o marcador `{CONTATO_DO_RESPONSAVEL}` no lugar do contato do responsável | **3** | **Corrigido em 15/10/2026**: o autor informou o contato e ele foi posto na política (teste `test_privacy_policy_is_public`) |
 | P3 | Favoritos e histórico | O histórico de buscas só existe nesta página, mas o menu e o título diziam apenas "Favoritos" | 2 | **Corrigido** |
 | P4 | Favoritos e histórico | Anotação digitada e ainda não salva não dava nenhum sinal de estar pendente | 2 | **Corrigido** |
 | P5 | Conta | Não há recuperação de senha (o sistema não envia e-mail) e nada avisava isso | 2 | **Mitigado**: aviso no cadastro; a recuperação em si exigiria envio de e-mail, fora da stack |
@@ -156,7 +156,7 @@ do frontend ou testes de interface.
 | H7 | N/A | Tela só de leitura |
 | H8 | Atende | Texto corrido, sem enfeites |
 | H9 | Atende | Falha ao carregar mostra erro (acima) |
-| H10 | Problema (P2), aberto | O marcador `{CONTATO_DO_RESPONSAVEL}` aparece como texto: quem quiser exercer um direito não encontra o contato |
+| H10 | Problema (P2), corrigido | Havia o marcador `{CONTATO_DO_RESPONSAVEL}` como texto; agora a política traz o nome e o e-mail do responsável |
 
 ## 4. Correções feitas
 

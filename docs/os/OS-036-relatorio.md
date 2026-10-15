@@ -33,7 +33,8 @@ Os de severidade 1 ficaram **aceitos com justificativa** (a OS permite corrigir 
 
 ## Aberto
 
-- **P2 (severidade 3):** a política de privacidade mostra o marcador `{CONTATO_DO_RESPONSAVEL}`.
+- **P2 (severidade 3):** a política de privacidade mostrava o marcador `{CONTATO_DO_RESPONSAVEL}`.
+  **Atualização de 15/10/2026: corrigido**, o autor informou o contato e ele foi posto na política.
   Só o autor sabe o contato. Está em `docs/PENDENCIAS_DESENVOLVEDOR.md`.
 
 ## O que NÃO foi feito

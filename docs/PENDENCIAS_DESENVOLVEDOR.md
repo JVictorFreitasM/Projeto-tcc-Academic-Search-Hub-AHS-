@@ -14,7 +14,7 @@ a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDAD
 
 1. **Chaves e fontes reais** (seção 2): só o OpenAlex foi validado com dados reais (15/10/2026); faltam o CORE e as quatro fontes OAI.
 2. **Medição manual de tempo** (seção 4): sem ela, o TCC não pode afirmar redução de tempo de busca.
-3. **Contato do responsável na política de privacidade** (seção 1): hoje aparece um marcador na página.
+3. ~~Contato do responsável na política de privacidade~~: **feito em 15/10/2026**.
 4. **Testes de acessibilidade com pessoas** (seção 3).
 5. **Decisões suas** (seções 1 e 8): nomes das 4 rotas, caixa "manter conectado", fontes extras.
 6. **Onde o sistema vai rodar** (seção 9): se for só na sua máquina, o TCC deve dizer isso.
@@ -32,8 +32,8 @@ a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDAD
   Opção A: manter e escrever no TCC que a API segue REST nos verbos e no formato, mas não na
   nomeação dessas rotas. Opção B: renomear (por exemplo `/users`, `/sessions`, `/exports`), o que
   muda frontend, testes e documentos. A IA faz a B se você pedir.
-- [ ] **Contato do responsável** na política de privacidade (`app/content/privacy_pt.md`): nome e
-  e-mail de quem responde pelos dados (LGPD, art. 18).
+- [x] **Contato do responsável** na política de privacidade (`app/content/privacy_pt.md`): preenchido
+  em 15/10/2026 com João Victor de Freitas Martins e o e-mail informado (LGPD, art. 18).
 - [ ] **Definir as 5 consultas** da medição, sobre temas dos cursos da UESPI, em
   `docs/evidencias/medicao/consultas.txt`. Use as mesmas na medição manual e na da aplicação.
 - [ ] **Definir o critério de "resultado útil"** (uma ou duas frases) em
@@ -139,8 +139,8 @@ Depois de uma queda, a recuperação do banco pode levar alguns minutos.
 - [ ] **Confirmar a mudança do login:** a caixa "Manter conectado nesta aba" agora vem marcada por
   padrão (divergência da OS-021; motivo e como reverter em `docs/USABILIDADE.md`, seção 4, e em
   `docs/DECISOES.md`). Se discordar, peça para voltar ao padrão antigo.
-- [ ] **Preencher o contato do responsável** na política (`{CONTATO_DO_RESPONSAVEL}` aparece como
-  texto na página; severidade 3 na avaliação, problema P2). É o mesmo item da seção 1.
+- [x] **Preencher o contato do responsável** na política: feito em 15/10/2026 (era o problema P2, de
+  severidade 3, na avaliação de usabilidade). É o mesmo item da seção 1.
 - [ ] **Decidir sobre a recuperação de senha:** hoje não existe (exigiria envio de e-mail). O
   cadastro avisa. Decida se o TCC cita isso como limitação.
 - [ ] **Conferir as referências** de Nielsen e Molich (1990) e Nielsen (1994) na fonte original antes

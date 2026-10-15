@@ -7,7 +7,7 @@ Pessoais (LGPD, Lei nº 13.709/2018).
 ## Quem é o responsável
 
 O sistema é um projeto acadêmico (Trabalho de Conclusão de Curso) da UESPI. Contato do responsável
-pelo tratamento dos dados: {CONTATO_DO_RESPONSAVEL}.
+pelo tratamento dos dados: **João Victor de Freitas Martins**, pelo e-mail joaovictorddm@gmail.com.
 
 ## Quais dados tratamos
 

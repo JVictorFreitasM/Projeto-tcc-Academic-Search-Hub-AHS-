@@ -357,7 +357,8 @@ async def test_privacy_policy_is_public(client: httpx.AsyncClient) -> None:
     assert body["version"] == "1.0"
     content = body["content"]
     assert content.startswith("# Política de Privacidade")
-    assert "{CONTATO_DO_RESPONSAVEL}" in content  # o desenvolvedor preenche
+    assert "{CONTATO_DO_RESPONSAVEL}" not in content  # o marcador foi trocado pelo contato
+    assert "João Victor de Freitas Martins" in content and "joaovictorddm@gmail.com" in content
     for topic in ("Quais dados tratamos", "Base legal", "Seus direitos", "Por quanto tempo"):
         assert topic in content
     assert "certificad" not in content.lower()  # não afirma certificações

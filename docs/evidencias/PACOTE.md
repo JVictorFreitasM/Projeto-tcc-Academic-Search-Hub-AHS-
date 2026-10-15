@@ -110,7 +110,7 @@ reais, pessoas, servidor). A lista completa, com como fazer cada item, está em
   `docs/evidencias/os-037/verificacao-local.txt`.
 
 **Falta**
-- Contato do responsável na política de privacidade (hoje aparece o marcador `{CONTATO_DO_RESPONSAVEL}`).
+- Aviso na política de privacidade sobre as cópias de segurança (o contato do responsável já foi preenchido em 15/10/2026).
 - Implantação em servidor (se for publicar): serviço, HTTPS, colheita agendada e restauração no
   servidor real. Se rodar só na sua máquina, **diga isso no TCC**.
 

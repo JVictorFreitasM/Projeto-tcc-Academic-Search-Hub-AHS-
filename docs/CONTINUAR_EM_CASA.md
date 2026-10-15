@@ -72,11 +72,10 @@ A lista completa e detalhada, com caixas para marcar, está em
 
 ### A. Decisões rápidas (minutos)
 
-- [ ] **Contato do responsável na política de privacidade.** Hoje a página mostra o texto
-  `{CONTATO_DO_RESPONSAVEL}`. Edite `app/content/privacy_pt.md` com nome e e-mail e **ajuste o teste
-  que confere o marcador**: `test_privacy_policy_is_public`, em `tests/integration/test_me.py`
-  (linha 360), vai falhar até você trocar a verificação do marcador pela do contato. Se mudar o texto
-  da política, suba `PRIVACY_POLICY_VERSION` (o mesmo teste e outros esperam a versão `1.0`, então
+- [x] **Contato do responsável na política de privacidade:** preenchido em 15/10/2026 (nome e e-mail em
+  `app/content/privacy_pt.md`; o teste `test_privacy_policy_is_public` confere). Falta só o aviso
+  sobre as cópias de segurança, se você for manter backups (seção F). Se um dia mudar o texto da
+  política, suba `PRIVACY_POLICY_VERSION` (o mesmo teste e outros esperam a versão `1.0`, então
   ajuste-os juntos) para as pessoas aceitarem de novo.
 - [ ] **Nomes de 4 rotas da API** (`/auth/register`, `/auth/login`, `/favorites/export`, `/export`):
   manter e escrever no TCC, ou renomear. Ver `docs/API.md#conformidade-rest`.

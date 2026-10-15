@@ -37,8 +37,9 @@ privacidade (`app/content/privacy_pt.md`, servida em `GET /api/v1/privacy`).
   mensagem genérica (409), para não revelar quem tem conta.
 - **Nova versão da política:** se `PRIVACY_POLICY_VERSION` mudar, o login devolve
   `consent_required: true` e o novo aceite é registrado em `POST /api/v1/me/consent`.
-- **Pendência do desenvolvedor:** preencher o contato do responsável (`{CONTATO_DO_RESPONSAVEL}`)
-  em `app/content/privacy_pt.md` antes de publicar.
+- **Contato do responsável: preenchido em 15/10/2026** em `app/content/privacy_pt.md` (antes era o
+  marcador `{CONTATO_DO_RESPONSAVEL}`). Falta só o aviso sobre as cópias de segurança (seção abaixo),
+  que depende de o autor decidir manter backups, antes de publicar.
 
 ## Eventos de segurança (OS-029)
 
