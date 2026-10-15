@@ -99,7 +99,7 @@ async def _read_limited(response: httpx.Response) -> bytes:
 async def get_json(
     client: httpx.AsyncClient,
     url: str,
-    params: Mapping[str, Any] | None = None,
+    params: Mapping[str, Any] | httpx.QueryParams | None = None,  # QueryParams: chave repetida
     headers: Mapping[str, str] | None = None,
     *,
     retries: int = DEFAULT_RETRIES,

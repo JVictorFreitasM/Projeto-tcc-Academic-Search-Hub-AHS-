@@ -266,11 +266,13 @@ def test_registry_creates_one_connector_per_yaml_source(
     settings = Settings(_env_file=None, oai_sources_file=str(file))  # type: ignore[call-arg]
     connectors = build_connectors(settings, factory)
     assert [c.slug for c in connectors] == ["openalex", "core", "bdtd", "uespi", "nova"]
+    # `bdtd` no YAML é ignorada: a BDTD já é consultada pela API (um conector só, o da API)
+    assert [c.kind for c in connectors if c.slug == "bdtd"] == ["api"]
     flags = {c.slug: c.is_enabled() for c in connectors}
     assert flags == {
         "openalex": False,
         "core": False,
-        "bdtd": False,
+        "bdtd": True,
         "uespi": True,
         "nova": False,
     }
@@ -282,7 +284,7 @@ def test_registry_survives_invalid_yaml(
     file = tmp_path / "ruim.yml"
     file.write_text("sources: [", encoding="utf-8")
     settings = Settings(_env_file=None, oai_sources_file=str(file))  # type: ignore[call-arg]
-    assert [c.slug for c in build_connectors(settings, factory)] == ["openalex", "core"]
+    assert [c.slug for c in build_connectors(settings, factory)] == ["openalex", "core", "bdtd"]
 
 
 # ---------- busca por autor (campo `author`) ----------

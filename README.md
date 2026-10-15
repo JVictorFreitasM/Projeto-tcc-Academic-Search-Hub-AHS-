@@ -14,7 +14,8 @@ Licença: [MIT](LICENSE).
   ou por ano e paginação. Se uma fonte falha, as outras continuam respondendo e o aviso mostra qual
   falhou.
 - **Duplicatas fundidas** por DOI e, na falta dele, por título, ano e sobrenome do primeiro autor.
-- **Fontes ao vivo** (OpenAlex, CORE) e **fontes colhidas por OAI-PMH** (SciELO, BDTD, UFPI, UESPI),
+- **Fontes ao vivo** (CORE, OpenAlex e BDTD, esta pela API REST pública do VuFind) e **fontes colhidas
+  por OAI-PMH** (hoje só a UFPE funciona; SciELO, UFPI e UESPI estão configuradas e desligadas),
   pesquisadas num índice local com busca em português sem acentos.
 - **Conta opcional:** favoritos com anotações, histórico de buscas e exportação dos favoritos.
   Visitantes buscam e exportam os resultados sem login.
@@ -99,7 +100,9 @@ Não publique as chaves: elas ficam só no `.env`.
 
 ## Fontes OAI-PMH: configurar e colher
 
-SciELO, BDTD, UFPI e UESPI são colhidas por OAI-PMH para uma tabela local e pesquisadas ali.
+Os repositórios OAI-PMH (UFPE ativa; SciELO, UFPI e UESPI desligadas) são colhidos para uma tabela
+local e pesquisados ali. A BDTD não está aqui: o OAI-PMH dela respondeu 404 e ela é consultada ao
+vivo pela API REST (`app/connectors/bdtd_api.py`).
 
 1. Em `config/oai_sources.yml`, cada fonte tem `base_url`, `metadata_prefix` (`oai_dc`), `set_spec`
    opcional, `enabled`, `default_type` e `type_map`. Os endereços vêm como `TODO-VERIFICAR`: confirme
@@ -178,19 +181,20 @@ docs/           documentação (veja abaixo) e evidências para o TCC
 
 - **O total de resultados é uma estimativa:** soma os totais informados por cada fonte e pode incluir
   duplicatas.
-- **As fontes locais dependem da colheita:** BDTD, UFPI, UESPI e SciELO só respondem com o que foi
+- **As fontes locais dependem da colheita:** as fontes OAI-PMH só respondem com o que foi
   colhido antes; uma colheita antiga ou parcial muda os resultados.
 - **OpenAlex e CORE dependem de chaves e de limites das próprias fontes:** sem chave a fonte fica
   indisponível; com chave, vale o limite de requisições que cada uma impõe.
 - **Registros institucionais podem vir sem resumo ou sem ano:** o que a fonte não informa não é
   inventado.
-- **A raspagem de resumos vem desligada por padrão** (`SCRAPING_ENABLED=false`) e deve ser usada só
-  onde os termos da fonte permitirem.
+- **A raspagem de resumos vem desligada no código** (`SCRAPING_ENABLED=false`), mas o `.env.example`
+  a liga; ela só completa resumos ausentes e respeita o `robots.txt`. O rendimento medido foi baixo.
 - **O limite de requisições é em memória:** vale para um único processo do servidor.
 - **Não há recuperação de senha:** o sistema não envia e-mail; o cadastro avisa. Quem esquece a
   senha não tem como recuperar a conta.
-- **Fontes OAI reais ainda não validadas:** os endereços de BDTD, UFPI, UESPI e SciELO estão por
-  confirmar e as fontes seguem desligadas até isso (ver `docs/PENDENCIAS_DESENVOLVEDOR.md`).
+- **UFPI e UESPI não puderam ser colhidas:** o OAI-PMH delas tem índice vazio e a cadeia de
+  certificados TLS está incompleta (problemas do servidor delas; a verificação TLS não é desligada).
+  SciELO: nenhum endereço OAI-PMH respondeu com XML.
 
 ## Trabalhos futuros
 

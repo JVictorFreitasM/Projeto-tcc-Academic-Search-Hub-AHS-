@@ -1,0 +1,43 @@
+﻿Validacao real do conector do CORE (API v3), depois dos ajustes, 15/10/2026
+Totais = o que a API devolveu naquele momento (mudam com o tempo).
+
+tema, sem filtros: status=ok total=2524 resultados=5 11302 ms 
+   - 2022 [article] Caminhos que levam ao letramento digital: uma revisão t | Givanilson de Sousa Silva | resumo: sim
+   - 2022 [other] Caminhos que levam ao letramento digital: uma revisão t | Givanilson de Sousa Silva | resumo: sim
+   - 2011 [article] PROEJA e Letramento Digital | Sérgio Roberto Kieling Franco; Maria Letícia F. Tonelli Teixeira Leite | resumo: sim
+ano 2018 a 2022: status=ok total=844 resultados=5 12852 ms 
+   - 2022 [article] Caminhos que levam ao letramento digital: uma revisão t | Givanilson de Sousa Silva | resumo: sim
+   - 2022 [other] Caminhos que levam ao letramento digital: uma revisão t | Givanilson de Sousa Silva | resumo: sim
+   - 2021 [article] LETRAMENTO DIGITAL NA PRÁTICA PEDAGÓGICA DAS ESCOLAS | Ana Paula Gesuino; Graziela Fátima Giacomazzo | resumo: sim
+so year_from=2020: status=ok total=1552 resultados=5 12320 ms 
+   - 2022 [article] Caminhos que levam ao letramento digital: uma revisão t | Givanilson de Sousa Silva | resumo: sim
+   - 2022 [other] Caminhos que levam ao letramento digital: uma revisão t | Givanilson de Sousa Silva | resumo: sim
+   - 2021 [article] LETRAMENTO DIGITAL NA PRÁTICA PEDAGÓGICA DAS ESCOLAS | Ana Paula Gesuino; Graziela Fátima Giacomazzo | resumo: sim
+so year_to=2005: status=ok total=9 resultados=5 13208 ms 
+   - 2004 [other] Letramento digital de professores em contexto de formaç | Sandro Luiz da Silva | resumo: sim
+   - 2004 [other] Letramento digital de professores em contexto de formaç | Sandro Luiz da Silva | resumo: sim
+   - 2004 [other] Letramento digital: estudo sobre práticas escolares de  | Julianna Silva Gloria | resumo: sim
+pagina 2: status=ok total=2524 resultados=5 6695 ms 
+   - 2021 [article] LETRAMENTO DIGITAL NA PRÁTICA PEDAGÓGICA DAS ESCOLAS | Ana Paula Gesuino; Graziela Fátima Giacomazzo | resumo: sim
+   - 2015 [other] Letramento digital na formação docente | Amanda Raquel Sousa | resumo: sim
+   - 2021 [other] LETRAMENTO DIGITAL NA PRÁTICA PEDAGÓGICA DAS ESCOLAS | Ana Paula Gesuino; Graziela Fátima Giacomazzo | resumo: sim
+tipo thesis: status=ok total=160 resultados=5 13836 ms 
+   - 2020 [thesis] Letramento digital, tecnologias digitais da informação  | Juliana de Barros Cardoso | resumo: sim
+   - 2007 [thesis] Letramento digital contextualizado : uma experiência na | Valeska Virgínia Soares Souza | resumo: sim
+   - 2015 [thesis] Letramento digital na educação de jovens e adultos em E | Marilda Coelho da Silva | resumo: sim
+tipo article: status=ok total=565 resultados=5 4316 ms 
+   - 2022 [article] Caminhos que levam ao letramento digital: uma revisão t | Givanilson de Sousa Silva | resumo: sim
+   - 2011 [article] PROEJA e Letramento Digital | Sérgio Roberto Kieling Franco; Maria Letícia F. Tonelli Teixeira Leite | resumo: sim
+   - 2011 [article] PROEJA e Letramento Digital | Sérgio Roberto Kieling Franco; Maria Letícia F. Tonelli Teixeira Leite | resumo: sim
+tipo book: status=ok total=2 resultados=2 6221 ms 
+   - 2013 [book] Conexões da vida |  | resumo: sim
+   - 2013 [book] Conexões da vida |  | resumo: sim
+autor: Paulo Freire: status=ok total=4498 resultados=5 9367 ms 
+   - 2008 [other] Pendidikan kaum Tertindas | Paulo Freire; PAULO Freire | resumo: sim
+   - 2001 [other] Carta de Paulo Freire aos professores | Paulo Freire; Paulo Freire | resumo: nao
+   - 2012 [other] Pedagogos latinoamericanos | Paulo Freire; Paulo Freire | resumo: sim
+autor so sobrenome: Saviani: status=ok total=334 resultados=5 4368 ms 
+   - 2013 [other] Debate sobre as relações entre educação, formação human | Dermeval Saviani; Dermeval Saviani | resumo: sim
+   - 2015 [other] National System Of Education Articulated With The Natio | Dermeval Saviani; Saviani D. | resumo: sim
+   - 2015 [other] Vicissitudes et perspectives du droit à l'éducation au  | Dermeval Saviani; Saviani D. | resumo: sim
+tema inexistente: status=ok total=0 resultados=0 5241 ms 

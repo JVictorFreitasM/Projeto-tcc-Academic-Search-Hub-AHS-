@@ -25,6 +25,12 @@ CORE_TYPE_MAP: dict[str, RecordType] = {
     "book": RecordType.BOOK,
 }
 
+BDTD_TYPE_MAP: dict[str, RecordType] = {
+    # únicos valores de `formats` vistos na BDTD (15/10/2026): tese e dissertação
+    "doctoralthesis": RecordType.THESIS,
+    "masterthesis": RecordType.THESIS,
+}
+
 EU_REPO_PREFIX = "info:eu-repo/semantics/"
 
 # Valores comuns de `dc:type` (já sem acento e em minúsculas). O `type_map` de cada fonte,
@@ -72,6 +78,10 @@ def map_openalex_type(value: str | None) -> RecordType:
 
 def map_core_type(value: str | None) -> RecordType:
     return CORE_TYPE_MAP.get((value or "").strip().lower(), RecordType.OTHER)
+
+
+def map_bdtd_type(value: str | None) -> RecordType:
+    return BDTD_TYPE_MAP.get((value or "").strip().lower(), RecordType.OTHER)
 
 
 def map_oai_type(

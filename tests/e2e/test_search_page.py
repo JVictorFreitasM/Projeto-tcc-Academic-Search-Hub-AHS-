@@ -520,3 +520,15 @@ def test_author_search_error_for_a_one_character_name_is_the_same_message(
     page.get_by_role("button", name="Buscar", exact=True).click()
     expect(page.locator("#erro-busca")).to_have_text("Digite ao menos 2 caracteres para buscar.")
     assert api.searches == []
+
+
+def test_merged_record_from_the_same_source_shows_one_badge(page: Page, api: Api) -> None:
+    sources = [
+        {"source": "core", "source_id": "1", "url": None},
+        {"source": "core", "source_id": "2", "url": None},
+        {"source": "openalex", "source_id": "W1", "url": None},
+    ]
+    api.handler = lambda params: (200, response_body([record(1, sources=sources)]))
+    page.goto("/")
+    search(page)
+    expect(page.locator(".result").first.locator(".badge")).to_have_text(["CORE", "OpenAlex"])

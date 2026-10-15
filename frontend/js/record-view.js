@@ -64,6 +64,8 @@ export function abstractBlock(text, id) {
 }
 
 export function sourceBadges(record, nameOf) {
-  const items = record.sources.map((s) => el("li", {}, [el("span", { class: "badge", text: nameOf(s.source) })]));
+  // Um selo por fonte: o mesmo trabalho pode vir em dois registros da mesma fonte (fundidos).
+  const slugs = [...new Set(record.sources.map((s) => s.source))];
+  const items = slugs.map((slug) => el("li", {}, [el("span", { class: "badge", text: nameOf(slug) })]));
   return el("ul", { class: "badges", "aria-label": "Fontes deste trabalho" }, items);
 }

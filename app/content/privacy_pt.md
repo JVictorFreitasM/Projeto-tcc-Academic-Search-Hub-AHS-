@@ -39,8 +39,8 @@ no cadastro. Você pode retirá-lo a qualquer momento excluindo a conta.
 ## Para onde vão os termos que você busca
 
 Para encontrar trabalhos, o sistema envia o **texto da sua busca** às fontes consultadas ao vivo
-(OpenAlex e CORE). Os repositórios BDTD, UFPI, UESPI e SciELO são consultados em uma cópia local dos
-metadados. As fontes externas têm as próprias políticas de privacidade. Não enviamos seu nome, e-mail
+(CORE, OpenAlex e BDTD). Os repositórios institucionais (como os da UFPI, da UESPI e da UFPE) e o
+SciELO são consultados em uma cópia local dos metadados. As fontes externas têm as próprias políticas de privacidade. Não enviamos seu nome, e-mail
 nem dados da conta a elas.
 
 ## Por quanto tempo guardamos

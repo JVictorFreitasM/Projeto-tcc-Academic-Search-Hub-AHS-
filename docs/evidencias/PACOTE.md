@@ -29,6 +29,12 @@ reais, pessoas, servidor). A lista completa, com como fazer cada item, está em
 - **Validação real do OpenAlex** (15/10/2026): resposta real como fixture, 11 chamadas ao vivo com filtros,
   tipos, ordenação e paginação, e a busca pela aplicação inteira: `docs/evidencias/os-007-validacao-real.md` e
   `docs/evidencias/os-007-validacao-real.txt`.
+- **Validação real do CORE** (15/10/2026), pelo conector, depois dos ajustes: 11 casos ao vivo:
+  `docs/evidencias/core-validacao-real.txt`.
+- **Validação real da BDTD pela API REST** (15/10/2026): 12 casos ao vivo (tema, autor, anos, tipo,
+  ordenação, paginação): `docs/evidencias/bdtd-validacao-real.txt`.
+- **Colheita OAI-PMH real da UFPE** (12.366 registros) e buscas no índice local:
+  `docs/evidencias/busca-oai-ufpe-real.txt`.
 - **Busca por autor** com o OpenAlex real, pela aplicação inteira (nome completo, sobrenome, sem
   acento, com ano e tipo, ordenada, autor inexistente e campo inválido):
   `docs/evidencias/busca-por-autor-real.txt`.

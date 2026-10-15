@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 from defusedxml.ElementTree import fromstring
 
+from app.connectors.bdtd_api import record_to_out as bdtd_record
 from app.connectors.core_api import work_to_record as core_record
 from app.connectors.openalex import work_to_record as openalex_record
 from app.harvest.mapping import parse_oai_dc
@@ -49,6 +50,13 @@ def synthetic_fixtures() -> list[str]:
         if SYNTHETIC_XML_MARK in path.read_text(encoding="utf-8"):
             found.append(path.relative_to(FIXTURES).as_posix())
     return found
+
+
+def test_bdtd_fixture_is_real_and_produces_valid_records() -> None:
+    data = load_json(FIXTURES / "bdtd" / "search_ok.json")
+    assert "_synthetic" not in data
+    records = [bdtd_record(item) for item in data["records"]]
+    assert records and all(isinstance(r, RecordOut) for r in records)
 
 
 def test_openalex_fixtures_produce_valid_records() -> None:

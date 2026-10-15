@@ -46,19 +46,23 @@ a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDAD
   **Atenção:** a chave só existe no `.env` deste computador; recoloque-a no `.env` de outro.
 - [ ] **Chave do CORE** (`CORE_API_KEY` no `.env`) e gravar uma resposta real em
   `tests/fixtures/core/` no lugar da fixture sintética.
-- [ ] **Trocar as demais fixtures sintéticas** por respostas reais (falta o CORE e as de OAI):
-  `STRICT_FIXTURES=1 uv run pytest tests/contract` lista as que faltam. O OpenAlex já está real.
+- [ ] **Trocar as demais fixtures sintéticas** por respostas reais (faltam só as de OAI):
+  `STRICT_FIXTURES=1 uv run pytest tests/contract` lista as que faltam. OpenAlex, CORE e BDTD já
+  estão reais.
 - [ ] **Endereços OAI-PMH reais** de cada fonte, em `config/oai_sources.yml`, e depois habilitar
   (`enabled: true`) e rodar a colheita. Situação encontrada em **14/10/2026** (detalhes em
   `docs/FONTES_CANDIDATAS.md`):
   - **UFPI** e **UESPI:** o OAI responde (`https://repositorio.ufpi.br/oai/request` e
     `https://repositorio.uespi.br/oai/request`), mas **não devolve registros** (`noRecordsMatch`).
-    Pedir ao administrador para reindexar o OAI e testar de novo com `--dry-run`;
-  - **BDTD:** desafio anti-robô (sem XML);
+    Pedir ao administrador para reindexar o OAI e testar de novo com `--dry-run`. Em 15/10/2026
+    apareceu um segundo problema nas duas: a **cadeia de certificados TLS está incompleta**
+    (`CERTIFICATE_VERIFY_FAILED`); pedir também que instalem o certificado intermediário;
+  - **BDTD:** resolvido em 15/10/2026: o OAI respondeu 404, e a BDTD passou a ser consultada pela
+    **API REST** do VuFind (`app/connectors/bdtd_api.py`), sem chave;
   - **SciELO:** nenhum endereço OAI respondeu; há API REST (ArticleMeta), sem busca por texto.
   Enquanto não validadas, ficam `enabled: false`.
-- [ ] **Decidir se amplia as fontes** além das seis do TCC (UFPE, UFMG, DOAJ...). Ver
-  `docs/FONTES_CANDIDATAS.md`, seção 5.
+- [x] **UFPE acrescentada e colhida** (15/10/2026) para provar o OAI-PMH. Outras candidatas (UFMG,
+  DOAJ...) em `docs/FONTES_CANDIDATAS.md`, seção 5.
 - [ ] **Rodar a colheita** das fontes OAI e conferir o estado (`status`) antes de medir.
 
 ## 3. Testes com pessoas (a IA não pode simular)

@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     allowed_origins: Annotated[list[str], NoDecode] = ["http://localhost:8000"]
     openalex_api_key: str = ""
     core_api_key: str = ""
+    bdtd_enabled: bool = True  # API pública do VuFind, sem chave
     oai_sources_file: str = "config/oai_sources.yml"
     contact_email: str = ""
     oai_harvest_delay_seconds: float = Field(default=1, ge=0)

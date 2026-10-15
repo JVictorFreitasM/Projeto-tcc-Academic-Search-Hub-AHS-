@@ -16,7 +16,7 @@
 | Eventos de segurança (IP só em *hash*) | segurança e auditoria (art. 46) | `security_events` | período limitado definido pelo projeto (OS-029) |
 
 Não há telefone, CPF, data de nascimento, *cookies* de rastreamento nem *analytics*. O texto da
-busca é enviado às fontes consultadas ao vivo (OpenAlex e CORE), o que consta na política de
+busca é enviado às fontes consultadas ao vivo (CORE, OpenAlex e BDTD), o que consta na política de
 privacidade (`app/content/privacy_pt.md`, servida em `GET /api/v1/privacy`).
 
 ## Mapa dos direitos do art. 18 → rota → teste

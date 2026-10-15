@@ -263,14 +263,16 @@ async def test_sources_endpoint_lists_state_without_leaking(env: None) -> None:
 
 
 async def test_sources_endpoint_with_real_registry(env: None, tmp_path: Any) -> None:
-    # Registro real: OpenAlex, CORE e as 4 fontes do YAML (desabilitadas). A configuração NÃO lê o
+    # Registro real: OpenAlex, CORE, BDTD e as fontes do YAML. A configuração NÃO lê o
     # `.env` do desenvolvedor (que pode ter chaves reais): o teste precisa valer em qualquer máquina.
     app = create_app(Settings(_env_file=None, secret_key=SECRET))  # type: ignore[call-arg]
     async with client_for(app) as client:
         response = await client.get("/api/v1/sources")
     slugs = [item["slug"] for item in response.json()]
-    assert slugs[:2] == ["openalex", "core"] and set(slugs) >= {"scielo", "bdtd", "ufpi", "uespi"}
-    assert {item["status"] for item in response.json()} == {"disabled"}  # sem chaves nem colheita
+    assert slugs[:6] == ["openalex", "core", "scielo", "bdtd", "ufpi", "uespi"]
+    status = {item["slug"]: item["status"] for item in response.json()}
+    # A BDTD (API pública, sem chave) fica disponível; as demais estão sem chave ou sem colheita
+    assert status.pop("bdtd") == "ok" and set(status.values()) == {"disabled"}
 
 
 async def test_logged_user_gets_favorites_marked_and_history_hook_runs_in_background(

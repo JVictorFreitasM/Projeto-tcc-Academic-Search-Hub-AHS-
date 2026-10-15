@@ -1,0 +1,306 @@
+{
+ "_source": "GET https://bdtd.ibict.br/vufind/api/v1/search?lookfor=educação inclusiva&type=AllFields&limit=5 (resposta real de 15/10/2026, campos pedidos por field[])",
+ "resultCount": 9364,
+ "records": [
+  {
+   "id": "PUC_SP-1_71ec771ff453782ea1ce335d6505eeea",
+   "title": "O direito à educação e educação inclusiva",
+   "authors": {
+    "primary": {
+     "Ghiuro Junior, Gilberto": {
+      "profile": [
+       "http://lattes.cnpq.br/9559077669575570"
+      ]
+     }
+    },
+    "secondary": [],
+    "corporate": []
+   },
+   "publicationDates": [
+    "2022"
+   ],
+   "summary": [
+    "This research work aims to analyze how inclusive education is being carried out, based on Public Policies, under the practical, not legislative aspect, for people of school age, with the most diverse disabilities, emphasizing the Syndrome of Down T21. Achievements, over time, were great in relation to the legislation imposed, but it is still aware that there are signs that there may be possible failures so that Inclusive Education actually takes place on the “school floor”. In order to achieve the proper analysis, whether or not there are possible practical flaws in the educational field, the present work is based on the author's own life experience, in which his place of speech is that of a father with a daughter with SDT21 , and his hard trajectory, of almost 30 years, to successfully achieve, despite great “battles” won, in achieving an Inclusive Education for his daughter. In addition to the experience itself, research was carried out on what science demonstrates, with its research, on the scope of social and, mainly, educational inclusion, seeking to ratify the two previous foundations, through testimonies of other important characters who live in the same place. that the author, or are inserted in the educational context, general or inclusive, because they are active and significant authors of this trajectory to inclusive education, true artisans. Therefore, a qualitative methodology in search of a rational analysis of results, focused on the convergences or divergences of the collected material, which demonstrates the legislative gap and the reality provided by scientific research and testimonies, in order to contemplate whether or not there is a need for implementation of new practical methods, or the existing ones should be polished, given the relevance of the theme that is Inclusive Education, with a special look at “One School for All”. As a first aspect, it is observed that there are enough laws, but that the gap for proper Inclusive Education occurs in the lack of adequate professional training to highlight the unique potential of such individuals, together with a pedagogical curriculum that provides ways to stand out the best they have and, thus, being able to continue, side by side, with the whole of society, enjoying the same rights and duties, based on equity and not equality"
+   ],
+   "languages": [
+    "por"
+   ],
+   "formats": [
+    "doctoralThesis"
+   ],
+   "urls": [
+    {
+     "url": "https://repositorio.pucsp.br/jspui/handle/handle/25961",
+     "desc": "https://repositorio.pucsp.br/jspui/handle/handle/25961"
+    }
+   ],
+   "subjects": [
+    [
+     "CNPQ::CIENCIAS HUMANAS::EDUCACAO::CURRICULO"
+    ],
+    [
+     "Inclusive education"
+    ],
+    [
+     "Down syndrome T21"
+    ],
+    [
+     "School for everyone"
+    ],
+    [
+     "State responsibility"
+    ],
+    [
+     "Public policy"
+    ],
+    [
+     "Educação inclusiva"
+    ],
+    [
+     "Síndrome de Down T21"
+    ],
+    [
+     "Escola para todos"
+    ],
+    [
+     "Responsabilidade do Estado"
+    ],
+    [
+     "Políticas públicas"
+    ]
+   ],
+   "primaryAuthors": [
+    "Ghiuro Junior, Gilberto"
+   ],
+   "secondaryAuthors": []
+  },
+  {
+   "id": "UFRGS-2_80d5f092a1a50471ab7c7c83ece16984",
+   "title": "Educação inclusiva : um estudo a partir de uma proposta inclusiva alemã",
+   "authors": {
+    "primary": {
+     "Maciel, Rosânsela Von Mühlen": []
+    },
+    "secondary": [],
+    "corporate": []
+   },
+   "publicationDates": [
+    "2007"
+   ],
+   "summary": [
+    "Diese Forschung hat das Ziel die Praxis der Inklusion im Alltag des Unterrichts und der Schule zu erkennen, begründet mit den deutschen pädagogischen Prinzipien der Inklusion, und die Unterrichtspraxis der Lehrer, die mit Schülern besonderen Lernbedüfnisse im Unterricht eines regelmässigen Lernprozesses umgehen, zu analysieren. Der theoretische Bezugspunkt beruht auf den “Pädagogischen Prinzipien der Inklusion” von Hans Wocken (2003), Andréas Hinz und Inês Boban (2005), die einen geschichtlichen Rückblick auf die Bewegung der schulischen Integration und Einschluss und einige individuelle Experimente in der Schulpraxis in Europa gestalten, und auch eine Analyse der Praxis der Inklusion im schulischen Alltag und im Unterricht, ausgegangen von dem individuellen Lehr- Lernprozess und im Bi- Dozenten-System. Die empirische Untersuchung wendet sich an neun Lehrer der fünften bis zur achten Klasse einer regelmässigen Schule. Durch Interwiews, pädagogische Sitzungen und Erfahrungsaustausch versucht sie eine Inhaltsanalyse zu gestalten in einer Perspektive drei gestellte Ziele: (1) Schüler mit besonderen Lernbedürfnissen: man erfährt wie umfangreich dieser Ausdruck ist; (2) Das Entgegenkommen der Schüler im Unterricht: man untersucht die konkrete Auswirkung in der Didaktik, in der Evaluation, im Bi-Dozenten- System und in der Reduzierung der Schülerzahl im Klassenraum. Davon ausgehend, adaptiert man den Lehrplan, gestaltet den Unterricht verschieden und setzt einen zweiten Dozenten als Hilfskraft ein; (3) Die Überlegung über die tägliche Alltagspraxis: die Arbeitsverhältnisse, Vorteile, Schwierigkeiten und Bildungserwartungen, indem man die Erlebnisse und die Gefühle der Lehrer in ihrer Arbeitserwartungen gegenüber der Schüler und der Schule schildert. Unser Vorschlag ist, die Praxis der Inklusion sollte ein Prinzip jeder Schule und nicht nur Initiative einiger Menschen sein; damit man allen Schülern entgegenkommt und nicht nur ein Teil, ist die Gruppenarbeit sehr wichtig; die räumliche und die materielle Anpassung und Ausstattung der Schule, sowie einen geeigneten Lehrplan sind nötig, damit die Entwicklung aller Schüler in den verschiedenen Bereichen der Kenntnis geboten und ermöglicht wird."
+   ],
+   "languages": [
+    "por"
+   ],
+   "formats": [
+    "masterThesis"
+   ],
+   "urls": [
+    {
+     "url": "http://hdl.handle.net/10183/13253",
+     "desc": "http://hdl.handle.net/10183/13253"
+    }
+   ],
+   "subjects": [
+    [
+     "Education"
+    ],
+    [
+     "Inclusive education"
+    ],
+    [
+     "Students with special educational needs"
+    ],
+    [
+     "Teaching individualization"
+    ],
+    [
+     "Bi-instruction system"
+    ],
+    [
+     "Inclusão escolar"
+    ],
+    [
+     "Prática pedagógica"
+    ],
+    [
+     "Ensino fundamental"
+    ],
+    [
+     "Aluno"
+    ],
+    [
+     "Necessidades educacionais especiais"
+    ],
+    [
+     "Cotidiano escolar"
+    ],
+    [
+     "Sala de aula"
+    ]
+   ],
+   "primaryAuthors": [
+    "Maciel, Rosânsela Von Mühlen"
+   ],
+   "secondaryAuthors": []
+  },
+  {
+   "id": "METO_ae69037e0381c733d7be98d88ff8b8a1",
+   "title": "Educação inclusiva: a realidade verificada em uma escola de educação inclusiva de São Bernardo do Campo",
+   "authors": {
+    "primary": {
+     "PEREIRA, Claudia de Matos": []
+    },
+    "secondary": [],
+    "corporate": []
+   },
+   "publicationDates": [
+    "2023"
+   ],
+   "summary": [
+    "Esta pesquisa tem como objetivo avaliar as ações do cotidiano de uma escola com proposta inclusiva de São Bernardo do Campo, com professores e gestores que atuam no exercício da docência, para garantir a inclusão e aprendizagem de todos os alunos e como a escola entende, recebe e aplica as políticas públicas voltadas à educação inclusiva no país. Desta forma, o problema de pesquisa que direciona esse trabalho é: como na percepção de gestores e professores, as políticas públicas estão sendo aplicadas em favor da educação inclusiva? Além disso, a hipótese é como entendemos que estes gestores e professores estão se dando conta que as políticas de educação inclusiva são ineficentes e, portanto, o curso do processo de ensino e aprendizagem ficam comprometidos, trazendo insucesso na formação dos alunos e nas práticas docentes. Para a comprovação desta hipótese, a compreensão de que apesar da legislação garantir a inclusão, existem nas escolas fatores que dificultam esta garantia. Temos três objetivos, a saber: 1- Identificar as políticas públicas existentes, entendendo o papel da gestão escolar na sua implantação; 2- Verificar a formação de professores e se em suas competências docentes são sensibilizados para o cumprimento destas políticas públicas; 3-Entender o papel da gestão de escola na busca de iniciativas inclusivas na escola e na aplicação de políticas afirmativas. O corpus deste trabalho é a legislação pertinente ao atendimento especializado selecionado, e para este estudo foi de entrevistas semiestruturadas de duas gestoras e uma professora de sala regular, dados das matrículas e o mapeamento das políticas públicas, o que justifica essa escolha é o fato de analisar as matrículas em salas regulares no município de São Bernardo do Campo e a efetivação das políticas públicas referentes a inclusão na escola estudada (políticas públicas). O arcabouço teórico que sustenta este trabalho são os estudos que priorizam as características de uma escola inclusiva com base no direito à educação proposto pelos dispositivos legais nos quais se pautam os princípios da Escola Inclusiva nas reflexões de autores como Mantoan (2003, 2006, 2017), Duarte (2004), Alves (2016, 2022, 2023) e Sassaki (1997, 2005, 2009) a partir das categorias evidenciadas no contexto da escola e da legislação sobre inclusão escolar. A metodologia utilizada é empírica e documental, sendo uma pesquisa qualitativa e exploratória, pois visa validar instrumentos e proporcionar familiaridade com o campo de estudo (GIL, 2008). O método utilizado será a averiguação mediante pesquisa bibliográfica e documental através dos dados coletados do Censo escolar (INEP), e uma abordagem qualitativa exploratória e instrumentalizada por entrevistas semiestruturadas em uma escola pública localizada em São Bernardo do Campo. Os instrumentos de coleta de dados serão entrevistas semiestruturadas aplicadas junto a uma amostra composta por duas gestoras e uma professora de sala regular. Desta forma, os resultados deste trabalho foram que mesmo que tenhamos políticas públicas voltadas para o alcance da escola inclusiva, os resultados sugerem que ainda temos falta de recursos e de formação, o que dificulta essa inclusão de fato e que é necessário identificar os principais pontos e os principais desvios, para o alcance da escola inclusiva, a reestruturação da escola, para que a inclusão ocorra de forma efetiva, e gere oportunidades que realmente possibilite o aprendizado e a evolução desses alunos, e desta forma propor as melhorias adequadas para o alcance da escola inclusiva."
+   ],
+   "languages": [
+    "por"
+   ],
+   "formats": [
+    "masterThesis"
+   ],
+   "urls": [
+    {
+     "url": "https://repositorio.metodista.br/handle/123456789/106",
+     "desc": "https://repositorio.metodista.br/handle/123456789/106"
+    }
+   ],
+   "subjects": [
+    [
+     "Políticas Públicas"
+    ],
+    [
+     "Inclusão"
+    ],
+    [
+     "Gestão escolar inclusiva"
+    ],
+    [
+     "Public policy"
+    ],
+    [
+     "Inclusion"
+    ],
+    [
+     "Inclusive school management"
+    ]
+   ],
+   "primaryAuthors": [
+    "PEREIRA, Claudia de Matos"
+   ],
+   "secondaryAuthors": []
+  },
+  {
+   "id": "UFSM_0bb64601970ecb047f8fc3d7c384895f",
+   "title": "Educação especial & educação inclusiva: a emergência da docência inclusiva na escola contemporânea",
+   "authors": {
+    "primary": {
+     "Hermes, Simoni Timm": []
+    },
+    "secondary": [],
+    "corporate": []
+   },
+   "publicationDates": [
+    "2017"
+   ],
+   "summary": [
+    "How does the articulation between Special Education and Inclusive Education function in the modes of subjectivation of teachers in the contemporary school? This research problem has derived from concerns about the way that teachers have constituted the teaching action in the place of truth of school inclusion, particularly after the National Policy for Special Education under the Inclusive Education Perspective was enacted. This Doctoral Thesis in Education aims to understand the articulation between Special Education and Inclusive Education in the contemporary school in order to problematize its effects on the modes of subjectivation of teachers. Specifically, the Thesis attempts to map the articulation between Special Education and Inclusive Education intended to the production of teachers in the contemporary school; to analyze the process of molding teachers working in Special Education and regular classrooms; and to problematize the historical condition of the articulation between Special Education and Inclusive Education in the production of teachers in the contemporary school. From Michel Foucault‟s philosophical perspective and contributions from the Foucauldian Studies in Education, subjectivation has been selected as a central analytical tool in the theoretical-methodological matrix of this research, while the notions of governmentality, noopolitics, social subjection and machinic servitude have been taken as tangential aids in this problematization. The materiality of the research practice has been organized by means of the contexts of emergence and proveniences, through a genealogical inspiration. In the context of emergence, legal documents or official publications related to educational goals, teacher education and school practices in our country nowadays have been problematized. In the context of proveniences, school documents of a State School situated in the city of Santa Maria, in the state of Rio Grande do Sul, in Brazil, have been analyzed. This school has been regarded as a reference in school inclusion of the Special Education target group, and mentioned in the materiality of the school practices; it is a pioneer in the pedagogical work with this target group in Santa Maria and Rio Grande do Sul. Furthermore, 12 Special Education teachers that worked and still work in this State School, and four teachers of regular classrooms were interviewed. This theoretical-methodological endeavor has evidenced that, in the articulation between Special Education and Inclusive Education, inclusive teachers have emerged as this group of Special Education and regular classroom teachers that act in favor of school inclusion. Historically, the axes of moralization, psychologization and democratization, which are present in the ways of becoming a teacher in the school practices, have been conditions of possibility for inclusive teaching. Thus, a process of molding of those teachers has been produced by inclusive teaching through the inclusive self, the articulation, the pedagogical expertise and innovation in the contemporary school."
+   ],
+   "languages": [
+    "por"
+   ],
+   "formats": [
+    "doctoralThesis"
+   ],
+   "urls": [
+    {
+     "url": "http://repositorio.ufsm.br/handle/1/13371",
+     "desc": "http://repositorio.ufsm.br/handle/1/13371"
+    }
+   ],
+   "subjects": [
+    [
+     "Educação especial"
+    ],
+    [
+     "Educação inclusiva"
+    ],
+    [
+     "Subjetivação"
+    ],
+    [
+     "Docência inclusiva"
+    ],
+    [
+     "Special education"
+    ],
+    [
+     "Inclusive education"
+    ],
+    [
+     "Subjectivation"
+    ],
+    [
+     "Inclusive teaching"
+    ],
+    [
+     "CNPQ::CIENCIAS HUMANAS::EDUCACAO"
+    ]
+   ],
+   "primaryAuthors": [
+    "Hermes, Simoni Timm"
+   ],
+   "secondaryAuthors": []
+  },
+  {
+   "id": "UECE-0_9914cbe972e778320f4221764d882813",
+   "title": "Educacao Inclusiva: Um Estudo Diagnostico",
+   "authors": {
+    "primary": {
+     "Batista, Francisca Gomes da Silva": []
+    },
+    "secondary": [],
+    "corporate": []
+   },
+   "publicationDates": [
+    "2002"
+   ],
+   "summary": [
+    "Este trabalho de pesquisa buscou aprofundar a realidade da implantacao do processo de inclusao do Ensino Especial na Escola Publica, nomeadamente direcionado ao aluno surdo, portador de necessidades especiais. Caracterizado como um estudo de casoparticiparam deste estudo 04 professores especialistas, 02 psicologos, 02 fonoaudiologos, 02 assitentes sociais e 02 terapeutas educacionais, os quais compem o Nucleo de Atendimento Individualizado da Escola de Ensino Fundamental e Medio Jonhson. O trabalho foi realizado em duas fases. A primeira atraves de pesquisa bibliografica sobre o assunto e a Segunda uma pesquisa diagnostica atraves de questionarios compostos por um conjunto de questoes abertas postas aos partipipantes, permitindo respostas, justificacoes e sugestoes. A analise dos dados, revela -nos portanto, que a escola pretende superar as dificuldades, melhorar o processo educativo do nucleo de atendimento aos surdos, buscando uma forma de melhor integra-los no ensino regular e na sociedade de maneira geral, minimizando o preconceito ainda presente."
+   ],
+   "languages": [
+    "por"
+   ],
+   "formats": [
+    "masterThesis"
+   ],
+   "urls": [
+    {
+     "url": "https://siduece.uece.br/siduece/trabalhoAcademicoPublico.jsf?id=25277",
+     "desc": "https://siduece.uece.br/siduece/trabalhoAcademicoPublico.jsf?id=25277"
+    }
+   ],
+   "subjects": [
+    [
+     "Educação inclusiva"
+    ],
+    [
+     "Escola pública"
+    ]
+   ],
+   "primaryAuthors": [
+    "Batista, Francisca Gomes da Silva"
+   ],
+   "secondaryAuthors": []
+  }
+ ],
+ "status": "OK"
+}

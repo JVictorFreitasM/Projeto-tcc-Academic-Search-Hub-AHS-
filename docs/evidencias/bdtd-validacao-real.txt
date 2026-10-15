@@ -1,0 +1,45 @@
+﻿Validacao real do conector da BDTD (API REST do VuFind), 15/10/2026
+Totais = o que a API devolveu naquele momento (mudam com o tempo).
+
+tema, sem filtros: status=ok total=4032 resultados=5 1053 ms 
+   - 2016 [thesis] Fotonovela Digital – um projeto de Letramento – | Anna Frascolla | resumo: sim
+   - 2015 [thesis] Uma experiência de cibereducação para o letramento digi | Regiceli Bento Almeida | resumo: sim
+   - 2024 [thesis] Letramento digital docente | Cristiane Severino da Silva | resumo: sim
+ano 2018 a 2022: status=ok total=1440 resultados=5 330 ms 
+   - 2018 [thesis] Letramento Digital E Inclusão Social Do Idoso | Adriano Goncalves Dos Santos | resumo: sim
+   - 2019 [thesis] Letramento digital: caminhos para o trabalho com leitur | Victor Matheus Victorino da Costa | resumo: sim
+   - 2019 [thesis] Letramento digital e letramento acadêmico estratégias d | Leila Rachel Barbosa Alexandre | resumo: sim
+so year_from=2020: status=ok total=2215 resultados=5 266 ms 
+   - 2024 [thesis] Letramento digital docente | Cristiane Severino da Silva | resumo: sim
+   - 2023 [thesis] O impacto do gênero fanfiction no letramento digital | Myrna Andreza da Silva Alves | resumo: sim
+   - 2026 [thesis] A importância do letramento digital na interação social | Simone Bezerra Franco | resumo: nao
+so year_to=2005: status=ok total=72 resultados=5 354 ms 
+   - 2005 [thesis] Letramento digital de analfabetos por intermedio do uso | Iva Autina Cavalcante Lima Santos | resumo: sim
+   - 2004 [thesis] Letramento digital de professores em contexto de formaç | Sandro Luiz da Silva | resumo: sim
+   - 2003 [thesis] Inclusão social e digital : o uso da Internet como comp | Paula Barbosa Pudo | resumo: sim
+ordenacao year_desc: status=ok total=4032 resultados=5 318 ms 
+   - 2026 [thesis] Concepções de agência docente em interface com as tecno | Victoria Furumoto Puttomatti | resumo: sim
+   - 2026 [thesis] Construção de tecnologias educativas para pessoas com d | Nydie Gervais | resumo: sim
+   - 2026 [thesis] Elements of education 4.0 as support for promoting educ | Emilia Augusta Rego | resumo: sim
+pagina 2: status=ok total=4032 resultados=5 308 ms 
+   - 2019 [thesis] Letramento digital: caminhos para o trabalho com leitur | Victor Matheus Victorino da Costa | resumo: sim
+   - 2008 [thesis] Letramentos na sociedade digital: navegar é e não é pre | Nara Hiroko Takaki | resumo: sim
+   - 2023 [thesis] O impacto do gênero fanfiction no letramento digital | Myrna Andreza da Silva Alves | resumo: sim
+tipo thesis: status=ok total=4032 resultados=5 393 ms 
+   - 2016 [thesis] Fotonovela Digital – um projeto de Letramento – | Anna Frascolla | resumo: sim
+   - 2015 [thesis] Uma experiência de cibereducação para o letramento digi | Regiceli Bento Almeida | resumo: sim
+   - 2024 [thesis] Letramento digital docente | Cristiane Severino da Silva | resumo: sim
+tipo article (sem chamada): status=ok total=0 resultados=0 0 ms 
+autor: Paulo Freire: status=ok total=40 resultados=5 242 ms 
+   - 1995 [thesis] Estudo da emissão do Cr3+ e CO2+ em matriz de KZnF3 sob | Paulo de Tarso Cavalcante Freire | resumo: sim
+   - 1989 [thesis] Metodologia para avaliação de fluxo sanguineo em cirurg | Paulo Celso Budri Freire | resumo: sim
+   - 2016 [thesis] UM COPO DÁGUA E UM PALITO...: PRÁTICAS URBANAS E SOC | Paulo César Freire Sá | resumo: sim
+autor so sobrenome: Saviani: status=ok total=12 resultados=5 251 ms 
+   - 1981 [thesis] Funcao Tecnica e Funcao Politica do Supervisor em Educa | Nereide Saviani | resumo: nao
+   - 2005 [thesis] Distribuição anatômica e histológica dos componentes do | Gisele Saviani | resumo: sim
+   - 2009 [thesis] Anatomia das vias sanguíneas e biliares e histologia do | Gisele Saviani | resumo: sim
+tema sem acento: educacao inclusiva: status=ok total=9364 resultados=5 328 ms 
+   - 2022 [thesis] O direito à educação e educação inclusiva | Gilberto Ghiuro Junior | resumo: sim
+   - 2007 [thesis] Educação inclusiva : um estudo a partir de uma proposta | Rosânsela Von Mühlen Maciel | resumo: sim
+   - 2023 [thesis] Educação inclusiva: a realidade verificada em uma escol | Claudia de Matos Pereira | resumo: sim
+tema inexistente: status=ok total=0 resultados=0 184 ms 

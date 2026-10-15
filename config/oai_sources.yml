@@ -16,14 +16,8 @@ sources:
     default_type: article
     type_map: {}
 
-  - slug: bdtd
-    name: BDTD (IBICT)
-    base_url: TODO-VERIFICAR
-    metadata_prefix: oai_dc
-    set_spec: null
-    enabled: false
-    default_type: thesis
-    type_map: {}
+  # A BDTD saiu daqui: o OAI-PMH dela respondeu 404 (15/10/2026) e ela passou a ser consultada ao
+  # vivo pela API REST do VuFind (app/connectors/bdtd_api.py). O slug `bdtd` é reservado.
 
   - slug: ufpi
     name: Repositório da UFPI
