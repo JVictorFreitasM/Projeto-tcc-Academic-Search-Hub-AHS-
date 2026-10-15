@@ -2,7 +2,7 @@ from collections.abc import AsyncIterator
 from pathlib import Path
 
 import pytest
-from sqlalchemy import delete
+from sqlalchemy import delete, func, select, text
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from app.connectors.base import SourceQuery, SourceStatus
@@ -283,3 +283,143 @@ def test_registry_survives_invalid_yaml(
     file.write_text("sources: [", encoding="utf-8")
     settings = Settings(_env_file=None, oai_sources_file=str(file))  # type: ignore[call-arg]
     assert [c.slug for c in build_connectors(settings, factory)] == ["openalex", "core"]
+
+
+# ---------- busca por autor (campo `author`) ----------
+
+
+def authored(title: str, *names: str, **extra):  # type: ignore[no-untyped-def]
+    return make_oai_record(
+        title=title,
+        authors=[{"name": name, "orcid": None} for name in names],
+        **extra,
+    )
+
+
+async def test_author_search_finds_by_full_name_surname_and_in_any_order(
+    factory: async_sessionmaker[AsyncSession],
+) -> None:
+    await seed(
+        factory,
+        authored("Pedagogia do oprimido", "Freire, Paulo", oai_identifier="a:1"),
+        authored("Outro assunto", "Maria Silva", oai_identifier="a:2"),
+    )
+    c = conn(factory)
+    for typed in ("Paulo Freire", "Freire", "freire paulo", "Freire, Paulo", "PAULO"):
+        page = await c.search(SourceQuery(q=typed, field="author"))
+        assert titles(page) == ["Pedagogia do oprimido"], typed
+        assert page.total == 1 and page.status is SourceStatus.OK
+    nobody = await c.search(SourceQuery(q="Ninguém Conhecido", field="author"))
+    assert nobody.records == [] and nobody.total == 0
+
+
+async def test_author_search_ignores_accents_but_does_not_stem_names(
+    factory: async_sessionmaker[AsyncSession],
+) -> None:
+    await seed(
+        factory,
+        authored("Livro 1", "Maria José Conceição", oai_identifier="a:1"),
+        authored("Livro 2", "Paula Souza", oai_identifier="a:2"),
+        authored("Livro 3", "Paulo Souza", oai_identifier="a:3"),
+    )
+    c = conn(factory)
+    accent = await c.search(SourceQuery(q="maria jose conceicao", field="author"))
+    assert titles(accent) == ["Livro 1"]
+    # "Paulo" não pode virar "Paula" (o tema usa radical; o autor, não)
+    paulo = await c.search(SourceQuery(q="Paulo Souza", field="author"))
+    assert titles(paulo) == ["Livro 3"]
+
+
+async def test_author_search_looks_only_at_authors_and_theme_search_only_at_text(
+    factory: async_sessionmaker[AsyncSession],
+) -> None:
+    await seed(
+        factory,
+        authored("Paulo Freire e a educação popular", "Fulano de Tal", oai_identifier="a:1"),
+        authored("Letramento", "Paulo Freire", keywords=["educação"], oai_identifier="a:2"),
+    )
+    c = conn(factory)
+    by_author = await c.search(SourceQuery(q="Freire", field="author"))
+    assert titles(by_author) == ["Letramento"]  # o nome no título não conta
+    by_theme = await c.search(SourceQuery(q="Freire"))
+    assert titles(by_theme) == ["Paulo Freire e a educação popular"]  # o autor não conta
+    default = await c.search(SourceQuery(q="Freire", field="all"))
+    assert titles(default) == titles(by_theme)
+
+
+async def test_author_search_finds_any_of_several_authors_and_respects_filters_and_sort(
+    factory: async_sessionmaker[AsyncSession],
+) -> None:
+    await seed(
+        factory,
+        authored(
+            "Artigo 2015",
+            "Ana Lima",
+            "Bruno Costa",
+            year=2015,
+            type="article",
+            oai_identifier="a:1",
+        ),
+        authored("Tese 2020", "Bruno Costa", year=2020, type="thesis", oai_identifier="a:2"),
+        authored(
+            "Tese 2023", "Carla Dias", "Bruno Costa", year=2023, type="thesis", oai_identifier="a:3"
+        ),
+        authored("Sem ano", "Bruno Costa", year=None, type="thesis", oai_identifier="a:4"),
+    )
+    c = conn(factory)
+    everything = await c.search(SourceQuery(q="Bruno Costa", field="author"))
+    assert everything.total == 4  # o segundo autor da lista também vale
+    ranged = await c.search(SourceQuery(q="Bruno Costa", field="author", year_from=2018))
+    assert sorted(titles(ranged)) == ["Tese 2020", "Tese 2023"]
+    thesis = await c.search(SourceQuery(q="Bruno", field="author", types=(RecordType.THESIS,)))
+    assert thesis.total == 3
+    newest = await c.search(SourceQuery(q="Bruno Costa", field="author", sort="year_desc"))
+    assert titles(newest) == ["Tese 2023", "Tese 2020", "Artigo 2015", "Sem ano"]
+    paged = await c.search(SourceQuery(q="Bruno Costa", field="author", page_size=2, page=2))
+    assert len(paged.records) == 2 and paged.total == 4
+
+
+async def test_author_search_follows_changes_to_the_authors_and_backfill_works(
+    factory: async_sessionmaker[AsyncSession], engine: AsyncEngine
+) -> None:
+    await seed(factory, authored("Obra", "Nome Antigo", oai_identifier="a:1"))
+    c = conn(factory)
+    assert titles(await c.search(SourceQuery(q="Antigo", field="author"))) == ["Obra"]
+    async with factory() as session:  # o gatilho refaz o vetor quando `authors` muda
+        row = (
+            await session.execute(select(OaiRecord).where(OaiRecord.source == "bdtd"))
+        ).scalar_one()
+        row.authors = [{"name": "Nome Novo", "orcid": None}]
+        await session.commit()
+    assert (await c.search(SourceQuery(q="Antigo", field="author"))).records == []
+    assert titles(await c.search(SourceQuery(q="Novo", field="author"))) == ["Obra"]
+    # preenchimento retroativo da migração: `UPDATE ... SET authors = authors` refaz o vetor
+    async with engine.begin() as connection:  # confirma antes de consultar de outra sessão
+        await connection.execute(
+            text("UPDATE oai_records SET author_vector = NULL WHERE source = 'bdtd'")
+        )
+    assert (await c.search(SourceQuery(q="Novo", field="author"))).records == []
+    async with engine.begin() as connection:
+        await connection.execute(
+            text("UPDATE oai_records SET authors = authors WHERE source = 'bdtd'")
+        )
+    assert titles(await c.search(SourceQuery(q="Novo", field="author"))) == ["Obra"]
+
+
+async def test_author_search_with_malicious_text_causes_no_sql_error(
+    factory: async_sessionmaker[AsyncSession],
+) -> None:
+    await seed(factory, authored("Obra", "Alguém", oai_identifier="a:1"))
+    page = await conn(factory).search(SourceQuery(q="'; DROP TABLE users;--", field="author"))
+    assert page.status is SourceStatus.OK
+    async with factory() as session:
+        assert (await session.execute(select(func.count()).select_from(User))).scalar_one() >= 0
+
+
+async def test_author_search_with_only_stop_punctuation_is_an_empty_ok_page(
+    factory: async_sessionmaker[AsyncSession],
+) -> None:
+    await seed(factory, authored("Obra", "Alguém", oai_identifier="a:1"))
+    page = await conn(factory).search(SourceQuery(q="!!! ---", field="author"))
+    assert page.status is SourceStatus.OK and page.records == []
+    assert page.message == STOPWORDS_ONLY

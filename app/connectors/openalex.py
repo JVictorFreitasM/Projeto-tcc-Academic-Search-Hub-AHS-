@@ -104,9 +104,21 @@ def work_to_record(work: dict[str, Any]) -> RecordOut | None:
     )
 
 
+def clean_author_name(name: str) -> str:
+    """Nome de autor seguro para o filtro: `,` `:` e `|` separam partes do filtro, então saem."""
+    text = "".join(ch for ch in name if ch.isprintable())
+    for separator in ",:|":
+        text = text.replace(separator, " ")
+    return " ".join(text.split())
+
+
 def build_filter(query: SourceQuery) -> tuple[str | None, bool]:
     """Monta o parâmetro `filter`. O booleano indica se é preciso filtrar o tipo localmente."""
     parts: list[str] = []
+    if query.field == "author":
+        # Busca por autor: o OpenAlex filtra pelo nome do autor como veio na publicação
+        # (confirmado com chamada real em 15/10/2026), sem o parâmetro `search`.
+        parts.append(f"raw_author_name.search:{clean_author_name(query.q)}")
     if query.year_from is not None and query.year_to is not None:
         parts.append(f"publication_year:{query.year_from}-{query.year_to}")
     elif query.year_from is not None:
@@ -153,13 +165,17 @@ class OpenAlexConnector:
             per_page = MAX_PER_PAGE
             notes.append(f"Tamanho de página reduzido para {MAX_PER_PAGE} (limite da fonte).")
 
+        by_author = query.field == "author"
+        if by_author and not clean_author_name(query.q):
+            return SourcePage(records=[], total=0, status=SourceStatus.OK)  # só pontuação
         filter_value, local_type_filter = build_filter(query)
         params: dict[str, Any] = {
-            "search": query.q,
             "per-page": per_page,
             "page": query.page,
             "api_key": self._settings.openalex_api_key,
         }
+        if not by_author:
+            params["search"] = query.q
         if filter_value:
             params["filter"] = filter_value
         if query.sort == "year_desc":

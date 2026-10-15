@@ -171,6 +171,7 @@ async def test_filters_are_parsed_and_forwarded(env: None) -> None:
         ({"q": "ok", "page_size": 0}, "page_size", "maior ou igual a 1"),
         ({"q": "ok", "page_size": 51}, "", "50"),
         ({"q": "ok", "sort": "aleatorio"}, "sort", ""),
+        ({"q": "ok", "field": "resumo"}, "field", ""),
     ],
 )
 async def test_invalid_parameters_give_422_in_standard_format(
@@ -357,8 +358,34 @@ async def test_openapi_describes_parameters_and_response(env: None) -> None:
         doc = (await client.get("/api/openapi.json")).json()
     operation = doc["paths"]["/api/v1/search"]["get"]
     names = {p["name"] for p in operation["parameters"]}
-    assert names == {"q", "sources", "year_from", "year_to", "type", "page", "page_size", "sort"}
+    assert names == {
+        "q", "sources", "year_from", "year_to", "type", "page", "page_size", "sort", "field",
+    }  # fmt: skip
     assert all(p.get("description") for p in operation["parameters"])
     assert "SearchResponse" in str(operation["responses"]["200"])
     assert {"200", "422", "429", "502"} <= set(operation["responses"])
     assert "/api/v1/sources" in doc["paths"]
+
+
+async def test_field_parameter_reaches_the_connectors_and_defaults_to_theme(env: None) -> None:
+    connector = FakeConnector("openalex")
+    app, _ = build([connector])
+    async with client_for(app) as client:
+        by_author = await client.get(
+            "/api/v1/search", params={"q": "Paulo Freire", "field": "author"}
+        )
+        by_theme = await client.get("/api/v1/search", params={"q": "educação"})
+        explicit = await client.get("/api/v1/search", params={"q": "educação", "field": "all"})
+    assert by_author.status_code == by_theme.status_code == explicit.status_code == 200
+    assert [q.field for q in connector.queries] == ["author", "all", "all"]
+    assert connector.queries[0].q == "Paulo Freire"
+
+
+async def test_openapi_documents_the_field_parameter(env: None) -> None:
+    app, _ = build([FakeConnector("openalex")])
+    async with client_for(app) as client:
+        schema = (await client.get("/api/openapi.json")).json()
+    params = {p["name"]: p for p in schema["paths"]["/api/v1/search"]["get"]["parameters"]}
+    assert params["field"]["schema"]["enum"] == ["all", "author"]
+    assert params["field"]["schema"]["default"] == "all"
+    assert "autor" in params["field"]["description"]

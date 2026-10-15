@@ -25,6 +25,7 @@ def filters_of(params: SearchParams) -> dict[str, Any]:
         "year_to": params.year_to,
         "types": sorted(t.value for t in params.types) if params.types else None,
         "sort": params.sort,
+        "field": params.field,
     }
 
 

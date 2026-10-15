@@ -185,6 +185,9 @@ consequência é o laço de login descrito em P1.
   vez (Nielsen e Molich, 1990 tratam de combinar vários avaliadores).
 - **Sem especialista em usabilidade e sem usuários.** Isto é inspeção, não observação de uso: não se
   sabe onde pessoas reais de fato tropeçam.
+- **A avaliação é anterior à busca por autor** (15/10/2026): o seletor "Buscar por" e o rótulo que
+  troca para "Nome do autor" **não foram avaliados** com as dez heurísticas. Só passaram pelo axe e
+  pelos testes de interface.
 - **Capturas com dados de demonstração**, em duas larguras e um só navegador; telas com dados reais
   das fontes não foram vistas.
 - **As severidades são julgamento do avaliador**, não medição.

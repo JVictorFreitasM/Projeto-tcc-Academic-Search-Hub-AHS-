@@ -49,14 +49,14 @@
 
 - Ferramenta: axe-core, pelo pacote `axe-playwright-python`, no Chromium (Playwright). Teste:
   `tests/a11y/test_axe.py`; rodar com `python tasks.py test-a11y`.
-- Cobertura: 16 telas e estados × 2 larguras (celular 360 px e computador 1280 px) = 32 execuções.
-  Estados: busca vazia, com resultados, sem resultados, com erro parcial de fonte, filtros abertos,
+- Cobertura: 17 telas e estados × 2 larguras (celular 360 px e computador 1280 px) = 34 execuções.
+  Estados: busca vazia, com resultados, por autor, sem resultados, com erro parcial de fonte, filtros abertos,
   filtros ativos, seleção para exportar, favoritos (com itens e vazio), diálogo de remover favorito,
   entrar, entrar com erros de validação, criar conta, minha conta, diálogo de excluir conta e
   política de privacidade.
 - Regra do teste: falha em violação de impacto `serious` ou `critical`; `minor` e `moderate` são
   registradas, sem reprovar.
-- Resultado medido na última execução: nenhuma violação, de qualquer impacto, nos 32 casos. A saída
+- Resultado medido na última execução: nenhuma violação, de qualquer impacto, nos 34 casos. A saída
   fica em `docs/evidencias/os-031-axe.txt` (regerada a cada execução do teste).
 - Sanidade do instrumento: um teste injeta uma imagem sem texto alternativo, um campo sem rótulo e
   um botão sem nome, e exige que o axe aponte as três falhas. Assim "zero violações" não vem de um
@@ -72,10 +72,10 @@ verificação indicado.
 
 | Critério | Resultado | Observação (como foi verificado) |
 |---|---|---|
-| 1.1.1 Conteúdo não textual | Atende | O frontend não tem `<img>` nem `<svg>`; ícones não existem (só texto). Regras de alternativa textual do axe sem violações nos 32 casos. |
+| 1.1.1 Conteúdo não textual | Atende | O frontend não tem `<img>` nem `<svg>`; ícones não existem (só texto). Regras de alternativa textual do axe sem violações nos 34 casos. |
 | 1.3.1 Informações e relações | Atende | Axe sem violações (rótulos, landmarks, listas, tabelas, ordem de títulos); cada campo tem `<label>` ou `aria-describedby`; um `<h1>` por página (OS-021). |
 | 1.4.1 Uso de cor | Atende | Links sublinhados (`base.css`, `layout.css`, `components.css`); avisos e erros têm prefixo textual ("Aviso:"), conferido nos testes e2e do erro parcial. |
-| 1.4.3 Contraste mínimo | Atende | Razões calculadas por `scripts/contrast_check.py` (tabela acima, todas ≥ 4,5:1 para texto) e regra `color-contrast` do axe sem violações nos 32 casos. O axe não avalia texto sobre imagem ou gradiente; não há nenhum no frontend. |
+| 1.4.3 Contraste mínimo | Atende | Razões calculadas por `scripts/contrast_check.py` (tabela acima, todas ≥ 4,5:1 para texto) e regra `color-contrast` do axe sem violações nos 34 casos. O axe não avalia texto sobre imagem ou gradiente; não há nenhum no frontend. |
 | 1.4.4 Redimensionar texto | Atende (parcial) | Teste e2e: texto a 200% sem rolagem horizontal (`test_no_horizontal_scroll_with_200_percent_zoom`). Zoom do navegador real a 200%: PENDENTE (desenvolvedor). |
 | 1.4.10 Reflow | Atende (parcial) | Teste e2e: sem rolagem horizontal a 320 px, 768 px e 1280 px. Zoom de 400% no navegador real: PENDENTE (desenvolvedor). |
 | 2.1.1 Teclado | PENDENTE (desenvolvedor) | Os testes e2e usam teclado em partes (menu com Esc, diálogos, link de pular). Percorrer todas as telas só com teclado é teste manual. |

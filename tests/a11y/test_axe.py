@@ -46,6 +46,15 @@ def state_search_results(page: Page, api: FakeApi) -> None:
     search(page)
 
 
+def state_search_by_author(page: Page, api: FakeApi) -> None:
+    page.goto("/")
+    page.get_by_label("Buscar por").select_option("author")
+    page.get_by_label("Nome do autor").fill("Paulo Freire")
+    page.get_by_role("button", name="Buscar", exact=True).click()
+    expect(page.locator(".result").first).to_be_visible()
+    expect(page.get_by_label("Buscar por")).to_have_value("author")
+
+
 def state_search_no_results(page: Page, api: FakeApi) -> None:
     api.search_results = []
     api.search_total = 0
@@ -150,6 +159,7 @@ def state_privacy(page: Page, api: FakeApi) -> None:
 STATES: list[tuple[str, Callable[[Page, FakeApi], None], bool]] = [
     ("busca-vazia", state_search_empty, False),
     ("busca-resultados", state_search_results, False),
+    ("busca-por-autor", state_search_by_author, False),
     ("busca-sem-resultados", state_search_no_results, False),
     ("busca-erro-parcial", state_search_partial_error, False),
     ("filtros-abertos", state_filters_open, False),

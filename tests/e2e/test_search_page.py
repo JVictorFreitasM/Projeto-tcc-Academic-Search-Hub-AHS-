@@ -414,3 +414,109 @@ def test_text_typed_while_sources_load_is_not_erased(page: Page, api: Api) -> No
     held[0].fulfill(status=200, json=SOURCES)
     page.wait_for_timeout(300)
     expect(page.get_by_label("Buscar trabalhos")).to_have_value("letramento")
+
+
+# ---------- busca por tema ou por autor ----------
+
+
+def choose_author(page: Page) -> None:
+    page.get_by_label("Buscar por").select_option("author")
+
+
+def test_theme_is_the_default_and_sends_no_field(page: Page, api: Api) -> None:
+    page.goto("/")
+    select = page.get_by_label("Buscar por")
+    expect(select).to_have_value("all")
+    expect(page.get_by_label("Buscar trabalhos")).to_have_attribute(
+        "placeholder", "Ex.: letramento digital"
+    )
+    search(page)
+    expect(page.locator(".result")).to_have_count(2)
+    assert "field" not in api.searches[-1] and "field=" not in page.url
+
+
+def test_choosing_author_changes_the_label_and_sends_field_author(page: Page, api: Api) -> None:
+    page.goto("/")
+    choose_author(page)
+    field = page.get_by_label("Nome do autor")
+    expect(field).to_have_attribute("placeholder", "Ex.: Paulo Freire")
+    expect(page.get_by_label("Buscar trabalhos")).to_have_count(0)  # o rótulo trocou
+    field.fill("Paulo Freire")
+    page.get_by_role("button", name="Buscar", exact=True).click()
+    expect(page.locator(".result")).to_have_count(2)
+    assert api.searches[-1]["q"] == "Paulo Freire" and api.searches[-1]["field"] == "author"
+    assert "field=author" in page.url
+
+
+def test_url_with_field_author_restores_the_selector_and_searches_by_author(
+    page: Page, api: Api
+) -> None:
+    page.goto("/?q=Freire&field=author")
+    expect(page.locator(".result")).to_have_count(2)
+    expect(page.get_by_label("Buscar por")).to_have_value("author")
+    expect(page.get_by_label("Nome do autor")).to_have_value("Freire")
+    assert api.searches[-1]["field"] == "author"
+
+
+def test_field_survives_pagination_filters_and_the_back_button(page: Page, api: Api) -> None:
+    api.handler = lambda p: (
+        200,
+        response_body([record(1), record(2)], page=int(p.get("page", "1")), total=100),
+    )
+    page.goto("/")
+    choose_author(page)
+    page.get_by_label("Nome do autor").fill("Freire")
+    page.get_by_role("button", name="Buscar", exact=True).click()
+    expect(page.locator(".result")).to_have_count(2)
+    page.get_by_role("button", name="Próxima").click()
+    expect(page.locator(".pagination-page")).to_have_text("Página 2")
+    assert api.searches[-1]["page"] == "2" and api.searches[-1]["field"] == "author"
+    page.get_by_role("button", name="Filtros").click()
+    page.get_by_label("De", exact=True).fill("2018")
+    page.get_by_role("button", name="Aplicar").click()
+    expect(page.locator(".pagination-page")).to_have_text("Página 1")
+    assert api.searches[-1]["field"] == "author" and api.searches[-1]["year_from"] == "2018"
+    page.go_back()
+    expect(page.get_by_label("Buscar por")).to_have_value(
+        "author"
+    )  # a busca anterior era por autor
+
+
+def test_going_back_to_theme_stops_sending_the_field(page: Page, api: Api) -> None:
+    page.goto("/")
+    choose_author(page)
+    page.get_by_label("Nome do autor").fill("Freire")
+    page.get_by_role("button", name="Buscar", exact=True).click()
+    expect(page.locator(".result")).to_have_count(2)
+    page.get_by_label("Buscar por").select_option("all")
+    expect(page.get_by_label("Buscar trabalhos")).to_have_value("Freire")  # o texto fica
+    page.get_by_role("button", name="Buscar", exact=True).click()
+    expect(page.get_by_label("Buscar por")).to_have_value("all")
+    page.wait_for_function("!location.search.includes('field=')")
+    assert "field" not in api.searches[-1]
+
+
+def test_field_chosen_while_sources_load_is_not_reset(page: Page, api: Api) -> None:
+    """Mesma classe do defeito da OS-032: terminar de carregar as fontes não desfaz a escolha."""
+    held: list[Route] = []
+    page.route("**/api/v1/sources", lambda route: held.append(route))
+    page.goto("/")
+    choose_author(page)
+    page.get_by_label("Nome do autor").fill("Freire")
+    page.wait_for_timeout(200)
+    assert held, "a página deveria ter pedido as fontes"
+    held[0].fulfill(status=200, json=SOURCES)
+    page.wait_for_timeout(300)
+    expect(page.get_by_label("Buscar por")).to_have_value("author")
+    expect(page.get_by_label("Nome do autor")).to_have_value("Freire")
+
+
+def test_author_search_error_for_a_one_character_name_is_the_same_message(
+    page: Page, api: Api
+) -> None:
+    page.goto("/")
+    choose_author(page)
+    page.get_by_label("Nome do autor").fill("a")
+    page.get_by_role("button", name="Buscar", exact=True).click()
+    expect(page.locator("#erro-busca")).to_have_text("Digite ao menos 2 caracteres para buscar.")
+    assert api.searches == []

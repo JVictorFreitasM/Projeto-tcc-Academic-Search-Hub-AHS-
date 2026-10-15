@@ -112,6 +112,11 @@ Dependem de chamada real às fontes ou de importação manual; nada disso foi co
 - [ ] **CORE:** filtros embutidos em `q` (`yearPublished>=A AND yearPublished<=B`,
   `documentType:"thesis"`), campo de ano, idioma, `limit` máximo de 100 (`MAX_LIMIT` em
   `app/connectors/core_api.py`) e o mapa de tipos de documento. (`docs/DECISOES.md`, OS-008)
+- [ ] **CORE, busca por autor:** a sintaxe `authors:("Nome" AND "Sobrenome")` (em `build_query_string`,
+  `app/connectors/core_api.py`) vem da documentação e **não foi confirmada** (sem chave). Conferir
+  com uma busca real e, se divergir, ajustar e registrar em `docs/DECISOES.md`.
+- [ ] **Fontes OAI, busca por autor:** o índice de nomes (migração `0003`) foi provado só com dados
+  **sintéticos**; confirme com uma colheita real (por exemplo `Paulo Freire` na UFPE) quando houver.
 - [ ] **Importação no Zotero ou Mendeley:** teses saem como `@thesis`/`THES` e preprint e outros como
   `@misc`/`GEN`; conferir na importação (`docs/evidencias/os-019/LEIA-ME.md`).
 - [ ] **Endereços OAI** das quatro fontes (já listado na seção 2).

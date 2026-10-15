@@ -118,6 +118,15 @@ async def search(
     sort: Annotated[
         Literal["relevance", "year_desc"], Query(description="Ordenação.")
     ] = "relevance",
+    field: Annotated[
+        Literal["all", "author"],
+        Query(
+            description=(
+                "Onde procurar: `all` (padrão) busca o tema no título, no resumo e nas "
+                "palavras-chave; `author` busca o nome (ou só o sobrenome) do autor."
+            )
+        ),
+    ] = "all",
 ) -> SearchResponse:
     params = _build_params(
         {
@@ -129,6 +138,7 @@ async def search(
             "page": page,
             "page_size": page_size or settings.default_page_size,
             "sort": sort,
+            "field": field,
         }
     )
 

@@ -20,7 +20,15 @@
 
         <form id="form-busca" class="search-form" role="search" novalidate>
           <div class="field">
-            <label for="campo-busca">Buscar trabalhos</label>
+            <label for="tipo-busca">Buscar por</label>
+            <select id="tipo-busca" name="field">
+              <option value="all">Tema (título, resumo e palavras-chave)</option>
+              <option value="author">Autor</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="campo-busca" id="rotulo-busca">Buscar trabalhos</label>
             <div class="search-row">
               <input
                 id="campo-busca"
@@ -38,7 +46,8 @@
               Dicas: use aspas para uma expressão exata (<q>ensino médio</q>) e um sinal de menos
               para excluir um termo (<q>-fundamental</q>). Isso vale para as fontes locais (BDTD,
               UFPI, UESPI e SciELO); nas fontes externas (OpenAlex e CORE) o comportamento pode
-              variar.
+              variar. Para buscar por autor, escolha “Autor” em “Buscar por” e digite o nome ou
+              só o sobrenome.
             </p>
           </div>
 

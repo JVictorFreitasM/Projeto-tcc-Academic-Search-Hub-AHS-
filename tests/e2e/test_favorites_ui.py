@@ -388,3 +388,29 @@ def test_stored_xss_in_title_note_and_history_is_not_executed(page: Page, api: F
     assert "<img src=x" in page.locator(".result-title").inner_text()
     assert page.get_by_label("Anotação").input_value() == payload  # no campo de texto, como texto
     assert "<script>" in page.locator(".history-query").inner_text()
+
+
+def test_history_remembers_and_repeats_an_author_search(page: Page, api: FakeApi) -> None:
+    api.add_history("Freire")  # por tema (a mais antiga)
+    api.add_history(  # a mesma consulta, mas por autor: entrada separada e mais recente
+        "Freire",
+        {
+            "sources": None,
+            "year_from": None,
+            "year_to": None,
+            "types": None,
+            "sort": "relevance",
+            "field": "author",
+        },
+    )
+    page.goto("/favoritos.html")
+    items = page.locator(".history-item")
+    expect(items.first).to_contain_text("Busca por autor")
+    expect(items.nth(1)).not_to_contain_text("Busca por autor")
+    href = items.first.get_by_role("link", name="Repetir a busca").get_attribute("href")
+    assert "field=author" in href and "q=Freire" in href
+    items.first.get_by_role("link", name="Repetir a busca").click()
+    expect(page.locator(".result")).to_have_count(3)
+    expect(page.get_by_label("Buscar por")).to_have_value("author")
+    last = api.calls_to("GET", "/search")[-1]["params"]
+    assert last["q"] == "Freire" and last["field"] == "author"

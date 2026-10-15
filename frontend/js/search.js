@@ -16,10 +16,16 @@ const STATUS_TEXT = {
   rate_limited: "atingiu o limite de requisições",
 };
 const MAX_EXPORT = 100;
+const FIELD_TEXT = {
+  all: { label: "Buscar trabalhos", placeholder: "Ex.: letramento digital" },
+  author: { label: "Nome do autor", placeholder: "Ex.: Paulo Freire" },
+};
 
 const ui = {
   form: must("#form-busca"),
   input: must("#campo-busca"),
+  label: must("#rotulo-busca"),
+  field: must("#tipo-busca"),
   error: must("#erro-busca"),
   area: must("#area-resultados"),
   title: must("#titulo-resultados"),
@@ -223,6 +229,17 @@ function renderFailure(error) {
   announce(errorMessage(error), "assertive");
 }
 
+/** Mostra o campo da busca (tema ou autor) no seletor, no rótulo e no exemplo. Devolve o valor. */
+function applyField(value) {
+  const field = value === "author" ? "author" : "all";
+  ui.field.value = field;
+  ui.label.textContent = FIELD_TEXT[field].label;
+  ui.input.placeholder = FIELD_TEXT[field].placeholder;
+  return field;
+}
+
+ui.field.addEventListener("change", () => applyField(ui.field.value));
+
 function showQueryError(message) {
   ui.error.hidden = !message;
   ui.error.textContent = message ?? "";
@@ -241,6 +258,7 @@ async function search(query, { push = false, focus = false, replace = false } = 
   showQueryError(null);
   current = query;
   ui.input.value = query.q;
+  applyField(query.field);
   filters?.setFrom(query);
   filters?.remember(query);
   const qs = toQueryString(query);
@@ -268,7 +286,9 @@ async function search(query, { push = false, focus = false, replace = false } = 
 function submitSearch() {
   const result = filters ? filters.collect() : { filters: {} };
   if (result.error) return;
-  search({ q: ui.input.value.trim(), page: 1, ...result.filters }, { push: true, focus: true });
+  const field = applyField(ui.field.value);
+  const byAuthor = field === "author" ? { field } : {}; // tema é o padrão e não vai na URL
+  search({ q: ui.input.value.trim(), page: 1, ...byAuthor, ...result.filters }, { push: true, focus: true });
 }
 
 ui.form.addEventListener("submit", (event) => {
@@ -283,6 +303,7 @@ window.addEventListener("popstate", () => {
     controller?.abort();
     ui.area.hidden = true;
     ui.input.value = "";
+    applyField("all");
     showQueryError(null);
   }
 });
@@ -291,8 +312,9 @@ loadSources().then((sources) => {
   filters = createFilters({ sources, onChange: submitSearch });
   const initial = readQuery();
   filters.setFrom(initial);
-  // Só preenche com a consulta da URL: sem ela, não apaga o que a pessoa já digitou enquanto as
-  // fontes carregavam (achado pelo fluxo de ponta a ponta da OS-032).
+  // Só preenche com a consulta da URL: sem ela, não apaga o que a pessoa já digitou (nem o campo
+  // "Buscar por" que já escolheu) enquanto as fontes carregavam (achado pela OS-032).
+  if (initial.field) applyField(initial.field);
   if (initial.q) {
     ui.input.value = initial.q;
     search(initial, { replace: true });

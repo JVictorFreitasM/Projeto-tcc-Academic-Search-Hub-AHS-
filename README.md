@@ -10,7 +10,7 @@ Licença: [MIT](LICENSE).
 
 ## Funcionalidades
 
-- **Busca unificada** em todas as fontes ativas, com filtros por ano e tipo, ordenação por relevância
+- **Busca unificada por tema ou por autor** em todas as fontes ativas, com filtros por ano e tipo, ordenação por relevância
   ou por ano e paginação. Se uma fonte falha, as outras continuam respondendo e o aviso mostra qual
   falhou.
 - **Duplicatas fundidas** por DOI e, na falta dele, por título, ano e sobrenome do primeiro autor.

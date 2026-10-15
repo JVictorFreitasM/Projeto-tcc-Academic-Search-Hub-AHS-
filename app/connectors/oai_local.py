@@ -20,7 +20,8 @@ logger = logging.getLogger(__name__)
 
 NOT_HARVESTED = "Fonte ainda não colhida"
 STOPWORDS_ONLY = "A consulta só tem palavras comuns demais para a busca local; tente outros termos."
-TS_CONFIG = "pt_unaccent"
+TS_CONFIG = "pt_unaccent"  # tema: com radical ("educação" acha "educacional")
+AUTHOR_TS_CONFIG = "unaccent_simple"  # autor: só tira o acento ("Paulo" não vira "Paula")
 
 
 def to_record(row: OaiRecord, slug: str) -> RecordOut:
@@ -91,10 +92,11 @@ class OaiLocalConnector:
     def _filters(
         self, query: SourceQuery, ts_query: ColumnElement[Any]
     ) -> list[ColumnElement[bool]]:
+        vector = OaiRecord.author_vector if query.field == "author" else OaiRecord.search_vector
         conditions: list[ColumnElement[bool]] = [
             OaiRecord.source == self.slug,
             OaiRecord.deleted.is_(False),
-            OaiRecord.search_vector.op("@@")(ts_query),
+            vector.op("@@")(ts_query),
         ]
         # Com filtro de ano, registros sem ano ficam de fora (year NULL nunca satisfaz o filtro).
         if query.year_from is not None:
@@ -118,7 +120,9 @@ class OaiLocalConnector:
 
     async def _search(self, session: AsyncSession, query: SourceQuery) -> SourcePage:
         # Texto do usuário só entra como parâmetro ligado (nunca concatenado ao SQL).
-        ts_query = func.websearch_to_tsquery(cast(literal(TS_CONFIG), REGCONFIG), query.q)
+        by_author = query.field == "author"
+        config = AUTHOR_TS_CONFIG if by_author else TS_CONFIG
+        ts_query = func.websearch_to_tsquery(cast(literal(config), REGCONFIG), query.q)
         if (await session.execute(select(func.numnode(ts_query)))).scalar_one() == 0:
             return SourcePage(records=[], total=0, status=SourceStatus.OK, message=STOPWORDS_ONLY)
 
@@ -127,7 +131,9 @@ class OaiLocalConnector:
             await session.execute(select(func.count()).select_from(OaiRecord).where(*conditions))
         ).scalar_one()
 
-        rank = func.ts_rank_cd(OaiRecord.search_vector, ts_query)
+        rank = func.ts_rank_cd(
+            OaiRecord.author_vector if by_author else OaiRecord.search_vector, ts_query
+        )
         year_last = case((OaiRecord.year.is_(None), 1), else_=0)
         order: tuple[Any, ...]
         if query.sort == "year_desc":

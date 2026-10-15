@@ -276,6 +276,7 @@ async def test_duration_only_in_development() -> None:
         {"page_size": 0},
         {"page_size": 51},
         {"sort": "aleatorio"},
+        {"field": "titulo"},
         {"types": ["filme"]},
     ],
 )
@@ -286,3 +287,20 @@ def test_invalid_params(bad: dict[str, object]) -> None:
 
 def test_query_is_trimmed() -> None:
     assert SearchParams(q="  educação  ").q == "educação"
+
+
+async def test_field_defaults_to_theme_and_reaches_every_connector() -> None:
+    a, b = FakeConnector("openalex"), FakeConnector("core")
+    await service(a, b).search(params())
+    assert a.queries[0].field == b.queries[0].field == "all"
+    a2, b2 = FakeConnector("openalex"), FakeConnector("core")
+    await service(a2, b2).search(params(field="author", q="Paulo Freire"))
+    assert a2.queries[0].field == b2.queries[0].field == "author"
+    assert a2.queries[0].q == "Paulo Freire"  # o nome segue como veio; cada fonte monta a consulta
+
+
+def test_search_params_field_values() -> None:
+    assert SearchParams(q="educação").field == "all"
+    assert SearchParams(q="Paulo Freire", field="author").field == "author"
+    with pytest.raises(ValidationError, match="o campo da busca deve ser"):
+        SearchParams(q="educação", field="resumo")

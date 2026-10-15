@@ -139,7 +139,7 @@ A lista completa e detalhada, com caixas para marcar, está em
 
 - [ ] **Testar o README numa pasta limpa** (clonar de novo e seguir só o README; anotar o que faltou).
   O passo 3 acima já é um bom teste disso.
-- [ ] **Ler as 16 divergências** em `docs/CONFORMIDADE_TCC.md` (seção 4) e ajustar o texto do TCC.
+- [ ] **Ler as 17 divergências** em `docs/CONFORMIDADE_TCC.md` (seção 4) e ajustar o texto do TCC.
 - [ ] **Decidir onde o sistema vai rodar.** Se for só na sua máquina para a defesa, o TCC deve dizer
   isso. Se for publicar: `docs/IMPLANTACAO.md` (os exemplos de `deploy/` **não foram executados**).
 - [ ] **Texto do TCC e as referências de Nielsen** (`docs/USABILIDADE.md`, seção 7): conferir na fonte.

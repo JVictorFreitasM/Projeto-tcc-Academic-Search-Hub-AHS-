@@ -181,6 +181,7 @@ ui.exportButton.addEventListener("click", async () => {
 
 function describeFilters(filters) {
   const parts = [];
+  if (filters.field === "author") parts.push("Busca por autor");
   if (filters.year_from || filters.year_to) parts.push(`Ano: ${filters.year_from ?? "…"}–${filters.year_to ?? "…"}`);
   if (filters.types?.length) parts.push(`Tipo: ${filters.types.map((t) => TYPE_LABELS[t] ?? t).join(", ")}`);
   if (filters.sources?.length) parts.push(`Fontes: ${filters.sources.map(nameOf).join(", ")}`);
@@ -197,6 +198,7 @@ function repeatUrl(entry) {
   if (f.types?.length) query.type = f.types.join(",");
   if (f.sources?.length) query.sources = f.sources.join(",");
   if (f.sort && f.sort !== "relevance") query.sort = f.sort;
+  if (f.field === "author") query.field = "author";
   return `index.html?${toQueryString(query)}`;
 }
 

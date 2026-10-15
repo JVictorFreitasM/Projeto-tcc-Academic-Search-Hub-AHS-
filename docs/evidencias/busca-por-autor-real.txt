@@ -1,0 +1,44 @@
+Busca por autor pela aplicação inteira (servidor, API e OpenAlex real), 15/10/2026
+Servidor em modo desenvolvimento, chave do OpenAlex lida do .env (não exibida). Só o OpenAlex tem dados.
+Os totais são o que a API devolveu neste momento e mudam com o tempo.
+
+GET /api/v1/search  (tema: educação inclusiva (padrão, sem field))
+   openalex: status=ok total=151654 resultados=5 duracao_ms=1408
+   - 2023 [article] Educação inclusiva | Erika Neder dos Santos
+   - 2020 [article] Educação inclusiva | Antonilma Santos Almeida Castro, Edinalma Rosa Oliveira Bastos, Zenilda Fonseca de Jesus Souza
+   - 2025 [book] EDUCAÇÃO INCLUSIVA | Aniceia Pereira do Nascimento
+
+GET /api/v1/search  (autor: Dermeval Saviani (nome completo))
+   openalex: status=ok total=170 resultados=5 duracao_ms=982
+   - 2008 [article] O legado educacional do regime militar | Dermeval Saviani
+   - 2009 [article] Formação de professores: aspectos históricos e teóricos | Dermeval Saviani
+   - 2007 [article] Trabalho e educação: fundamentos ontológicos e históric | Dermeval Saviani
+
+GET /api/v1/search  (autor: so o sobrenome (Saviani))
+   openalex: status=ok total=306 resultados=5 duracao_ms=675
+   - 2008 [article] O legado educacional do regime militar | Dermeval Saviani
+   - 2009 [article] Formação de professores: aspectos históricos e teóricos | Dermeval Saviani
+   - 2007 [article] Trabalho e educação: fundamentos ontológicos e históric | Dermeval Saviani
+
+GET /api/v1/search  (autor: sem acento (Moacir Gadotti; a obra traz Moaçir))
+   openalex: status=ok total=54 resultados=5 duracao_ms=914
+   - 2000 [article] Perspectivas atuais da educação | Moaçir Gadotti
+   - 2010 [article] Reorienting Education Practices towards Sustainability | Moaçir Gadotti
+   - 2008 [article] Education for Sustainability: A Critical Contribution t | Moaçir Gadotti
+
+GET /api/v1/search  (autor + ano 2015 a 2024 + tipo artigo)
+   openalex: status=ok total=83 resultados=5 duracao_ms=711
+   - 2020 [article] Políticas educacionais em tempos de golpe: retrocessos  | Dermeval Saviani
+   - 2023 [article] Perspectiva marxiana do problema subjetividade-intersub | Dermeval Saviani
+   - 2016 [article] EDUCAÇÃO ESCOLAR, CURRÍCULO E SOCIEDADE: o problema da  | Dermeval Saviani
+
+GET /api/v1/search  (autor + ordenada por ano)
+   openalex: status=ok total=306 resultados=5 duracao_ms=679
+   - 2026 [other] Search strategy for HPA activity and limbic structures  | Simone Frassoni, Maddalena Mauri, Federica Tizzoni
+   - 2026 [other] Search strategy for HPA activity and limbic structures  | Simone Frassoni, Maddalena Mauri, Federica Tizzoni
+   - 2026 [other] Search strategy for HPA activity and limbic structures  | Simone Frassoni, Maddalena Mauri, Federica Tizzoni
+
+GET /api/v1/search  (autor que nao existe)
+   openalex: status=ok total=0 resultados=0 duracao_ms=678
+
+field=resumo (invalido): HTTP 422

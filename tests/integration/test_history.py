@@ -149,7 +149,22 @@ async def test_logged_user_search_is_recorded_after_the_response(
         "year_to": None,
         "types": ["article", "thesis"],
         "sort": "year_desc",
+        "field": "all",
     }
+
+
+async def test_author_search_is_recorded_with_its_field_and_differs_from_the_theme_search(
+    client: httpx.AsyncClient, db: async_sessionmaker[AsyncSession]
+) -> None:
+    """ "Repetir busca" precisa saber se era por tema ou por autor: o campo vai no histórico."""
+    user_id, headers = await make_user(db, "ana")
+    for params in ({"q": "Freire", "field": "author"}, {"q": "Freire"}):
+        assert (
+            await client.get("/api/v1/search", params=params, headers=headers)
+        ).status_code == 200
+    rows = await history_rows(db, user_id)
+    assert sorted(row.filters["field"] for row in rows) == ["all", "author"]  # duas entradas
+    assert {row.query for row in rows} == {"Freire"}
 
 
 async def test_repeated_search_in_sequence_is_recorded_once(

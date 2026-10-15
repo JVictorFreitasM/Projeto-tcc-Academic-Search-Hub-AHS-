@@ -169,6 +169,7 @@ Parâmetros de consulta:
 | `page` | não | Página, a partir de 1 |
 | `page_size` | não | Itens por página (padrão e máximo vêm da configuração) |
 | `sort` | não | `relevance` (padrão) ou `year_desc` |
+| `field` | não | Onde procurar: `all` (padrão) busca o **tema** no título, no resumo e nas palavras-chave; `author` busca o **nome do autor** (nome completo ou só o sobrenome; a ordem e os acentos não importam) |
 
 Resposta `200` (`SearchResponse`): `query`, `page`, `page_size`, `total_estimated`,
 `total_is_estimate`, `results` (lista de registros) e `sources_status`, um objeto por fonte com
@@ -191,6 +192,24 @@ curl "BASE/api/v1/search?q=letramento+digital&year_from=2018&type=article,thesis
 const params = new URLSearchParams({ q: "letramento digital", year_from: "2018", type: "article" });
 const data = await (await fetch(`/api/v1/search?${params}`)).json();
 ```
+
+**Busca por autor:** com `field=author`, `q` é o nome do autor, e os demais parâmetros (ano, tipo,
+ordenação, página) valem do mesmo jeito.
+
+```
+curl "BASE/api/v1/search?q=Dermeval+Saviani&field=author&year_from=2015&type=article"
+```
+
+- Nome completo ou só o sobrenome. Com o sobrenome, vêm também **homônimos** do sobrenome (por
+  exemplo "Anna Saviani" numa busca por "Saviani"); o nome completo restringe mais.
+- A ordem do nome e os acentos não importam (`Freire, Paulo`, `paulo freire` e `Paulo Freire` dão o
+  mesmo resultado).
+- Na busca por autor, o texto **não** é procurado no título, no resumo nem nas palavras-chave.
+- Cada fonte faz a busca à sua maneira: no OpenAlex, pelo nome do autor registrado na publicação
+  (confirmado com chamada real); nas fontes OAI (índice local), por um índice de nomes sem
+  radicalização (`Paulo` não casa com `Paula`); no CORE, pelo campo `authors` (**sintaxe ainda não
+  confirmada** com chave real).
+- `field` com outro valor devolve `422`.
 
 ### `GET /api/v1/sources`
 

@@ -149,7 +149,8 @@ erDiagram
         text language
         jsonb keywords
         jsonb raw_types
-        tsvector search_vector "gatilho; GIN"
+        tsvector search_vector "gatilho; GIN; tema"
+        tsvector author_vector "gatilho; GIN; nomes dos autores"
         timestamptz harvested_at
     }
     harvest_runs {
@@ -184,7 +185,12 @@ Observações:
   continuar legível mesmo que a fonte mude.
 - A busca em `oai_records` usa a configuração `pt_unaccent` (português sem acentos) e um índice
   GIN sobre `search_vector`, mantido por gatilho com pesos A (título), B (palavras-chave) e C
-  (resumo). Os autores não entram no índice de texto.
+  (resumo). Os autores **não** entram nesse índice de tema.
+- A busca **por autor** (`field=author`) usa outro índice: `author_vector`, também por gatilho, com os
+  nomes do JSONB `authors` e a configuração `unaccent_simple` (só tira o acento; **sem radical**, para
+  "Paulo" não casar com "Paula"). Foi criado pela migração `0003`, que também preenche os registros
+  já colhidos. Nas fontes ao vivo, cada conector traduz o campo à sua maneira (OpenAlex:
+  `raw_author_name.search`; CORE: `authors:`).
 
 ## 4. Fluxo de colheita OAI-PMH
 

@@ -29,6 +29,7 @@ class SourceQuery:
     year_to: int | None = None
     types: tuple[RecordType, ...] = ()
     sort: str = "relevance"
+    field: str = "all"  # `all` (tema) ou `author` (nome do autor)
 
 
 @dataclass

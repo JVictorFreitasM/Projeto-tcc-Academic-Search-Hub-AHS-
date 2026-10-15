@@ -42,7 +42,14 @@ _CORE_TYPES: dict[RecordType, tuple[str, ...]] = {
 def build_query_string(query: SourceQuery) -> tuple[str, bool]:
     """Monta o parâmetro `q`. O booleano indica se o tipo precisa ser filtrado localmente."""
     q = "".join(ch for ch in query.q if ch.isprintable()).strip()
-    clauses = [f"({q})"]
+    if query.field == "author":
+        # [VERIFICAR] sintaxe de campo do CORE v3 (`authors:`), ainda não confirmada com chave real.
+        # Cada palavra do nome vira uma exigência (AND), para a ordem do nome não importar.
+        words = [w for w in q.replace('"', " ").replace(",", " ").split() if w]
+        terms = " AND ".join(f'"{word}"' for word in words) or '""'
+        clauses = [f"authors:({terms})"]
+    else:
+        clauses = [f"({q})"]
     if query.year_from is not None:
         clauses.append(f"yearPublished>={query.year_from}")
     if query.year_to is not None:

@@ -157,6 +157,7 @@ class SearchService:
             year_to=params.year_to,
             types=tuple(params.types or ()),
             sort=params.sort,
+            field=params.field,
         )
         outcomes = await asyncio.gather(*(self._run(c, query) for c in active))
 

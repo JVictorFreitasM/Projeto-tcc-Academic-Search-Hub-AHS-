@@ -158,3 +158,18 @@ def test_work_edge_cases() -> None:
         {"id": 8, "title": "T", "sourceFulltextUrls": ["ftp://x", "https://ok.org/a"]}
     )
     assert record is not None and record.url == "https://ok.org/a"
+
+
+def test_build_query_string_by_author_uses_the_authors_field() -> None:
+    """[VERIFICAR] sintaxe `authors:` do CORE v3: ainda sem chave real para confirmar."""
+    q, local = build_query_string(SourceQuery(q="Paulo Freire", field="author"))
+    assert q == 'authors:("Paulo" AND "Freire")' and local is False
+    # vírgula e aspas do usuário não quebram a consulta; a ordem do nome não importa
+    assert build_query_string(SourceQuery(q='Freire, "Paulo"', field="author"))[0] == (
+        'authors:("Freire" AND "Paulo")'
+    )
+    q, _ = build_query_string(
+        SourceQuery(q="Freire", field="author", year_from=2000, types=(RecordType.THESIS,))
+    )
+    assert q == 'authors:("Freire") AND yearPublished>=2000 AND (documentType:"thesis")'
+    assert build_query_string(SourceQuery(q="Freire"))[0] == "(Freire)"  # tema: igual a antes

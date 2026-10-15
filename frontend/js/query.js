@@ -1,6 +1,8 @@
 // Parâmetros de busca na URL (?q=&page=&year_from=...). Compartilhado pela busca e pelos filtros.
 
-export const FILTER_KEYS = ["year_from", "year_to", "type", "sources", "sort"];
+// `field` (tema ou autor) não é um filtro do painel, mas viaja na URL e na API como se fosse.
+export const FILTER_KEYS = ["year_from", "year_to", "type", "sources", "sort", "field"];
+export const SEARCH_FIELDS = ["all", "author"];
 export const MAX_QUERY_LENGTH = 200;
 export const MIN_QUERY_LENGTH = 2;
 

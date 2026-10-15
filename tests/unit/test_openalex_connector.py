@@ -10,6 +10,7 @@ from app.connectors.openalex import (
     BASE_URL,
     OpenAlexConnector,
     build_filter,
+    clean_author_name,
     reconstruct_abstract,
     work_to_record,
 )
@@ -251,3 +252,53 @@ def test_work_with_invalid_year_keeps_record() -> None:
         {"id": "https://openalex.org/W9", "title": "T", "publication_year": 99999}
     )
     assert record is not None and record.year is None
+
+
+def test_clean_author_name_removes_the_filter_separators() -> None:
+    assert clean_author_name("Freire, Paulo") == "Freire Paulo"
+    assert clean_author_name("a:b|c,d\x00  e") == "a b c d e"
+    assert clean_author_name(" , : | ") == ""
+
+
+def test_build_filter_by_author_comes_first_and_combines_with_year_and_type() -> None:
+    value, local = build_filter(
+        SourceQuery(
+            q="Dermeval Saviani",
+            field="author",
+            year_from=2015,
+            year_to=2024,
+            types=(RecordType.ARTICLE,),
+        )
+    )
+    assert (
+        value == "raw_author_name.search:Dermeval Saviani,publication_year:2015-2024,type:article"
+    )
+    assert local is False
+    assert build_filter(SourceQuery(q="educação"))[0] is None  # tema: sem filtro de autor
+
+
+@respx.mock
+async def test_search_by_author_uses_the_author_filter_and_no_text_search() -> None:
+    route = respx.get(BASE_URL).mock(return_value=httpx.Response(200, json=load_real()))
+    page = await connector().search(SourceQuery(q="Moaçir Gadotti", field="author", page_size=5))
+    assert page.status is SourceStatus.OK and page.total == 1_418_364
+    params = route.calls.last.request.url.params
+    assert "search" not in params
+    assert params["filter"] == "raw_author_name.search:Moaçir Gadotti"
+    assert params["per-page"] == "5" and params["page"] == "1"
+
+
+@respx.mock
+async def test_search_by_theme_still_sends_the_text_search_and_no_author_filter() -> None:
+    route = respx.get(BASE_URL).mock(return_value=httpx.Response(200, json=load_real()))
+    await connector().search(SourceQuery(q="educação"))
+    params = route.calls.last.request.url.params
+    assert params["search"] == "educação" and "filter" not in params
+
+
+@respx.mock
+async def test_search_by_author_with_only_punctuation_makes_no_request() -> None:
+    route = respx.get(BASE_URL).mock(return_value=httpx.Response(200, json={}))
+    page = await connector().search(SourceQuery(q=",:|", field="author"))
+    assert page.status is SourceStatus.OK and page.records == [] and page.total == 0
+    assert not route.called

@@ -16,6 +16,8 @@ MIN_QUERY_LENGTH = 2
 MAX_QUERY_LENGTH = 200
 MIN_YEAR_FILTER = 1900
 SORT_VALUES = ("relevance", "year_desc")
+# Onde procurar: `all` = tema (título, resumo e palavras-chave) e `author` = nome do autor.
+FIELD_VALUES = ("all", "author")
 
 
 class SearchParams(BaseModel):
@@ -29,6 +31,7 @@ class SearchParams(BaseModel):
     page: int = Field(default=1, ge=1)
     page_size: int = Field(default=20, ge=1)
     sort: str = "relevance"
+    field: str = "all"
 
     @field_validator("q")
     @classmethod
@@ -53,6 +56,13 @@ class SearchParams(BaseModel):
     def _sort_value(cls, value: str) -> str:
         if value not in SORT_VALUES:
             raise ValueError("a ordenação deve ser: " + ", ".join(SORT_VALUES))
+        return value
+
+    @field_validator("field")
+    @classmethod
+    def _field_value(cls, value: str) -> str:
+        if value not in FIELD_VALUES:
+            raise ValueError("o campo da busca deve ser: " + ", ".join(FIELD_VALUES))
         return value
 
     @model_validator(mode="after")

@@ -34,6 +34,7 @@ class OaiRecord(Base):
             name="type_allowed",
         ),
         Index("ix_oai_records_search_vector", "search_vector", postgresql_using="gin"),
+        Index("ix_oai_records_author_vector", "author_vector", postgresql_using="gin"),
         Index("ix_oai_records_source", "source"),
         Index("ix_oai_records_year", "year"),
         Index("ix_oai_records_type", "type"),
@@ -59,6 +60,8 @@ class OaiRecord(Base):
     raw_types: Mapped[list[Any]] = mapped_column(JSONB, server_default=text("'[]'::jsonb"))
     # Mantida por gatilho no banco (migração 0002): título peso A, palavras-chave B, resumo C.
     search_vector: Mapped[str | None] = deferred(mapped_column(TSVECTOR))
+    # Nomes dos autores, sem acento e sem radical; mantida por gatilho (migração 0003).
+    author_vector: Mapped[str | None] = deferred(mapped_column(TSVECTOR))
     harvested_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
