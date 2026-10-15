@@ -15,7 +15,8 @@ Licença: [MIT](LICENSE).
   falhou.
 - **Duplicatas fundidas** por DOI e, na falta dele, por título, ano e sobrenome do primeiro autor.
 - **Fontes ao vivo** (CORE, OpenAlex e BDTD, esta pela API REST pública do VuFind) e **fontes colhidas
-  por OAI-PMH** (hoje só a UFPE funciona; SciELO, UFPI e UESPI estão configuradas e desligadas),
+  por OAI-PMH** (UFPE ativa; UFMG, UFSCar, Unesp e UFRGS validadas e desabilitadas; SciELO, UFPI e
+  UESPI configuradas e indisponíveis),
   pesquisadas num índice local com busca em português sem acentos.
 - **Conta opcional:** favoritos com anotações, histórico de buscas e exportação dos favoritos.
   Visitantes buscam e exportam os resultados sem login.
@@ -43,6 +44,13 @@ alvos ficam em `tasks.py`):
    python tasks.py install
    ```
 2. **Banco de dados:** crie o usuário, os bancos e as extensões (ver `docs/EXECUCAO.md`, seção 1).
+   No Windows com PostgreSQL 18 instalado, a instância isolada deste projeto pode ser preparada por:
+   ```powershell
+   .\scripts\postgres-local.ps1 init
+   ```
+   Ela usa somente `127.0.0.1:5434`, grava os dados em `.postgres/` (ignorado pelo Git) e cria
+   `academic_search` e `academic_search_test`. Use `start`, `stop` ou `status` no lugar de `init`
+   nas execuções seguintes.
 3. **Configuração:** copie `.env.example` para `.env` e preencha ao menos `SECRET_KEY` (mínimo de 32
    caracteres aleatórios) e `DATABASE_URL`. Nunca faça commit do `.env`.
    Para gerar uma chave: `uv run python -c "import secrets; print(secrets.token_urlsafe(48))"`.

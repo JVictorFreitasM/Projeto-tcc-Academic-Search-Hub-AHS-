@@ -1,7 +1,8 @@
 # Mapeamento "campo da fonte → campo unificado" (OS-005)
 
 Tabela viva: cada conector (OS-007 a OS-010) confirma a sua coluna com uma resposta real e
-registra aqui o que mudou. **OpenAlex: confirmado com resposta real em 15/10/2026** (coluna abaixo, sem [VERIFICAR]; ver docs/evidencias/os-007-validacao-real.md). Os itens `[VERIFICAR]` do CORE ainda não foram conferidos com resposta real.
+registra aqui o que mudou. **OpenAlex e CORE: confirmados com respostas reais em 15/10/2026** (ver
+`docs/evidencias/os-007-validacao-real.md` e `docs/evidencias/core-validacao-real.txt`).
 
 | Campo unificado (`Record`) | OpenAlex (OS-007) | CORE (OS-008) | Fontes OAI `oai_dc` (OS-009) |
 |---|---|---|---|
@@ -10,12 +11,12 @@ registra aqui o que mudou. **OpenAlex: confirmado com resposta real em 15/10/202
 | `authors[].name` | `authorships[].author.display_name` | `authors[].name` | cada `dc:creator` |
 | `authors[].orcid` | `authorships[].author.orcid` | — | — |
 | `abstract` | `abstract_inverted_index` (reconstruído) | `abstract` | `dc:description` mais longo |
-| `year` | `publication_year` | campo de ano `[VERIFICAR]` ou `publishedDate` | primeiro `dc:date` válido |
+| `year` | `publication_year` | `yearPublished`, com fallback para `publishedDate` | primeiro `dc:date` válido |
 | `doi` | `doi` | `doi` | `dc:identifier`/`dc:relation` com DOI |
 | `url` | `primary_location.landing_page_url`, senão DOI, senão `open_access.oa_url` | página CORE (`/works/<id>`) ou `sourceFulltextUrls` | primeiro `dc:identifier` `http(s)` que não seja só o DOI nem `.pdf` |
 | `pdf_url` | `primary_location.pdf_url` / `best_oa_location.pdf_url` | `downloadUrl` | `dc:identifier`/`dc:relation` terminado em `.pdf` ou com `/bitstream/` |
-| `type` | `type` → tabela `OPENALEX_TYPE_MAP` | `documentType` → `CORE_TYPE_MAP` `[VERIFICAR]` | todos os `dc:type` → `map_oai_type` + `type_map`/`default_type` da fonte |
-| `language` | `language` (ISO 639-1) | campo `[VERIFICAR]` | `dc:language` → `normalize_language` |
+| `type` | `type` → tabela `OPENALEX_TYPE_MAP` | `documentType` → `CORE_TYPE_MAP` | todos os `dc:type` → `map_oai_type` + `type_map`/`default_type` da fonte |
+| `language` | `language` (ISO 639-1) | `language` | `dc:language` → `normalize_language` |
 | `keywords` | `keywords[].display_name` | — | `dc:subject` |
 | `sources[]` | `openalex` / id curto / URI | `core` / `id` / página CORE | `<slug>` / `oai_identifier` / `url` |
 

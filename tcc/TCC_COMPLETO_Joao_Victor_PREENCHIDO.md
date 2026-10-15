@@ -1,3 +1,6 @@
+> **ARQUIVO DESATUALIZADO — NÃO ENTREGAR.** A versão oficial revisada é
+> `TCC_COMPLETO_Joao_Victor.docx`.
+
 1 INTRODUÇÃO
 
 A elaboração de um Trabalho de Conclusão de Curso (TCC) exige que o estudante de graduação da Universidade Estadual do Piauí (UESPI) realize, logo nas etapas iniciais, um levantamento bibliográfico que sustente o tema escolhido. Esse levantamento depende de fontes abertas e confiáveis, e a produção científica disponível em acesso aberto está distribuída em plataformas independentes, cada uma com sua própria interface, lógica de busca e estrutura de dados.
@@ -86,7 +89,7 @@ O escopo do trabalho foi delimitado a uma aplicação exclusivamente web, acess�
 
 4 RESULTADOS E DISCUSSÕES
 
-Este capítulo descreve o que foi construído e o que foi observado durante o desenvolvimento e a verificação da aplicação Academic Search Hub. Os números apresentados foram medidos ou conferidos pelo autor entre 8 e 15 de outubro de 2026 e estão registrados nos arquivos de evidência do repositório do projeto. Não foi realizada medição comparativa de tempo entre a busca manual e a busca na aplicação; por isso, este trabalho não afirma que a aplicação reduz o tempo de busca, e essa comparação permanece como trabalho futuro.
+Este capítulo descreve o que foi construído e o que foi observado durante o desenvolvimento e a verificação da aplicação Academic Search Hub. O desenvolvimento ocorreu de forma incremental, e as medições e validações finais documentadas foram realizadas entre 8 e 15 de outubro de 2026. Os dados estão registrados nos arquivos de evidência do repositório do projeto. Não foi realizada medição comparativa de tempo entre a busca manual e a busca na aplicação; por isso, este trabalho não afirma que a aplicação reduz o tempo de busca, e essa comparação permanece como trabalho futuro.
 
 4.1 APRESENTAÇÃO DO ARTEFATO DESENVOLVIDO
 

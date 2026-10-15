@@ -74,11 +74,18 @@ def test_load_queries_refuses_an_empty_file(ms: ModuleType, tmp_path: Path) -> N
         ms.load_queries(path)
 
 
-def test_shipped_queries_file_is_empty_so_the_developer_must_choose() -> None:
-    """O arquivo entregue não traz consultas inventadas: quem define é o desenvolvedor."""
+def test_shipped_queries_file_contains_the_documented_scenario() -> None:
+    """As consultas distribuídas são exatamente as usadas no cenário documentado."""
     module = load("measure_search")
-    with pytest.raises(module.NoQueriesError):
-        module.load_queries(ROOT / "docs" / "evidencias" / "medicao" / "consultas.txt")
+    assert module.load_queries(
+        ROOT / "docs" / "evidencias" / "medicao" / "consultas.txt"
+    ) == [
+        "letramento digital",
+        "acessibilidade web",
+        "segurança em aplicações web",
+        "repositórios institucionais",
+        "educação a distância",
+    ]
 
 
 def test_duplicates_merged_is_only_computed_when_nothing_was_truncated(ms: ModuleType) -> None:

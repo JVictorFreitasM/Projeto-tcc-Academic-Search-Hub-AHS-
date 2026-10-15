@@ -1,19 +1,21 @@
 # Pendências do desenvolvedor
 
-Lista do que só você pode fazer (a IA não tem as chaves, as fontes reais nem pessoas para testar).
+Lista do que ainda depende do autor, de participantes ou de infraestrutura externa.
 Marque `[x]` quando terminar e escreva a data e uma observação. A OS-035 consolidou esta lista com
 os `[VERIFICAR]` que restaram e com o pacote de evidências do TCC (`docs/evidencias/PACOTE.md`);
 a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDADE_TCC.md`.
 
-Última atualização: 14/10/2026 (revisão final, OS-035).
+Última atualização: 15/10/2026 (validação das fontes e revisão bibliográfica).
 
 > Para retomar o trabalho em outro computador, com a ordem sugerida e o passo a passo, veja
 > `docs/CONTINUAR_EM_CASA.md`.
 
 ## O que mais pesa para o TCC (resumo)
 
-1. **Chaves e fontes reais** (seção 2): só o OpenAlex foi validado com dados reais (15/10/2026); faltam o CORE e as quatro fontes OAI.
-2. **Medição manual de tempo** (seção 4): sem ela, o TCC não pode afirmar redução de tempo de busca.
+1. **Fontes do escopo original** (seção 2): OpenAlex, CORE e BDTD foram validados com dados reais;
+   SciELO, UFPI e UESPI continuam bloqueados por limitações externas.
+2. **Medição com participantes** (seção 4): continua opcional e futura; o TCC não afirma redução de
+   tempo humano.
 3. ~~Contato do responsável na política de privacidade~~: **feito em 15/10/2026**.
 4. **Testes de acessibilidade com pessoas** (seção 3).
 5. **Decisões suas** (seções 1 e 8): nomes das 4 rotas, caixa "manter conectado", fontes extras.
@@ -31,11 +33,11 @@ a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDAD
   foge da convenção REST de substantivos no plural. Foram mantidos porque as OS e o TCC os definem.
   Opção A: manter e escrever no TCC que a API segue REST nos verbos e no formato, mas não na
   nomeação dessas rotas. Opção B: renomear (por exemplo `/users`, `/sessions`, `/exports`), o que
-  muda frontend, testes e documentos. A IA faz a B se você pedir.
+  muda frontend, testes e documentos.
 - [x] **Contato do responsável** na política de privacidade (`app/content/privacy_pt.md`): preenchido
   em 15/10/2026 com João Victor de Freitas Martins e o e-mail informado (LGPD, art. 18).
-- [ ] **Definir as 5 consultas** da medição, sobre temas dos cursos da UESPI, em
-  `docs/evidencias/medicao/consultas.txt`. Use as mesmas na medição manual e na da aplicação.
+- [x] **Definir as 5 consultas** da medição: concluído em 15/10/2026 e registrado em
+  `docs/evidencias/medicao/consultas.txt`.
 - [ ] **Definir o critério de "resultado útil"** (uma ou duas frases) em
   `docs/evidencias/medicao/ROTEIRO_MANUAL.md`, antes de medir.
 
@@ -44,8 +46,9 @@ a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDAD
 - [x] **Chave do OpenAlex** (`OPENALEX_API_KEY` no `.env`) e resposta real gravada em
   `tests/fixtures/openalex/search_ok.json` (feito em 15/10/2026; ver `docs/evidencias/os-007-validacao-real.md`).
   **Atenção:** a chave só existe no `.env` deste computador; recoloque-a no `.env` de outro.
-- [ ] **Chave do CORE** (`CORE_API_KEY` no `.env`) e gravar uma resposta real em
-  `tests/fixtures/core/` no lugar da fixture sintética.
+- [x] **Chave do CORE** usada localmente e resposta real gravada em
+  `tests/fixtures/core/search_ok.json` (feito em 15/10/2026; a chave não foi versionada; ver
+  `docs/evidencias/core-validacao-real.txt`).
 - [ ] **Trocar as demais fixtures sintéticas** por respostas reais (faltam só as de OAI):
   `STRICT_FIXTURES=1 uv run pytest tests/contract` lista as que faltam. OpenAlex, CORE e BDTD já
   estão reais.
@@ -61,11 +64,14 @@ a matriz E1 a E15 e as divergências TCC ↔ sistema estão em `docs/CONFORMIDAD
     **API REST** do VuFind (`app/connectors/bdtd_api.py`), sem chave;
   - **SciELO:** nenhum endereço OAI respondeu; há API REST (ArticleMeta), sem busca por texto.
   Enquanto não validadas, ficam `enabled: false`.
-- [x] **UFPE acrescentada e colhida** (15/10/2026) para provar o OAI-PMH. Outras candidatas (UFMG,
-  DOAJ...) em `docs/FONTES_CANDIDATAS.md`, seção 5.
-- [ ] **Rodar a colheita** das fontes OAI e conferir o estado (`status`) antes de medir.
+- [x] **UFPE acrescentada e colhida** (15/10/2026) para provar o OAI-PMH.
+- [x] **UFMG, UFSCar, Unesp e UFRGS validadas** (15/10/2026) com `Identify`, amostra real de 100
+  registros e `--dry-run` de 50 registros. Permanecem desabilitadas para não ampliar o escopo sem
+  decisão explícita. Ver `docs/evidencias/oai-universidades-validacao-20261015.md`.
+- [x] **Rodar a colheita da UFPE** e conferir o estado: concluído em 15/10/2026, com 12.366
+  registros ativos. As fontes candidatas continuam desabilitadas.
 
-## 3. Testes com pessoas (a IA não pode simular)
+## 3. Testes com pessoas
 
 Registrar o resultado na tabela de `docs/ACESSIBILIDADE.md`.
 
@@ -82,11 +88,11 @@ Registrar o resultado na tabela de `docs/ACESSIBILIDADE.md`.
 - [ ] **Medição manual de tempo** (roteiro em `docs/evidencias/medicao/ROTEIRO_MANUAL.md`):
   copiar `planilha_modelo.csv` para `planilha_preenchida.csv`, preencher e rodar
   `scripts/summarize_manual.py`.
-- [ ] **Medição da aplicação** com chaves reais e índice colhido:
-  `uv run python scripts/measure_search.py --base-url http://127.0.0.1:8000 --runs 5`.
-- [ ] **Preencher** `docs/evidencias/medicao/RELATORIO.md` com os números exatamente como saíram.
-- [ ] **Se não fizer a medição manual:** remover do TCC qualquer afirmação de que a aplicação
-  reduz o tempo ou o esforço de busca.
+- [x] **Medição da aplicação** com chaves reais e índice colhido: concluída em 15/10/2026, com três
+  execuções para cada uma das cinco consultas.
+- [x] **Preencher** `docs/evidencias/medicao/RELATORIO.md`: concluído em 15/10/2026.
+- [x] **Limitar as conclusões:** o TCC não afirma redução de tempo humano; registra somente a
+  comparação procedimental do cenário controlado.
 
 ## 5. Capturas e importações
 
@@ -108,37 +114,34 @@ Registrar o resultado na tabela de `docs/ACESSIBILIDADE.md`.
 
 ## 7. Itens `[VERIFICAR]` ainda abertos
 
-Dependem de chamada real às fontes ou de importação manual; nada disso foi confirmado.
+Dependem de chamada real às fontes, importação em programa externo ou coleta com participantes.
 
 - [x] **OpenAlex (resolvido em 15/10/2026):** sintaxe dos filtros de ano (`publication_year:A-B`), de tipo (`type:a|b`) e da
   ordenação (`sort=publication_year:desc`); campos `authorships[].author.display_name`, `.orcid` e
   `primary_location.landing_page_url`. (`docs/DECISOES.md`, OS-007; `docs/evidencias/os-005-mapeamento.md`)
-- [ ] **CORE:** filtros embutidos em `q` (`yearPublished>=A AND yearPublished<=B`,
-  `documentType:"thesis"`), campo de ano, idioma, `limit` máximo de 100 (`MAX_LIMIT` em
-  `app/connectors/core_api.py`) e o mapa de tipos de documento. (`docs/DECISOES.md`, OS-008)
-- [ ] **CORE, busca por autor:** a sintaxe `authors:("Nome" AND "Sobrenome")` (em `build_query_string`,
-  `app/connectors/core_api.py`) vem da documentação e **não foi confirmada** (sem chave). Conferir
-  com uma busca real e, se divergir, ajustar e registrar em `docs/DECISOES.md`.
+- [x] **CORE (resolvido em 15/10/2026):** filtros embutidos em `q` para ano e tipo, campo de ano,
+  idioma, limite máximo de 100, mapa de tipos e busca por autor foram exercitados com respostas
+  reais. Ver `docs/evidencias/core-validacao-real.txt` e o adendo em `docs/os/OS-008-relatorio.md`.
 - [ ] **Fontes OAI, busca por autor:** o índice de nomes (migração `0003`) foi provado só com dados
   **sintéticos**; confirme com uma colheita real (por exemplo `Paulo Freire` na UFPE) quando houver.
 - [ ] **Importação no Zotero ou Mendeley:** teses saem como `@thesis`/`THES` e preprint e outros como
   `@misc`/`GEN`; conferir na importação (`docs/evidencias/os-019/LEIA-ME.md`).
-- [ ] **Endereços OAI** das quatro fontes (já listado na seção 2).
+- [ ] **Fontes OAI do escopo original:** SciELO ainda sem endpoint OAI válido; UFPI e UESPI precisam
+  de correção do índice e da cadeia TLS pelos administradores. Os endereços de UFPE, UFMG, UFSCar,
+  Unesp e UFRGS já foram confirmados.
 
 Ao receber as chaves e rodar a primeira chamada real, se algo divergir, ajuste `build_filter`
 (OpenAlex) e `build_query_string` (CORE) e registre em `docs/DECISOES.md`.
 
 ## Observação sobre o banco local
 
-A instância do PostgreSQL do projeto roda na porta 5434 (dados em `C:\Users\Copperline\pgdata-tcc`).
-Se a máquina reiniciar, ela precisa ser iniciada de novo antes dos testes de banco e dos fluxos de
-ponta a ponta. No PowerShell:
+A instância isolada do PostgreSQL do projeto roda na porta 5434 e mantém os dados em `.postgres/data`.
+Se a máquina reiniciar, ela precisa ser iniciada antes dos testes de banco e dos fluxos de ponta a
+ponta. No PowerShell, a partir da raiz do projeto:
 
 ```
-$b = "C:\Program Files\PostgreSQL\18\bin"; $d = "C:\Users\Copperline\pgdata-tcc"
-Remove-Item "$d\postmaster.pid" -ErrorAction SilentlyContinue
-Start-Process "$b\pg_ctl.exe" -ArgumentList "-D","`"$d`"","-o","`"-p 5434`"","-l","`"$d\server.log`"","start" -WindowStyle Hidden
-& "$b\pg_isready.exe" -h 127.0.0.1 -p 5434   # repita até aparecer "aceitando conexões"
+.\scripts\postgres-local.ps1 start
+.\scripts\postgres-local.ps1 status
 ```
 
 Depois de uma queda, a recuperação do banco pode levar alguns minutos.

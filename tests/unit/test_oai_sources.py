@@ -17,10 +17,24 @@ def write(tmp_path: Path, text: str) -> Path:
 
 def test_project_file_has_the_expected_sources() -> None:
     sources = load_oai_sources(ROOT / "config" / "oai_sources.yml")
-    assert [s.slug for s in sources] == ["scielo", "ufpi", "uespi", "ufpe"]
-    # Só a UFPE tem OAI-PMH funcionando (colhida em 15/10/2026); as demais seguem desligadas.
+    assert [s.slug for s in sources] == [
+        "scielo",
+        "ufpi",
+        "uespi",
+        "ufpe",
+        "ufmg",
+        "ufscar",
+        "unesp",
+        "ufrgs",
+    ]
+    # Só a UFPE foi colhida integralmente; as candidatas validadas seguem desligadas.
     assert {s.slug for s in sources if s.enabled} == {"ufpe"}
     # a BDTD é consultada pela API REST (bdtd_api.py), não por OAI-PMH
+
+    by_slug = {source.slug: source for source in sources}
+    assert by_slug["ufmg"].type_map["Dissertação de mestrado"].value == "thesis"
+    assert by_slug["ufscar"].type_map["TCC"].value == "other"
+    assert by_slug["unesp"].type_map["Artigo"].value == "article"
 
 
 def test_valid_source(tmp_path: Path) -> None:

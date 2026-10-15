@@ -54,3 +54,56 @@ sources:
     type_map:
       CapituloLivro: book
       Trabalho de conclusao de especializacao: other
+
+  # Fontes adicionais validadas em 15/10/2026 com Identify e uma página real de 100 registros.
+  # Permanecem desligadas para não ampliar silenciosamente o conjunto pesquisado nem iniciar uma
+  # colheita grande. Podem ser testadas com `identify` e `run --limit 50 --dry-run`.
+  - slug: ufmg
+    name: Repositório Institucional da UFMG
+    base_url: https://repositorio.ufmg.br/server/oai/request
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: false
+    default_type: other
+    type_map:
+      Dissertação de mestrado: thesis
+      Tese de doutorado: thesis
+      Artigo de periódico: article
+      Monografia de especialização: other
+
+  - slug: ufscar
+    name: Repositório Institucional da UFSCar
+    base_url: https://repositorio.ufscar.br/server/oai/request
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: false
+    default_type: other
+    type_map:
+      Dissertação: thesis
+      Tese: thesis
+      TCC: other
+      Dataset: other
+
+  - slug: unesp
+    name: Repositório Institucional da Unesp
+    base_url: https://repositorio.unesp.br/server/oai/request
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: false
+    default_type: other
+    type_map:
+      Artigo: article
+      Dissertação de mestrado: thesis
+      Tese de doutorado: thesis
+      Trabalho de conclusão de curso: other
+
+  - slug: ufrgs
+    name: Lume — Repositório Digital da UFRGS
+    base_url: https://lume.ufrgs.br/oai/request
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: false
+    default_type: other
+    type_map:
+      Resumo publicado em evento: other
+      Trabalho completo publicado em evento: other

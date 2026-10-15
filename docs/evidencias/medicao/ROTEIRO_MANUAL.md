@@ -1,8 +1,9 @@
 # Roteiro da medição manual (passo do desenvolvedor ou de voluntários)
 
-Objetivo: comparar, com tempos medidos, o esforço de achar trabalhos sobre um tema **buscando à mão
-nas seis fontes** com o esforço de fazer o mesmo **na aplicação**. A IA não pode fazer esta medição:
-ela exige pessoas, cronômetro e as fontes reais.
+Objetivo: orientar uma avaliação futura, com participantes e tempos medidos, do esforço de achar
+trabalhos sobre um tema **buscando manualmente nas fontes** e fazendo o mesmo **na aplicação**.
+Essa avaliação exige pessoas, cronômetro e acesso às fontes reais. Ela não foi executada no cenário
+controlado de 15/10/2026.
 
 ## Preparação
 
@@ -20,8 +21,8 @@ ela exige pessoas, cronômetro e as fontes reais.
 ### Método manual
 
 1. Zere o cronômetro. Inicie ao abrir o primeiro site.
-2. Nas **seis fontes** (CORE, SciELO, OpenAlex, BDTD, UFPI, UESPI): abra o site, digite a consulta e
-   veja os resultados.
+2. Em cada fonte que estiver operacional na data da avaliação, abra o site, digite a consulta e veja
+   os resultados. Registre quais fontes foram usadas e quais estavam indisponíveis.
 3. Copie para um documento os resultados **relevantes** (critério fixo, igual para todas as pessoas:
    escreva-o abaixo antes de começar) e **remova as duplicatas à mão**.
 4. Pare o cronômetro ao ter a lista final pronta. Anote o tempo e quantos resultados úteis ficaram.

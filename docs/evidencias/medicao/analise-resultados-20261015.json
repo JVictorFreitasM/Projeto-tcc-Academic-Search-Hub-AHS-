@@ -1,0 +1,286 @@
+[
+  {
+    "consulta": "letramento digital",
+    "tempo_ms": 12032.1,
+    "total_estimado": 50943,
+    "resultados_exibidos": 15,
+    "fontes_ok": [
+      "bdtd",
+      "openalex",
+      "ufpe"
+    ],
+    "fontes_com_falha": [
+      "core",
+      "scielo",
+      "uespi",
+      "ufmg",
+      "ufpi",
+      "ufrgs",
+      "ufscar",
+      "unesp"
+    ],
+    "completude": {
+      "autoria": {
+        "n": 15,
+        "percentual": 100.0
+      },
+      "ano": {
+        "n": 15,
+        "percentual": 100.0
+      },
+      "resumo": {
+        "n": 15,
+        "percentual": 100.0
+      },
+      "doi": {
+        "n": 4,
+        "percentual": 26.7
+      },
+      "pdf": {
+        "n": 5,
+        "percentual": 33.3
+      },
+      "idioma": {
+        "n": 14,
+        "percentual": 93.3
+      }
+    },
+    "aderencia_lexical": {
+      "n": 15,
+      "percentual": 100.0
+    },
+    "registros_multifonte": 0,
+    "tipos": {
+      "article": 5,
+      "thesis": 10
+    }
+  },
+  {
+    "consulta": "acessibilidade web",
+    "tempo_ms": 5983.6,
+    "total_estimado": 49782,
+    "resultados_exibidos": 17,
+    "fontes_ok": [
+      "bdtd",
+      "core",
+      "openalex",
+      "ufpe"
+    ],
+    "fontes_com_falha": [
+      "scielo",
+      "uespi",
+      "ufmg",
+      "ufpi",
+      "ufrgs",
+      "ufscar",
+      "unesp"
+    ],
+    "completude": {
+      "autoria": {
+        "n": 17,
+        "percentual": 100.0
+      },
+      "ano": {
+        "n": 17,
+        "percentual": 100.0
+      },
+      "resumo": {
+        "n": 17,
+        "percentual": 100.0
+      },
+      "doi": {
+        "n": 4,
+        "percentual": 23.5
+      },
+      "pdf": {
+        "n": 5,
+        "percentual": 29.4
+      },
+      "idioma": {
+        "n": 15,
+        "percentual": 88.2
+      }
+    },
+    "aderencia_lexical": {
+      "n": 17,
+      "percentual": 100.0
+    },
+    "registros_multifonte": 3,
+    "tipos": {
+      "article": 4,
+      "other": 3,
+      "thesis": 10
+    }
+  },
+  {
+    "consulta": "segurança em aplicações web",
+    "tempo_ms": 13606.4,
+    "total_estimado": 36465,
+    "resultados_exibidos": 19,
+    "fontes_ok": [
+      "bdtd",
+      "core",
+      "openalex",
+      "ufpe"
+    ],
+    "fontes_com_falha": [
+      "scielo",
+      "uespi",
+      "ufmg",
+      "ufpi",
+      "ufrgs",
+      "ufscar",
+      "unesp"
+    ],
+    "completude": {
+      "autoria": {
+        "n": 19,
+        "percentual": 100.0
+      },
+      "ano": {
+        "n": 19,
+        "percentual": 100.0
+      },
+      "resumo": {
+        "n": 17,
+        "percentual": 89.5
+      },
+      "doi": {
+        "n": 4,
+        "percentual": 21.1
+      },
+      "pdf": {
+        "n": 4,
+        "percentual": 21.1
+      },
+      "idioma": {
+        "n": 17,
+        "percentual": 89.5
+      }
+    },
+    "aderencia_lexical": {
+      "n": 19,
+      "percentual": 100.0
+    },
+    "registros_multifonte": 1,
+    "tipos": {
+      "book": 2,
+      "other": 6,
+      "thesis": 11
+    }
+  },
+  {
+    "consulta": "repositórios institucionais",
+    "tempo_ms": 5047.6,
+    "total_estimado": 32134,
+    "resultados_exibidos": 17,
+    "fontes_ok": [
+      "bdtd",
+      "core",
+      "openalex",
+      "ufpe"
+    ],
+    "fontes_com_falha": [
+      "scielo",
+      "uespi",
+      "ufmg",
+      "ufpi",
+      "ufrgs",
+      "ufscar",
+      "unesp"
+    ],
+    "completude": {
+      "autoria": {
+        "n": 16,
+        "percentual": 94.1
+      },
+      "ano": {
+        "n": 17,
+        "percentual": 100.0
+      },
+      "resumo": {
+        "n": 17,
+        "percentual": 100.0
+      },
+      "doi": {
+        "n": 4,
+        "percentual": 23.5
+      },
+      "pdf": {
+        "n": 7,
+        "percentual": 41.2
+      },
+      "idioma": {
+        "n": 15,
+        "percentual": 88.2
+      }
+    },
+    "aderencia_lexical": {
+      "n": 17,
+      "percentual": 100.0
+    },
+    "registros_multifonte": 1,
+    "tipos": {
+      "article": 4,
+      "other": 6,
+      "thesis": 7
+    }
+  },
+  {
+    "consulta": "educação a distância",
+    "tempo_ms": 3794.4,
+    "total_estimado": 286440,
+    "resultados_exibidos": 20,
+    "fontes_ok": [
+      "bdtd",
+      "core",
+      "openalex",
+      "ufpe"
+    ],
+    "fontes_com_falha": [
+      "scielo",
+      "uespi",
+      "ufmg",
+      "ufpi",
+      "ufrgs",
+      "ufscar",
+      "unesp"
+    ],
+    "completude": {
+      "autoria": {
+        "n": 20,
+        "percentual": 100.0
+      },
+      "ano": {
+        "n": 20,
+        "percentual": 100.0
+      },
+      "resumo": {
+        "n": 19,
+        "percentual": 95.0
+      },
+      "doi": {
+        "n": 5,
+        "percentual": 25.0
+      },
+      "pdf": {
+        "n": 8,
+        "percentual": 40.0
+      },
+      "idioma": {
+        "n": 20,
+        "percentual": 100.0
+      }
+    },
+    "aderencia_lexical": {
+      "n": 20,
+      "percentual": 100.0
+    },
+    "registros_multifonte": 0,
+    "tipos": {
+      "article": 4,
+      "other": 5,
+      "thesis": 11
+    }
+  }
+]

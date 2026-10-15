@@ -6,9 +6,8 @@ VS Code (com a extensão de Markdown) desenham sozinhos.
 ## 1. Componentes
 
 A aplicação é um processo só (FastAPI) que serve a API e o frontend estático, fala com um
-PostgreSQL e consulta as fontes. Duas fontes são consultadas **ao vivo** (OpenAlex e CORE); as
-demais (SciELO, BDTD, UFPI e UESPI, por OAI-PMH) são **colhidas antes** para uma tabela local e
-pesquisadas ali.
+PostgreSQL e consulta as fontes. Três fontes são consultadas **ao vivo** (OpenAlex, CORE e BDTD);
+os repositórios OAI-PMH habilitados são **colhidos antes** para uma tabela local e pesquisados ali.
 
 ```mermaid
 flowchart LR
@@ -19,6 +18,7 @@ flowchart LR
         search[SearchService<br/>orquestra a busca]
         c_oa[OpenAlexConnector]
         c_core[CoreConnector]
+        c_bdtd[BdtdConnector]
         c_oai[OaiLocalConnector<br/>uma por fonte OAI]
         svc[Serviços: contas, favoritos,<br/>histórico, exportação, eventos]
     end
@@ -26,7 +26,8 @@ flowchart LR
     db[(PostgreSQL)]
     oa[(API OpenAlex)]
     core[(API CORE)]
-    oai[(Servidores OAI-PMH<br/>SciELO, BDTD, UFPI, UESPI)]
+    bdtd[(API REST BDTD / IBICT)]
+    oai[(Servidores OAI-PMH<br/>UFPE e fontes habilitadas)]
 
     user --> fe
     user --> api
@@ -35,6 +36,7 @@ flowchart LR
     api --> svc
     search --> c_oa --> oa
     search --> c_core --> core
+    search --> c_bdtd --> bdtd
     search --> c_oai --> db
     svc --> db
     cli --> oai

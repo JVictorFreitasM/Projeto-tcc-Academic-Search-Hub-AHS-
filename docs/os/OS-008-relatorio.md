@@ -25,3 +25,12 @@ Passo manual 0 não executado (sem chave): fixture sintética, como a OS permite
 
 ## Evidência para o TCC
 Mapeamento do CORE em `docs/evidencias/os-005-mapeamento.md` (a conferir com resposta real). **Pendente (desenvolvedor):** busca real em `docs/evidencias/os-008-busca-real.json`, sem a chave.
+
+## Adendo de validação — 15/10/2026
+
+A pendência acima foi resolvida depois da OS original. Uma chave válida foi usada somente no
+ambiente local e não foi gravada no repositório. A fixture `tests/fixtures/core/search_ok.json` foi
+substituída por uma resposta real da API v3. Foram confirmados, com respostas reais, os filtros de
+ano e tipo, a consulta por autor, a paginação e o limite de 100 resultados. A saída da validação está
+em `docs/evidencias/core-validacao-real.txt`. Os totais pertencem ao instante da consulta e podem
+mudar.

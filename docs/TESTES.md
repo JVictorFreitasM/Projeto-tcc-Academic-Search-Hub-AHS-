@@ -34,6 +34,10 @@ Crie o banco `academic_search_test` e as extensões (ver `docs/EXECUCAO.md`) e d
 `TEST_DATABASE_URL` no `.env`. O banco é recriado do zero a cada execução (`alembic downgrade
 base` + `upgrade head`). **Não** aponte para um banco com dados que importam.
 
+Neste computador, a instância isolada pode ser iniciada com
+`.\scripts\postgres-local.ps1 start`; ela escuta apenas em `127.0.0.1:5434`. A inicialização
+completa é `.\scripts\postgres-local.ps1 init`.
+
 ## Nenhum teste usa a internet
 
 `tests/conftest.py` bloqueia (fixture automática de sessão) toda conexão e resolução de nome para

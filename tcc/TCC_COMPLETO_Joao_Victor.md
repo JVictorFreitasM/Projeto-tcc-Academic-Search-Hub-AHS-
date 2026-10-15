@@ -1,3 +1,6 @@
+> **ARQUIVO DESATUALIZADO — NÃO ENTREGAR.** A versão oficial revisada é
+> `TCC_COMPLETO_Joao_Victor.docx`.
+
 1 INTRODUÇÃO
 
 A elaboração de um Trabalho de Conclusão de Curso (TCC) exige que o estudante de graduação da Universidade Estadual do Piauí (UESPI) realize, logo nas etapas iniciais, um levantamento bibliográfico que sustente o tema escolhido. Esse levantamento depende de fontes abertas e confiáveis, e a produção científica disponível em acesso aberto está distribuída em plataformas independentes, cada uma com sua própria interface, lógica de busca e estrutura de dados.
@@ -86,7 +89,7 @@ O escopo do trabalho foi delimitado a uma aplicação exclusivamente web, acess�
 
 4 RESULTADOS E DISCUSSÕES
 
-Este capítulo apresenta a aplicação desenvolvida e o que foi observado na sua verificação. Os números relatados foram obtidos pelo próprio projeto entre 8 e 15 de outubro de 2026, e os totais informados pelas fontes refletem o momento da consulta e mudam com o tempo. Não foi realizada a comparação entre o tempo da busca manual e o da busca na aplicação; por isso, este trabalho não faz afirmações sobre ganho de tempo.
+Este capítulo apresenta a aplicação desenvolvida e o que foi observado na sua verificação. O desenvolvimento ocorreu de forma incremental, e as medições e validações finais documentadas foram realizadas entre 8 e 15 de outubro de 2026. Os totais informados pelas fontes refletem o momento da consulta e mudam com o tempo. Não foi realizada a comparação entre o tempo da busca manual e o da busca na aplicação; por isso, este trabalho não faz afirmações sobre ganho de tempo.
 
 4.1 APRESENTAÇÃO DO ARTEFATO DESENVOLVIDO
 

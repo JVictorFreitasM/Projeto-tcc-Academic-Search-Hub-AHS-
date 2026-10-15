@@ -1,0 +1,166 @@
+﻿consulta;execucao;tempo_total_ms;http_status;resultados_exibidos;registros_das_fontes;duplicatas_fundidas;fonte;status_da_fonte;fonte_registros;fonte_total_estimado;fonte_duracao_ms
+letramento digital;1;1156.2;200;17;20;3;bdtd;ok;5;4032;312
+letramento digital;1;1156.2;200;17;20;3;core;ok;5;2524;1131
+letramento digital;1;1156.2;200;17;20;3;openalex;ok;5;46894;863
+letramento digital;1;1156.2;200;17;20;3;scielo;disabled;0;0;
+letramento digital;1;1156.2;200;17;20;3;uespi;disabled;0;0;
+letramento digital;1;1156.2;200;17;20;3;ufmg;disabled;0;0;
+letramento digital;1;1156.2;200;17;20;3;ufpe;ok;5;17;20
+letramento digital;1;1156.2;200;17;20;3;ufpi;disabled;0;0;
+letramento digital;1;1156.2;200;17;20;3;ufrgs;disabled;0;0;
+letramento digital;1;1156.2;200;17;20;3;ufscar;disabled;0;0;
+letramento digital;1;1156.2;200;17;20;3;unesp;disabled;0;0;
+letramento digital;2;1830.9;200;17;20;3;bdtd;ok;5;4032;306
+letramento digital;2;1830.9;200;17;20;3;core;ok;5;2524;1805
+letramento digital;2;1830.9;200;17;20;3;openalex;ok;5;46894;1031
+letramento digital;2;1830.9;200;17;20;3;scielo;disabled;0;0;
+letramento digital;2;1830.9;200;17;20;3;uespi;disabled;0;0;
+letramento digital;2;1830.9;200;17;20;3;ufmg;disabled;0;0;
+letramento digital;2;1830.9;200;17;20;3;ufpe;ok;5;17;26
+letramento digital;2;1830.9;200;17;20;3;ufpi;disabled;0;0;
+letramento digital;2;1830.9;200;17;20;3;ufrgs;disabled;0;0;
+letramento digital;2;1830.9;200;17;20;3;ufscar;disabled;0;0;
+letramento digital;2;1830.9;200;17;20;3;unesp;disabled;0;0;
+letramento digital;3;1226.4;200;17;20;3;bdtd;ok;5;4032;284
+letramento digital;3;1226.4;200;17;20;3;core;ok;5;2524;1210
+letramento digital;3;1226.4;200;17;20;3;openalex;ok;5;46894;822
+letramento digital;3;1226.4;200;17;20;3;scielo;disabled;0;0;
+letramento digital;3;1226.4;200;17;20;3;uespi;disabled;0;0;
+letramento digital;3;1226.4;200;17;20;3;ufmg;disabled;0;0;
+letramento digital;3;1226.4;200;17;20;3;ufpe;ok;5;17;20
+letramento digital;3;1226.4;200;17;20;3;ufpi;disabled;0;0;
+letramento digital;3;1226.4;200;17;20;3;ufrgs;disabled;0;0;
+letramento digital;3;1226.4;200;17;20;3;ufscar;disabled;0;0;
+letramento digital;3;1226.4;200;17;20;3;unesp;disabled;0;0;
+acessibilidade web;1;2177.0;200;17;20;3;bdtd;ok;5;509;333
+acessibilidade web;1;2177.0;200;17;20;3;core;ok;5;210;2156
+acessibilidade web;1;2177.0;200;17;20;3;openalex;ok;5;49055;1103
+acessibilidade web;1;2177.0;200;17;20;3;scielo;disabled;0;0;
+acessibilidade web;1;2177.0;200;17;20;3;uespi;disabled;0;0;
+acessibilidade web;1;2177.0;200;17;20;3;ufmg;disabled;0;0;
+acessibilidade web;1;2177.0;200;17;20;3;ufpe;ok;5;8;20
+acessibilidade web;1;2177.0;200;17;20;3;ufpi;disabled;0;0;
+acessibilidade web;1;2177.0;200;17;20;3;ufrgs;disabled;0;0;
+acessibilidade web;1;2177.0;200;17;20;3;ufscar;disabled;0;0;
+acessibilidade web;1;2177.0;200;17;20;3;unesp;disabled;0;0;
+acessibilidade web;2;1203.0;200;17;20;3;bdtd;ok;5;509;353
+acessibilidade web;2;1203.0;200;17;20;3;core;ok;5;210;1184
+acessibilidade web;2;1203.0;200;17;20;3;openalex;ok;5;49055;828
+acessibilidade web;2;1203.0;200;17;20;3;scielo;disabled;0;0;
+acessibilidade web;2;1203.0;200;17;20;3;uespi;disabled;0;0;
+acessibilidade web;2;1203.0;200;17;20;3;ufmg;disabled;0;0;
+acessibilidade web;2;1203.0;200;17;20;3;ufpe;ok;5;8;18
+acessibilidade web;2;1203.0;200;17;20;3;ufpi;disabled;0;0;
+acessibilidade web;2;1203.0;200;17;20;3;ufrgs;disabled;0;0;
+acessibilidade web;2;1203.0;200;17;20;3;ufscar;disabled;0;0;
+acessibilidade web;2;1203.0;200;17;20;3;unesp;disabled;0;0;
+acessibilidade web;3;1144.0;200;17;20;3;bdtd;ok;5;509;280
+acessibilidade web;3;1144.0;200;17;20;3;core;ok;5;210;1125
+acessibilidade web;3;1144.0;200;17;20;3;openalex;ok;5;49055;751
+acessibilidade web;3;1144.0;200;17;20;3;scielo;disabled;0;0;
+acessibilidade web;3;1144.0;200;17;20;3;uespi;disabled;0;0;
+acessibilidade web;3;1144.0;200;17;20;3;ufmg;disabled;0;0;
+acessibilidade web;3;1144.0;200;17;20;3;ufpe;ok;5;8;27
+acessibilidade web;3;1144.0;200;17;20;3;ufpi;disabled;0;0;
+acessibilidade web;3;1144.0;200;17;20;3;ufrgs;disabled;0;0;
+acessibilidade web;3;1144.0;200;17;20;3;ufscar;disabled;0;0;
+acessibilidade web;3;1144.0;200;17;20;3;unesp;disabled;0;0;
+segurança em aplicações web;1;1996.0;200;19;20;1;bdtd;ok;5;240;467
+segurança em aplicações web;1;1996.0;200;19;20;1;core;ok;5;23;1357
+segurança em aplicações web;1;1996.0;200;19;20;1;openalex;ok;5;36197;1252
+segurança em aplicações web;1;1996.0;200;19;20;1;scielo;disabled;0;0;
+segurança em aplicações web;1;1996.0;200;19;20;1;uespi;disabled;0;0;
+segurança em aplicações web;1;1996.0;200;19;20;1;ufmg;disabled;0;0;
+segurança em aplicações web;1;1996.0;200;19;20;1;ufpe;ok;5;5;21
+segurança em aplicações web;1;1996.0;200;19;20;1;ufpi;disabled;0;0;
+segurança em aplicações web;1;1996.0;200;19;20;1;ufrgs;disabled;0;0;
+segurança em aplicações web;1;1996.0;200;19;20;1;ufscar;disabled;0;0;
+segurança em aplicações web;1;1996.0;200;19;20;1;unesp;disabled;0;0;
+segurança em aplicações web;2;3098.8;200;19;20;1;bdtd;ok;5;240;319
+segurança em aplicações web;2;3098.8;200;19;20;1;core;ok;5;23;2666
+segurança em aplicações web;2;3098.8;200;19;20;1;openalex;ok;5;36197;821
+segurança em aplicações web;2;3098.8;200;19;20;1;scielo;disabled;0;0;
+segurança em aplicações web;2;3098.8;200;19;20;1;uespi;disabled;0;0;
+segurança em aplicações web;2;3098.8;200;19;20;1;ufmg;disabled;0;0;
+segurança em aplicações web;2;3098.8;200;19;20;1;ufpe;ok;5;5;25
+segurança em aplicações web;2;3098.8;200;19;20;1;ufpi;disabled;0;0;
+segurança em aplicações web;2;3098.8;200;19;20;1;ufrgs;disabled;0;0;
+segurança em aplicações web;2;3098.8;200;19;20;1;ufscar;disabled;0;0;
+segurança em aplicações web;2;3098.8;200;19;20;1;unesp;disabled;0;0;
+segurança em aplicações web;3;2042.7;200;15;15;0;bdtd;ok;5;240;334
+segurança em aplicações web;3;2042.7;200;15;15;0;core;rate_limited;0;0;1524
+segurança em aplicações web;3;2042.7;200;15;15;0;openalex;ok;5;36197;960
+segurança em aplicações web;3;2042.7;200;15;15;0;scielo;disabled;0;0;
+segurança em aplicações web;3;2042.7;200;15;15;0;uespi;disabled;0;0;
+segurança em aplicações web;3;2042.7;200;15;15;0;ufmg;disabled;0;0;
+segurança em aplicações web;3;2042.7;200;15;15;0;ufpe;ok;5;5;20
+segurança em aplicações web;3;2042.7;200;15;15;0;ufpi;disabled;0;0;
+segurança em aplicações web;3;2042.7;200;15;15;0;ufrgs;disabled;0;0;
+segurança em aplicações web;3;2042.7;200;15;15;0;ufscar;disabled;0;0;
+segurança em aplicações web;3;2042.7;200;15;15;0;unesp;disabled;0;0;
+repositórios institucionais;1;854.5;200;12;13;1;bdtd;ok;5;17507;331
+repositórios institucionais;1;854.5;200;12;13;1;core;rate_limited;0;0;387
+repositórios institucionais;1;854.5;200;12;13;1;openalex;ok;5;13006;841
+repositórios institucionais;1;854.5;200;12;13;1;scielo;disabled;0;0;
+repositórios institucionais;1;854.5;200;12;13;1;uespi;disabled;0;0;
+repositórios institucionais;1;854.5;200;12;13;1;ufmg;disabled;0;0;
+repositórios institucionais;1;854.5;200;12;13;1;ufpe;ok;3;3;19
+repositórios institucionais;1;854.5;200;12;13;1;ufpi;disabled;0;0;
+repositórios institucionais;1;854.5;200;12;13;1;ufrgs;disabled;0;0;
+repositórios institucionais;1;854.5;200;12;13;1;ufscar;disabled;0;0;
+repositórios institucionais;1;854.5;200;12;13;1;unesp;disabled;0;0;
+repositórios institucionais;2;821.2;200;12;13;1;bdtd;ok;5;17507;374
+repositórios institucionais;2;821.2;200;12;13;1;core;rate_limited;0;0;429
+repositórios institucionais;2;821.2;200;12;13;1;openalex;ok;5;13006;808
+repositórios institucionais;2;821.2;200;12;13;1;scielo;disabled;0;0;
+repositórios institucionais;2;821.2;200;12;13;1;uespi;disabled;0;0;
+repositórios institucionais;2;821.2;200;12;13;1;ufmg;disabled;0;0;
+repositórios institucionais;2;821.2;200;12;13;1;ufpe;ok;3;3;25
+repositórios institucionais;2;821.2;200;12;13;1;ufpi;disabled;0;0;
+repositórios institucionais;2;821.2;200;12;13;1;ufrgs;disabled;0;0;
+repositórios institucionais;2;821.2;200;12;13;1;ufscar;disabled;0;0;
+repositórios institucionais;2;821.2;200;12;13;1;unesp;disabled;0;0;
+repositórios institucionais;3;1022.4;200;12;13;1;bdtd;ok;5;17507;312
+repositórios institucionais;3;1022.4;200;12;13;1;core;rate_limited;0;0;395
+repositórios institucionais;3;1022.4;200;12;13;1;openalex;ok;5;13006;1009
+repositórios institucionais;3;1022.4;200;12;13;1;scielo;disabled;0;0;
+repositórios institucionais;3;1022.4;200;12;13;1;uespi;disabled;0;0;
+repositórios institucionais;3;1022.4;200;12;13;1;ufmg;disabled;0;0;
+repositórios institucionais;3;1022.4;200;12;13;1;ufpe;ok;3;3;19
+repositórios institucionais;3;1022.4;200;12;13;1;ufpi;disabled;0;0;
+repositórios institucionais;3;1022.4;200;12;13;1;ufrgs;disabled;0;0;
+repositórios institucionais;3;1022.4;200;12;13;1;ufscar;disabled;0;0;
+repositórios institucionais;3;1022.4;200;12;13;1;unesp;disabled;0;0;
+educação a distância;1;1246.2;200;15;15;0;bdtd;ok;5;12052;321
+educação a distância;1;1246.2;200;15;15;0;core;rate_limited;0;0;380
+educação a distância;1;1246.2;200;15;15;0;openalex;ok;5;253146;1166
+educação a distância;1;1246.2;200;15;15;0;scielo;disabled;0;0;
+educação a distância;1;1246.2;200;15;15;0;uespi;disabled;0;0;
+educação a distância;1;1246.2;200;15;15;0;ufmg;disabled;0;0;
+educação a distância;1;1246.2;200;15;15;0;ufpe;ok;5;80;21
+educação a distância;1;1246.2;200;15;15;0;ufpi;disabled;0;0;
+educação a distância;1;1246.2;200;15;15;0;ufrgs;disabled;0;0;
+educação a distância;1;1246.2;200;15;15;0;ufscar;disabled;0;0;
+educação a distância;1;1246.2;200;15;15;0;unesp;disabled;0;0;
+educação a distância;2;1980.8;200;15;15;0;bdtd;ok;5;12052;297
+educação a distância;2;1980.8;200;15;15;0;core;rate_limited;0;0;745
+educação a distância;2;1980.8;200;15;15;0;openalex;ok;5;253146;839
+educação a distância;2;1980.8;200;15;15;0;scielo;disabled;0;0;
+educação a distância;2;1980.8;200;15;15;0;uespi;disabled;0;0;
+educação a distância;2;1980.8;200;15;15;0;ufmg;disabled;0;0;
+educação a distância;2;1980.8;200;15;15;0;ufpe;ok;5;80;22
+educação a distância;2;1980.8;200;15;15;0;ufpi;disabled;0;0;
+educação a distância;2;1980.8;200;15;15;0;ufrgs;disabled;0;0;
+educação a distância;2;1980.8;200;15;15;0;ufscar;disabled;0;0;
+educação a distância;2;1980.8;200;15;15;0;unesp;disabled;0;0;
+educação a distância;3;1989.6;200;15;15;0;bdtd;ok;5;12052;376
+educação a distância;3;1989.6;200;15;15;0;core;rate_limited;0;0;617
+educação a distância;3;1989.6;200;15;15;0;openalex;ok;5;253146;826
+educação a distância;3;1989.6;200;15;15;0;scielo;disabled;0;0;
+educação a distância;3;1989.6;200;15;15;0;uespi;disabled;0;0;
+educação a distância;3;1989.6;200;15;15;0;ufmg;disabled;0;0;
+educação a distância;3;1989.6;200;15;15;0;ufpe;ok;5;80;32
+educação a distância;3;1989.6;200;15;15;0;ufpi;disabled;0;0;
+educação a distância;3;1989.6;200;15;15;0;ufrgs;disabled;0;0;
+educação a distância;3;1989.6;200;15;15;0;ufscar;disabled;0;0;
+educação a distância;3;1989.6;200;15;15;0;unesp;disabled;0;0;

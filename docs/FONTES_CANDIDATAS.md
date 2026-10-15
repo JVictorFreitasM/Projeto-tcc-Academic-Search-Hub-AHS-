@@ -1,6 +1,6 @@
 # Fontes candidatas: o que dá para adicionar (gratuitas)
 
-Verificação feita em **14/10/2026**. Este documento diz o que respondeu **naquele dia**; um
+Verificação feita em **14 e 15/10/2026**. Este documento diz o que respondeu **nesses dias**; um
 repositório que funciona hoje pode mudar amanhã, e o que falhou pode ser temporário.
 
 ## Como foi verificado
@@ -16,7 +16,7 @@ repositório que funciona hoje pode mudar amanhã, e o que falhou pode ser tempo
 
 ## Resumo em uma frase
 
-Funciona hoje, só com configuração (sem código novo): **UFPE, UFMG e UFRGS (Lume)** por OAI-PMH.
+Funciona hoje, só com configuração (sem código novo): **UFPE, UFMG, UFSCar, Unesp e UFRGS (Lume)** por OAI-PMH.
 **UFPI e UESPI estão no ar, mas não devolvem registros** (problema do lado deles). Fontes REST
 gratuitas e sem chave que responderam: **DOAJ, Europe PMC, OpenAIRE, Crossref, Zenodo, HAL e arXiv**,
 mas cada uma exige um **conector novo** (código).
@@ -29,9 +29,11 @@ Adicionar uma fonte OAI é só editar `config/oai_sources.yml` e colher (`docs/E
 
 | Repositório | Endereço que respondeu | Nome no `Identify` | Registros (`completeListSize`) | Amostra de 100 registros |
 |---|---|---|---|---|
-| **UFPE** | `https://repositorio.ufpe.br/oai/request` | RI UFPE | 12.367 | Todos com título, autor, resumo, ano e idioma (96 `por`). Tipos: `masterThesis` 74, `doctoralThesis` 17, `bachelorThesis` 4 |
+| **UFPE** | `https://repositorio.ufpe.br/oai/request` | RI UFPE | 12.381 | Todos com título, autor, resumo e ano. Tipos: `masterThesis` 74, `doctoralThesis` 17, `bachelorThesis` 4 |
 | **UFMG** | `https://repositorio.ufmg.br/server/oai/request` | Repositório Institucional da UFMG | 80.144 | 85 de 100 com resumo; todos com ano. Tipos: "Dissertação de mestrado" 39, "Tese de doutorado" 20, "Artigo de periódico" 19, "Monografia de especialização" 16 |
-| **UFRGS (Lume)** | `https://lume.ufrgs.br/oai/request` | Lume 5.8 | 304.949 | Todos com título e ano, mas **só 1 de 100 com resumo** nesta página. Tipos: "Resumo publicado em evento" 70, "Trabalho completo publicado em evento" 29; o campo `dc:type` também traz "Nacional" (não é um tipo) |
+| **UFSCar** | `https://repositorio.ufscar.br/server/oai/request` | RI UFSCar | 23.518 | Todos com título, autor, resumo e ano. Tipos: dissertação 60, tese 23, TCC 15 e conjunto de dados 2 |
+| **Unesp** | `https://repositorio.unesp.br/server/oai/request` | Repositório Institucional Unesp | 245.448 | Todos com título, autor e ano; 96 com resumo. Tipos: artigo 60, dissertação 12, tese 9 e TCC 6 |
+| **UFRGS (Lume)** | `https://lume.ufrgs.br/oai/request` | Lume 5.8 | 305.077 | Todos com título e ano, mas **só 1 de 100 com resumo** nesta página. Tipos: "Resumo publicado em evento" 70, "Trabalho completo publicado em evento" 29; o campo `dc:type` também traz "Nacional" (não é um tipo) |
 
 Todos usam DSpace, têm `deletedRecord` e formatos `oai_dc` e outros. Os endereços de `baseURL` que
 o `Identify` de alguns informa (por exemplo `http://...:8080`) diferem dos que respondem; use os da
@@ -77,12 +79,11 @@ As duas respondem agora, ao contrário do que o `config/oai_sources.yml` e a OS-
 
 | Repositório | Resultado em 14/10/2026 |
 |---|---|
-| BDTD (IBICT) e Oasisbr | Respondem com a página HTML "Verificando conexão" (desafio anti-robô), sem XML. Não foi contornado |
+| BDTD (IBICT) e Oasisbr | Os caminhos OAI-PMH testados não forneceram XML válido (BDTD: 404; Oasisbr: HTML). As APIs REST públicas de busca do VuFind responderam em JSON e devem ser tratadas separadamente do OAI-PMH |
 | SciELO | Nenhum endereço OAI testado respondeu (`oai.scielo.br` sem conexão; `articlemeta.scielo.org/oai` e `www.scielo.br/oai/scielo-oai.php` com 404). Há API REST (seção 2) |
 | UFSC (`/oai/request` e `/server/oai/request`) | Responderam HTML, não OAI |
 | UNICAMP, UFC | 404 nos dois caminhos testados (o endereço correto é outro) |
 | UnB | 503 (servidor indisponível, duas tentativas) |
-| UFSCar, UNESP | `Identify` válido em `/server/oai/request` (RI UFSCar; Repositório Institucional Unesp), mas **sem amostra de registros**: falta testar |
 | LA Referencia | 404 no endereço testado |
 | RCAAP (Portugal) | `Identify` válido, mas `ListRecords` sem conjunto deu erro 500 |
 
@@ -130,7 +131,7 @@ caminhos proibidos pelo `robots.txt` e só completa resumos de registros que já
 
 1. **UESPI e UFPI:** pedir aos administradores para reindexar o OAI. É o que realiza o objetivo do
    TCC (as duas instituições estão no escopo). Esforço: um e-mail.
-2. **Só configuração, sem código:** UFPE e UFMG (colhem, trazem resumo e ano, em português). A UFRGS
+2. **Só configuração, sem código:** UFPE, UFMG, UFSCar e Unesp (colhem, trazem resumo e ano). A UFRGS
    também, mas a amostra quase não tem resumo (1 em 100): confirme com uma amostra maior antes.
 3. **Com código novo (uma OS por API):** DOAJ é a mais alinhada ao tema (revistas em acesso aberto).
 4. Deixar para depois: Crossref, Europe PMC, OpenAIRE, Zenodo, HAL e arXiv, por foco e volume.
