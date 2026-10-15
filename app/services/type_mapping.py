@@ -17,6 +17,8 @@ OPENALEX_TYPE_MAP: dict[str, RecordType] = {
 
 CORE_TYPE_MAP: dict[str, RecordType] = {
     "thesis": RecordType.THESIS,
+    "research article": RecordType.ARTICLE,  # valores reais do CORE (confirmados em 15/10/2026)
+    "journal article": RecordType.ARTICLE,
     "research": RecordType.ARTICLE,
     "journal": RecordType.ARTICLE,
     "article": RecordType.ARTICLE,

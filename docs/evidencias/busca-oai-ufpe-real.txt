@@ -1,0 +1,54 @@
+Busca no indice OAI-PMH real da UFPE (colhido em 15/10/2026), pela aplicacao inteira
+Apenas a fonte ufpe (sources=ufpe). Dados reais colhidos por OAI-PMH; nenhuma fonte ao vivo foi consultada.
+
+GET /api/v1/sources:
+   openalex  api  enabled=True status=ok 
+   core      api  enabled=True status=ok 
+   scielo    oai  enabled=False status=disabled Fonte ainda não colhida
+   bdtd      oai  enabled=False status=disabled Fonte ainda não colhida
+   ufpi      oai  enabled=False status=disabled Fonte ainda não colhida
+   uespi     oai  enabled=False status=disabled Fonte ainda não colhida
+   ufpe      oai  enabled=True status=ok 
+
+GET /api/v1/search  (tema: educacao inclusiva)
+   ufpe: status=ok total=62 resultados=5 duracao_ms=60 
+   - 2026 [thesis] A atuação da gestão escolar na educação inclusiv | Angélica de Oliveira Moraes | resumo: sim
+   - 2017 [thesis] As reprsesentações sociais de pessoa com deficiê | Fernanda Maria Agostinho de Araujo | resumo: sim
+   - 2016 [thesis] Políticas públicas de educação inclusiva voltada | Maria Zélia de Santana | resumo: sim
+
+GET /api/v1/search  (tema sem acento: educacao inclusiva)
+   ufpe: status=ok total=62 resultados=5 duracao_ms=29 
+   - 2026 [thesis] A atuação da gestão escolar na educação inclusiv | Angélica de Oliveira Moraes | resumo: sim
+   - 2017 [thesis] As reprsesentações sociais de pessoa com deficiê | Fernanda Maria Agostinho de Araujo | resumo: sim
+   - 2016 [thesis] Políticas públicas de educação inclusiva voltada | Maria Zélia de Santana | resumo: sim
+
+GET /api/v1/search  (tema com filtros: tipo tese, 2015 a 2020)
+   ufpe: status=ok total=100 resultados=5 duracao_ms=39 
+   - 2016 [thesis] Políticas públicas de educação inclusiva voltada | Maria Zélia de Santana | resumo: sim
+   - 2016 [thesis] Política de educação (em tempo) integral: uma an | Danielle de Farias Tavares Ferreira | resumo: sim
+   - 2017 [thesis] Desenvolvimento de jogos digitais para educação  | Cecilia Cordeiro da Silva | resumo: sim
+
+GET /api/v1/search  (tema ordenado por ano)
+   ufpe: status=ok total=1168 resultados=5 duracao_ms=110 
+   - 2026 [thesis] Contribuições da Educação em Saúde no contexto d | José Henrique Arruda Nascimento | resumo: sim
+   - 2026 [thesis] Inteligência Artificial na Educação Matemática:  | Reginária Domingos Lucena | resumo: sim
+   - 2026 [thesis] Política de educação bilíngue para surdos em Rec | Leonardo da Silva Santos | resumo: sim
+
+GET /api/v1/search  (AUTOR: Paulo Freire)
+   ufpe: status=ok total=0 resultados=0 duracao_ms=21 
+
+GET /api/v1/search  (AUTOR: so o sobrenome Freire)
+   ufpe: status=ok total=63 resultados=5 duracao_ms=19 
+   - 2015 [thesis] Oportunidades Perdidas no Rastreamento da Sífili | Manoel Bastos Freire Freire Junior | resumo: sim
+   - 2026 [thesis] O uso da argumentação em espaços deliberativos d | Luan Filipy Freire Torres | resumo: sim
+   - 2026 [thesis] A arte de rua nas Romarias: tramar, tecer e perf | Juliana Gonçalves Freire | resumo: sim
+
+GET /api/v1/search  (AUTOR sem acento: Jose)
+   ufpe: status=ok total=133 resultados=5 duracao_ms=22 
+   - 2025 [thesis] O sentido ético da ação policial a partir da per | Gilvan José Silva do Nascimento | resumo: sim
+   - 2014 [thesis] Do discurso dos planos ao plano discurso: Pdli p | Maria José Silva Oliveira | resumo: sim
+   - 2014 [thesis] No avesso da forma:Apontamentos para uma Genealo | Flávio José Silva Soares | resumo: sim
+
+GET /api/v1/search  (tema que nao existe)
+   ufpe: status=ok total=0 resultados=0 duracao_ms=15 
+

@@ -177,3 +177,13 @@ def test_build_record_id() -> None:
     assert build_record_id("https://doi.org/10.1000/x", "core", "1") == "doi:10.1000/x"
     assert build_record_id(None, "bdtd", "abc") == "src:bdtd:abc"
     assert build_record_id("não é doi", "bdtd", "abc") == "src:bdtd:abc"
+
+
+def test_safe_url_unescapes_html_ampersands_from_the_sources() -> None:
+    """Visto no OpenAlex (15/10/2026): `...sci_arttext&amp;pid=...` quebra o parâmetro `pid`."""
+    assert (
+        safe_url("http://scielo.pt/scielo.php?script=sci_arttext&amp;pid=S1645-72502005000100014")
+        == "http://scielo.pt/scielo.php?script=sci_arttext&pid=S1645-72502005000100014"
+    )
+    assert safe_url("https://x.org/a?b=1&c=2") == "https://x.org/a?b=1&c=2"  # já correto: igual
+    assert safe_url("javascript:alert(1)&amp;x") is None  # continua recusando esquemas perigosos

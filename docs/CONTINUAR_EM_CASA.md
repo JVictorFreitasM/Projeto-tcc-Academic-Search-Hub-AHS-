@@ -13,7 +13,7 @@ Repositório: <https://github.com/JVictorFreitasM/Projeto-tcc-Academic-Search-Hu
 - **O que falta não é código: é o que só você pode fazer** (chaves, fontes reais, pessoas para testar,
   medição, servidor). A matriz do TCC (`docs/CONFORMIDADE_TCC.md`) tem 8 itens `Atende` e 7
   `Atende parcialmente`, e os parciais são justamente esses.
-- **Só o OpenAlex foi validado com dados reais** (15/10/2026); nenhuma fonte foi colhida. Nenhum número de tempo foi medido.
+- **OpenAlex e CORE foram validados com dados reais** e a **UFPE foi colhida por OAI-PMH** (15/10/2026); UFPI/UESPI estão desligadas (OAI vazio e certificado incompleto no servidor deles). Nenhum número de tempo foi medido.
 
 ## 2. Antes de sair deste computador
 
@@ -89,10 +89,10 @@ A lista completa e detalhada, com caixas para marcar, está em
 
 1. **Chaves gratuitas:** a do **OpenAlex já foi usada e validada** (15/10/2026), mas ela só existe no
    `.env` do computador de onde você saiu: **recoloque-a em `OPENALEX_API_KEY` no `.env` de casa**. A do
-   CORE (<https://core.ac.uk/services/api>) ainda falta: ponha em `CORE_API_KEY`; confira `CONTACT_EMAIL`.
+   CORE também foi validada: **recoloque-a em `CORE_API_KEY`**; confira `CONTACT_EMAIL`. Para a UFPE, rode `uv run python -m app.harvest.cli run ufpe` (a base de casa começa vazia).
 2. **Gravar respostas reais** no lugar das fixtures sintéticas:
    - OpenAlex: **já feito** (`tests/fixtures/openalex/search_ok.json` é resposta real);
-   - CORE: salvar a resposta de `GET /v3/search/works/?q=educação&limit=5` (com a chave, como o
+   - CORE: **já feito** (`search_ok.json` é resposta real). Antes era: salvar a resposta de `GET /v3/search/works/?q=educação&limit=5` (com a chave, como o
      conector monta em `app/connectors/core_api.py`) em `tests/fixtures/core/search_ok.json`;
    - OAI: `uv run python -m app.harvest.cli dump <fonte>` grava o `Identify` e uma página de registros.
    - Depois: `STRICT_FIXTURES=1 uv run pytest tests/contract` lista o que ainda é sintético, e

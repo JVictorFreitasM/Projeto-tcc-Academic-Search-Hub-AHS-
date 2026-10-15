@@ -227,3 +227,59 @@ async def test_network_error_on_page_returns_none(scraper: PoliteScraper) -> Non
     respx.get(ROBOTS).mock(return_value=httpx.Response(404))
     respx.get(PAGE).mock(side_effect=httpx.ReadTimeout("lento"))
     assert await scraper.fetch(PAGE) is None
+
+
+# ---------- motivos das recusas (achado na medição real de 15/10/2026) ----------
+
+
+@respx.mock
+async def test_each_refusal_records_its_reason_and_never_the_address(
+    scraper: PoliteScraper,
+) -> None:
+    respx.get(ROBOTS).mock(
+        return_value=httpx.Response(200, text="User-agent: *\nDisallow: /privado/\n")
+    )
+    respx.get("https://repo.exemplo.org/privado/1")
+    respx.get(PAGE).mock(return_value=httpx.Response(404, headers=HTML, text="x"))
+    respx.get("https://repo.exemplo.org/doc.pdf").mock(
+        return_value=httpx.Response(
+            200, headers={"Content-Type": "application/pdf"}, content=b"%PDF"
+        )
+    )
+    respx.get("https://repo.exemplo.org/grande").mock(
+        return_value=httpx.Response(200, headers=HTML, content=b"x" * (MAX_PAGE_BYTES + 1))
+    )
+    assert await scraper.fetch("https://repo.exemplo.org/privado/1") is None
+    assert await scraper.fetch(PAGE) is None
+    assert await scraper.fetch("https://repo.exemplo.org/doc.pdf") is None
+    assert await scraper.fetch("https://repo.exemplo.org/grande") is None
+    assert await scraper.fetch("ftp://repo.exemplo.org/x") is None
+    assert dict(scraper.refusals) == {
+        "robots_txt": 1,
+        "http_404": 1,
+        "nao_html": 1,
+        "pagina_grande": 1,
+        "endereco_invalido": 1,
+    }
+    assert not any("repo.exemplo.org" in reason for reason in scraper.refusals)  # só o motivo
+
+
+@respx.mock
+async def test_network_error_and_robots_unavailable_have_their_own_reasons(
+    scraper: PoliteScraper,
+) -> None:
+    respx.get(ROBOTS).mock(return_value=httpx.Response(200, text=""))
+    respx.get(PAGE).mock(side_effect=httpx.ConnectError("sem rede"))
+    assert await scraper.fetch(PAGE) is None
+    assert scraper.refusals["erro_de_rede"] == 1
+    respx.get("https://fora.exemplo.org/robots.txt").mock(return_value=httpx.Response(503))
+    assert await scraper.fetch("https://fora.exemplo.org/a") is None
+    assert scraper.refusals["robots_txt"] == 1  # robots.txt com erro 5xx: por prudência, não raspa
+
+
+@respx.mock
+async def test_successful_fetch_records_no_refusal(scraper: PoliteScraper) -> None:
+    respx.get(ROBOTS).mock(return_value=httpx.Response(200, text=""))
+    respx.get(PAGE).mock(return_value=httpx.Response(200, headers=HTML, text="<p>ok</p>"))
+    assert await scraper.fetch(PAGE) == "<p>ok</p>"
+    assert not scraper.refusals

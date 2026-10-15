@@ -35,10 +35,14 @@ def test_openalex(raw: str | None, expected: RecordType) -> None:
     ("raw", "expected"),
     [
         ("thesis", T),
+        ("research article", A),  # valor real do CORE (15/10/2026)
+        ("journal article", A),
         ("research", A),
         ("journal", A),
         ("article", A),
         ("book", B),
+        ("presentation", OTH),
+        ("report", OTH),
         ("slides", OTH),
         ("", OTH),
         (None, OTH),

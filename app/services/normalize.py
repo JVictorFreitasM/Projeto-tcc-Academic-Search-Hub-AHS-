@@ -123,7 +123,9 @@ def safe_url(value: str | None) -> str | None:
     """Só `http`/`https`; descarta `javascript:`, `data:` e similares."""
     if not value:
         return None
-    text = value.strip()
+    # Algumas fontes devolvem o endereço com `&amp;` escapado como HTML (visto no OpenAlex em
+    # 15/10/2026: `...sci_arttext&amp;pid=...`), o que quebraria o parâmetro `pid`.
+    text = value.strip().replace("&amp;", "&")
     return text if is_http_url(text) else None
 
 

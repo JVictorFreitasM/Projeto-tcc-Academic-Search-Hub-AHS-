@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
+from collections import Counter
 from collections.abc import Awaitable, Callable
 from urllib.parse import urljoin, urlsplit
 from urllib.robotparser import RobotFileParser
@@ -43,6 +44,13 @@ class PoliteScraper:
         self._robots: dict[str, RobotFileParser | None] = {}  # None = proibido por prudência
         self._last_request: dict[str, float] = {}
         self.requests_made = 0
+        # Por que cada recusa aconteceu (robots_txt, http_404, nao_html...): sem isso a raspagem
+        # recusa sem explicar e não dá para medir nem depurar. Só o motivo, nunca o endereço.
+        self.refusals: Counter[str] = Counter()
+
+    def _refuse(self, reason: str) -> None:
+        self.refusals[reason] += 1
+        logger.info("Raspagem recusada", extra={"reason": reason})
 
     async def _pace(self, domain: str) -> None:
         """Garante a pausa mínima entre duas requisições ao mesmo domínio."""
@@ -89,7 +97,11 @@ class PoliteScraper:
         current = safe_url(url)
         try:
             for _ in range(MAX_REDIRECTS + 1):
-                if current is None or not await self.allowed(current):
+                if current is None:
+                    self._refuse("endereco_invalido")
+                    return None
+                if not await self.allowed(current):
+                    self._refuse("robots_txt")  # proibido, sem resposta ou erro 5xx no robots.txt
                     return None
                 domain = urlsplit(current).netloc.lower()
                 response = await self._plain_get(current, domain)
@@ -97,17 +109,20 @@ class PoliteScraper:
                     current = safe_url(urljoin(current, response.headers["location"]))
                     continue  # o destino passa de novo por robots.txt e pausa
                 return self._read(response)
+            self._refuse("redirecionamentos")
         except httpx.HTTPError:
-            logger.info("Página não obtida na raspagem")
+            self._refuse("erro_de_rede")
         return None
 
-    @staticmethod
-    def _read(response: httpx.Response) -> str | None:
+    def _read(self, response: httpx.Response) -> str | None:
         if response.status_code != 200:  # inclui 401/403: nunca raspar o que exige login
+            self._refuse(f"http_{response.status_code}")
             return None
         content_type = response.headers.get("content-type", "").split(";")[0].strip().lower()
         if content_type not in HTML_TYPES:
+            self._refuse("nao_html")
             return None
         if len(response.content) > MAX_PAGE_BYTES:
+            self._refuse("pagina_grande")
             return None
         return response.text

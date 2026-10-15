@@ -15,10 +15,11 @@ def write(tmp_path: Path, text: str) -> Path:
     return file
 
 
-def test_project_file_has_four_disabled_sources() -> None:
+def test_project_file_has_the_expected_sources() -> None:
     sources = load_oai_sources(ROOT / "config" / "oai_sources.yml")
-    assert [s.slug for s in sources] == ["scielo", "bdtd", "ufpi", "uespi"]
-    assert not any(s.enabled for s in sources)
+    assert [s.slug for s in sources] == ["scielo", "bdtd", "ufpi", "uespi", "ufpe"]
+    # Só a UFPE tem OAI-PMH funcionando (colhida em 15/10/2026); as demais seguem desligadas.
+    assert {s.slug for s in sources if s.enabled} == {"ufpe"}
     assert {s.slug: s.default_type.value for s in sources}["bdtd"] == "thesis"
 
 

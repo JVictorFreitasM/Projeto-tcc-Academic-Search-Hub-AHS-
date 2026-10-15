@@ -1,60 +1,428 @@
 {
-  "_synthetic": true,
-  "_note": "Fixture SINTÉTICA baseada na documentação do CORE API v3. Substituir por resposta real (passo manual 0 da OS-008).",
-  "totalHits": 4321,
-  "limit": 4,
+  "totalHits": 995013,
+  "limit": 5,
   "offset": 0,
   "results": [
     {
-      "id": 100200300,
-      "title": "Formação docente e <b>tecnologias</b> digitais",
-      "abstract": "<p>Estudo sobre formação docente.</p> &amp; tecnologias.",
-      "doi": "HTTPS://DOI.ORG/10.4321/Formacao.2020.5",
-      "authors": [{"name": "Carlos Almeida"}, {"name": null}, {"name": "  "}, {"name": "Beatriz Nunes"}],
-      "downloadUrl": "https://core.ac.uk/download/pdf/100200300.pdf",
-      "sourceFulltextUrls": ["https://repositorio.exemplo.org/handle/1/55"],
-      "links": [
-        {"type": "download", "url": "https://core.ac.uk/download/100200300.pdf"},
-        {"type": "display", "url": "https://core.ac.uk/works/100200300"}
+      "acceptedDate": "",
+      "arxivId": null,
+      "authors": [
+        {
+          "name": "Capucha, L."
+        }
       ],
-      "documentType": "research",
-      "publishedDate": "2020-08-15T00:00:00",
-      "depositedDate": "2020-09-01T00:00:00",
-      "yearPublished": 2020,
-      "language": {"code": "pt", "name": "Portuguese"},
-      "journals": [{"title": "Revista de Educação"}]
-    },
-    {
-      "id": 100200301,
-      "title": "Tese sem muitos metadados",
-      "abstract": null,
+      "citationCount": 0,
+      "contributors": [
+        "Conselho Nacional de Educação"
+      ],
+      "outputs": [
+        "https://api.core.ac.uk/v3/outputs/672945974"
+      ],
+      "createdDate": "2022-11-02T10:54:44+00:00",
+      "dataProviders": [
+        {
+          "id": 1967,
+          "name": "Repositório do ISCTE",
+          "url": "https://api.core.ac.uk/v3/data-providers/1967",
+          "logo": "https://api.core.ac.uk/data-providers/1967/logo"
+        }
+      ],
+      "depositedDate": "2022-11-02T10:54:44+00:00",
+      "abstract": "A European Political Strategy Unit da Comissão Europeia publicou, em 2017, o relatório 10 trends transforming education as we know it2. Segundo esse relatório, a educação é hoje processada em estágios iniciais da vida, utiliza quadros negros, livros e papéis, promove a literacia académica, baseia-se em preleções teóricas e na aprendizagem passiva, funcionando os professores como preletores num modelo de ensino estandardizado e em massa, baseado em disciplinas e focado nos conteúdos disciplinares. A educação é promovida principalmente por um conjunto restrito de atores estatais, religiosos e privados, que certificam os graus de ensino possuídos. Pelo contrário, a educação que se pretende para o futuro promove a aprendizagem ao longo da vida, processa-se num quadro branco com suporte digital e capaz de utilizar as realidades virtuais, assume novas formas de literacia, incluindo a digital, promove a aprendizagem experimental, por imersão, interativa, com seminários e cursos participativos, laboratórios, jogos e simulações, na qual os professores são mentores e treinadores. É feita à medida de cada indivíduo, baseada em competências, multidisciplinar, usa a lógica de projeto como estratégia pedagógica preferencial, é habilitada por aprendizagens digitais, beneficia de parceiros diferenciados\r\ne de parcerias formativas. É uma educação orientada para a produção de capacidades, competências, talentos e para o potencial dos aprendentes.info:eu-repo/semantics/publishedVersio",
+      "documentType": null,
       "doi": null,
-      "authors": [],
-      "downloadUrl": null,
+      "downloadUrl": "https://core.ac.uk/download/672945974.pdf",
+      "fieldOfStudy": "bookPart",
+      "id": 303833472,
+      "identifiers": [
+        {
+          "identifier": "672945974",
+          "type": "core_id"
+        },
+        {
+          "identifier": "oai:repositorio.iscte-iul.pt:10071/26372",
+          "type": "oai_id"
+        },
+        {
+          "identifier": "oai:repositorio.iscte-iul.pt:10071/26372",
+          "type": "oai"
+        }
+      ],
+      "title": "Educação profissional, educação para o futuro",
+      "language": {
+        "code": "pt",
+        "name": "Portuguese"
+      },
+      "magId": null,
+      "oaiIds": [
+        "oai:repositorio.iscte-iul.pt:10071/26372"
+      ],
+      "publishedDate": "",
+      "publisher": "CNE – Conselho Nacional de Educação",
+      "pubmedId": null,
+      "references": [],
+      "sourceFulltextUrls": [
+        "https://core.ac.uk/download/672945974.pdf"
+      ],
+      "updatedDate": "",
+      "yearPublished": 2022,
+      "journals": [
+        {
+          "title": null,
+          "identifiers": []
+        },
+        {
+          "title": null,
+          "identifiers": []
+        }
+      ],
+      "links": [
+        {
+          "type": "download",
+          "url": "https://core.ac.uk/download/672945974.pdf"
+        },
+        {
+          "type": "reader",
+          "url": "https://core.ac.uk/reader/672945974"
+        },
+        {
+          "type": "thumbnail_m",
+          "url": "https://core.ac.uk/image/672945974/large"
+        },
+        {
+          "type": "thumbnail_l",
+          "url": "https://core.ac.uk/image/672945974/large"
+        },
+        {
+          "type": "display",
+          "url": "https://core.ac.uk/works/303833472"
+        }
+      ]
+    },
+    {
+      "acceptedDate": "",
+      "arxivId": null,
+      "authors": [
+        {
+          "name": "Capucha, L."
+        }
+      ],
+      "citationCount": 0,
+      "contributors": [
+        "Conselho Nacional de Educação"
+      ],
+      "outputs": [
+        "https://api.core.ac.uk/v3/outputs/542320316"
+      ],
+      "createdDate": "2022-11-02T10:54:44+00:00",
+      "dataProviders": [
+        {
+          "id": 11043,
+          "name": "Repositório Institucional do ISCTE-IUL",
+          "url": "https://api.core.ac.uk/v3/data-providers/11043",
+          "logo": "https://api.core.ac.uk/data-providers/11043/logo"
+        }
+      ],
+      "depositedDate": "2022-11-02T10:54:44+00:00",
+      "abstract": "A European Political Strategy Unit da Comissão Europeia publicou, em 2017, o relatório 10 trends transforming education as we know it2. Segundo esse relatório, a educação é hoje processada em estágios iniciais da vida, utiliza quadros negros, livros e papéis, promove a literacia académica, baseia-se em preleções teóricas e na aprendizagem passiva, funcionando os professores como preletores num modelo de ensino estandardizado e em massa, baseado em disciplinas e focado nos conteúdos disciplinares. A educação é promovida principalmente por um conjunto restrito de atores estatais, religiosos e privados, que certificam os graus de ensino possuídos. Pelo contrário, a educação que se pretende para o futuro promove a aprendizagem ao longo da vida, processa-se num quadro branco com suporte digital e capaz de utilizar as realidades virtuais, assume novas formas de literacia, incluindo a digital, promove a aprendizagem experimental, por imersão, interativa, com seminários e cursos participativos, laboratórios, jogos e simulações, na qual os professores são mentores e treinadores. É feita à medida de cada indivíduo, baseada em competências, multidisciplinar, usa a lógica de projeto como estratégia pedagógica preferencial, é habilitada por aprendizagens digitais, beneficia de parceiros diferenciados\r\ne de parcerias formativas. É uma educação orientada para a produção de capacidades, competências, talentos e para o potencial dos aprendentes.info:eu-repo/semantics/publishedVersio",
+      "documentType": null,
+      "doi": null,
+      "downloadUrl": "https://core.ac.uk/download/542320316.pdf",
+      "fieldOfStudy": "info:eu-repo/semantics/bookPart",
+      "id": 132451741,
+      "identifiers": [
+        {
+          "identifier": "542320316",
+          "type": "core_id"
+        },
+        {
+          "identifier": "oai:repositorio.iscte-iul.pt:10071/26372",
+          "type": "oai_id"
+        },
+        {
+          "identifier": "oai:repositorio.iscte-iul.pt:10071/26372",
+          "type": "oai"
+        }
+      ],
+      "title": "Educação profissional, educação para o futuro",
+      "language": {
+        "code": "pt",
+        "name": "Portuguese"
+      },
+      "magId": null,
+      "oaiIds": [
+        "oai:repositorio.iscte-iul.pt:10071/26372"
+      ],
+      "publishedDate": "2020-01-01T00:00:00+00:00",
+      "publisher": "CNE – Conselho Nacional de Educação",
+      "pubmedId": null,
+      "references": [],
+      "sourceFulltextUrls": [
+        "https://core.ac.uk/download/542320316.pdf"
+      ],
+      "updatedDate": "",
+      "yearPublished": 2020,
+      "journals": [
+        {
+          "title": null,
+          "identifiers": []
+        },
+        {
+          "title": null,
+          "identifiers": []
+        }
+      ],
+      "links": [
+        {
+          "type": "download",
+          "url": "https://core.ac.uk/download/542320316.pdf"
+        },
+        {
+          "type": "reader",
+          "url": "https://core.ac.uk/reader/542320316"
+        },
+        {
+          "type": "thumbnail_m",
+          "url": "https://core.ac.uk/image/542320316/large"
+        },
+        {
+          "type": "thumbnail_l",
+          "url": "https://core.ac.uk/image/542320316/large"
+        },
+        {
+          "type": "display",
+          "url": "https://core.ac.uk/works/132451741"
+        }
+      ]
+    },
+    {
+      "acceptedDate": "",
+      "arxivId": null,
+      "authors": [
+        {
+          "name": "Cabrito, Belmiro"
+        },
+        {
+          "name": "Lara, Angela"
+        },
+        {
+          "name": "Zanella, Maria Nilvane"
+        }
+      ],
+      "citationCount": 0,
+      "contributors": [
+        "Faculdade de Ciências Sociais, Educação e Administração"
+      ],
+      "outputs": [
+        "https://api.core.ac.uk/v3/outputs/649495441"
+      ],
+      "createdDate": "2025-04-10T16:09:27+01:00",
+      "dataProviders": [
+        {
+          "id": 1939,
+          "name": "ReCiL - Publicações científicas Universidade Lusófona",
+          "url": "https://api.core.ac.uk/v3/data-providers/1939",
+          "logo": "https://api.core.ac.uk/data-providers/1939/logo"
+        }
+      ],
+      "depositedDate": "2025-04-09T00:04:43+01:00",
+      "abstract": "Revista Lusófona de EducaçãoO artigo apresenta uma problematização sobre os pressupostos da Educação Social e da Educação Popular e a aproximação dos conceitos com a Educação de Jovens e Adultos a partir da década de 1970. O texto historiciza o nascimento da Educação Social no século XVIII e a sua inserção no mundo capitalista e socialista. No estudo identificamos os pressupostos históricos que nos possibilitam afirmar: a Pedagogia Social visa à manutenção do sistema vigente, seja ele socialista ou capitalista, enquanto à Educação Popular possui em seu cerne a transformação do sistema no qual está engendrada. Procuramos demonstrar que, mesmo durante o século XX, a Educação Popular esteve vinculada aos movimentos revolucionários ocorridos na América Latina, mas os organismos internacionais de maneira ideológica e intencional relacionaram o conceito de Educação Popular ao conceito de Educação Social. Assim, o artigo conclui: a Educação Popular foi cooptada pelo Estado e pelos organismos internacionais para sustentar ideologicamente a Educação de Jovens e Adultos, tornando-se um modelo de Educação Social no qual perdeu o seu cunho revolucionário.The present study assesses the underlying preconditions of Social Education and Popular Education along with displaying its approximation with concepts regarding Youth and Adult Education from the decade of 1970. This particular article delineates the inception of Social Education back in the 18th century as well as its introduction in capitalist and socialist backgrounds. Furthermore, we have endeavoured to identify historical assumptions that enable us to state: Social Pedagogy aims at maintaining the existing system, whether it to be capitalist or socialist, whereas Popular Education has at its core remodelling its encompassed system. We have also made an effort to demonstrate that, even during the 20th century, Popular Education had a correspondence to the revolutionary movements that took place in Latin America, in spite of that, international organizations in an ideological and intentional way related the concept of Popular Education to the concept of Social Education. Under those circumstances, it concludes that Popular Education was co-opted by the State and international organizations to support ideologically Youth and Adult Education, thus, becoming a model of Social Education that has lost its revolutionary character",
+      "documentType": "research article",
+      "doi": null,
+      "downloadUrl": "",
+      "fieldOfStudy": null,
+      "id": 398173363,
+      "identifiers": [
+        {
+          "identifier": "649495441",
+          "type": "core_id"
+        },
+        {
+          "identifier": "oai:recil.ulusofona.pt:10437/9568",
+          "type": "oai_id"
+        },
+        {
+          "identifier": "oai:recil.ulusofona.pt:10437/9568",
+          "type": "oai"
+        }
+      ],
+      "title": "Educação social e popular na educação de jovens e adultos: a atuação dos organismos internacionais",
+      "language": null,
+      "magId": null,
+      "oaiIds": [
+        "oai:recil.ulusofona.pt:10437/9568"
+      ],
+      "publishedDate": "2018-01-01T00:00:00+00:00",
+      "publisher": "University of Lusophone Humanities and Technology",
+      "pubmedId": null,
+      "references": [],
       "sourceFulltextUrls": [],
-      "links": [],
-      "documentType": "thesis",
-      "publishedDate": "2018",
-      "yearPublished": null,
-      "language": null
+      "updatedDate": "2026-08-27T18:15:20+01:00",
+      "yearPublished": 2018,
+      "journals": [
+        {
+          "title": null,
+          "identifiers": []
+        }
+      ],
+      "links": [
+        {
+          "type": "display",
+          "url": "https://core.ac.uk/works/398173363"
+        }
+      ]
     },
     {
-      "id": 100200302,
-      "title": null,
-      "abstract": "Registro sem título deve ser ignorado.",
-      "authors": [],
-      "documentType": "research"
-    },
-    {
-      "id": 100200303,
-      "title": "Livro com endereços perigosos",
-      "authors": [{"name": "Autor Um"}],
-      "downloadUrl": "javascript:alert(1)",
-      "sourceFulltextUrls": ["data:text/html,x"],
-      "links": [],
-      "documentType": "book",
+      "acceptedDate": "",
+      "arxivId": null,
+      "authors": [
+        {
+          "name": "Silva, Ana Paula Lopes da"
+        },
+        {
+          "name": "Clímaco, Maria do Carmo"
+        }
+      ],
+      "citationCount": 0,
+      "contributors": [
+        "Faculdade de Ciências Sociais, Educação e Administração"
+      ],
+      "outputs": [
+        "https://api.core.ac.uk/v3/outputs/649493978"
+      ],
+      "createdDate": "2025-04-10T16:09:07+01:00",
+      "dataProviders": [
+        {
+          "id": 1939,
+          "name": "ReCiL - Publicações científicas Universidade Lusófona",
+          "url": "https://api.core.ac.uk/v3/data-providers/1939",
+          "logo": "https://api.core.ac.uk/data-providers/1939/logo"
+        }
+      ],
+      "depositedDate": "2025-03-12T22:23:29+00:00",
+      "abstract": "Revista Lusófona de EducaçãoMaria do Carmo Clímaco é doutorada em Política Social – Educação, pela Escola de Gestão da Universidade de Cranfield, UK, e mestre em Ensino das Línguas, pela School of Education da Universidade de Boston, EUA. Foi dirigente nos serviços centrais do Ministério da Educação entre 1997 e 2005, e presidente da Associação Internacional das Inspecções de Educação, entre 2001 e 2004. Em 2006, integrou o Grupo de Trabalho responsável pelo primeiro modelo de Avaliação Externa das Escolas, decorrente da Lei 31 de 2002. Actualmente, exerce funções docentes na Universidade Lusófona de Humanidades e Tecnologias (Lisboa), e integra a equipa de coordenação da participação portuguesa no projecto Rede Europeia sobre Liderança Escolar (EPNoSL- European Project Network on School Leadership). Tem vários trabalhos publicados na área da Avaliação das Escolas, da administração escolar e da análise do Sistema Educativo. Mas, considera-se sobretudo uma professora",
+      "documentType": "research article",
+      "doi": null,
+      "downloadUrl": "",
+      "fieldOfStudy": null,
+      "id": 398170345,
+      "identifiers": [
+        {
+          "identifier": "649493978",
+          "type": "core_id"
+        },
+        {
+          "identifier": "oai:recil.ulusofona.pt:10437/6583",
+          "type": "oai_id"
+        },
+        {
+          "identifier": "oai:recil.ulusofona.pt:10437/6583",
+          "type": "oai"
+        }
+      ],
+      "title": "Educação, na primeira pessoa",
+      "language": null,
+      "magId": null,
+      "oaiIds": [
+        "oai:recil.ulusofona.pt:10437/6583"
+      ],
+      "publishedDate": "2015-01-01T00:00:00+00:00",
+      "publisher": "University of Lusophone Humanities and Technology",
+      "pubmedId": null,
+      "references": [],
+      "sourceFulltextUrls": [],
+      "updatedDate": "2026-08-27T18:13:31+01:00",
       "yearPublished": 2015,
-      "language": {"code": "xx"}
+      "journals": [
+        {
+          "title": null,
+          "identifiers": []
+        }
+      ],
+      "links": [
+        {
+          "type": "display",
+          "url": "https://core.ac.uk/works/398170345"
+        }
+      ]
+    },
+    {
+      "acceptedDate": "",
+      "arxivId": null,
+      "authors": [
+        {
+          "name": "Cabrito, Belmiro"
+        },
+        {
+          "name": "Lara, Angela"
+        },
+        {
+          "name": "Zanella, Maria Nilvane"
+        }
+      ],
+      "citationCount": 0,
+      "contributors": [
+        "Faculdade de Ciências Sociais, Educação e Administração"
+      ],
+      "outputs": [
+        "https://api.core.ac.uk/v3/outputs/649495441"
+      ],
+      "createdDate": "2025-04-09T00:04:43+01:00",
+      "dataProviders": [
+        {
+          "id": 1939,
+          "name": "ReCiL - Publicações científicas Universidade Lusófona",
+          "url": "https://api.core.ac.uk/v3/data-providers/1939",
+          "logo": "https://api.core.ac.uk/data-providers/1939/logo"
+        }
+      ],
+      "depositedDate": "2025-04-09T00:04:43+01:00",
+      "abstract": "Revista Lusófona de EducaçãoO artigo apresenta uma problematização sobre os pressupostos da Educação Social e da Educação Popular e a aproximação dos conceitos com a Educação de Jovens e Adultos a partir da década de 1970. O texto historiciza o nascimento da Educação Social no século XVIII e a sua inserção no mundo capitalista e socialista. No estudo identificamos os pressupostos históricos que nos possibilitam afirmar: a Pedagogia Social visa à manutenção do sistema vigente, seja ele socialista ou capitalista, enquanto à Educação Popular possui em seu cerne a transformação do sistema no qual está engendrada. Procuramos demonstrar que, mesmo durante o século XX, a Educação Popular esteve vinculada aos movimentos revolucionários ocorridos na América Latina, mas os organismos internacionais de maneira ideológica e intencional relacionaram o conceito de Educação Popular ao conceito de Educação Social. Assim, o artigo conclui: a Educação Popular foi cooptada pelo Estado e pelos organismos internacionais para sustentar ideologicamente a Educação de Jovens e Adultos, tornando-se um modelo de Educação Social no qual perdeu o seu cunho revolucionário.The present study assesses the underlying preconditions of Social Education and Popular Education along with displaying its approximation with concepts regarding Youth and Adult Education from the decade of 1970. This particular article delineates the inception of Social Education back in the 18th century as well as its introduction in capitalist and socialist backgrounds. Furthermore, we have endeavoured to identify historical assumptions that enable us to state: Social Pedagogy aims at maintaining the existing system, whether it to be capitalist or socialist, whereas Popular Education has at its core remodelling its encompassed system. We have also made an effort to demonstrate that, even during the 20th century, Popular Education had a correspondence to the revolutionary movements that took place in Latin America, in spite of that, international organizations in an ideological and intentional way related the concept of Popular Education to the concept of Social Education. Under those circumstances, it concludes that Popular Education was co-opted by the State and international organizations to support ideologically Youth and Adult Education, thus, becoming a model of Social Education that has lost its revolutionary character",
+      "documentType": null,
+      "doi": null,
+      "downloadUrl": "",
+      "fieldOfStudy": "article",
+      "id": 317601223,
+      "identifiers": [
+        {
+          "identifier": "649495441",
+          "type": "core_id"
+        },
+        {
+          "identifier": "oai:recil.ulusofona.pt:10437/9568",
+          "type": "oai_id"
+        },
+        {
+          "identifier": "oai:recil.ulusofona.pt:10437/9568",
+          "type": "oai"
+        }
+      ],
+      "title": "Educação social e popular na educação de jovens e adultos: a atuação dos organismos internacionais",
+      "language": null,
+      "magId": null,
+      "oaiIds": [
+        "oai:recil.ulusofona.pt:10437/9568"
+      ],
+      "publishedDate": "2018-01-01T00:00:00+00:00",
+      "publisher": "University of Lusophone Humanities and Technology",
+      "pubmedId": null,
+      "references": [],
+      "sourceFulltextUrls": [],
+      "updatedDate": "",
+      "yearPublished": 2018,
+      "journals": [
+        {
+          "title": null,
+          "identifiers": []
+        }
+      ],
+      "links": [
+        {
+          "type": "display",
+          "url": "https://core.ac.uk/works/317601223"
+        }
+      ]
     }
-  ]
+  ],
+  "searchId": "74d026db68df17614540491f4007d965"
 }

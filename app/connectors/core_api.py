@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any
 
 import httpx
@@ -28,12 +29,16 @@ logger = logging.getLogger(__name__)
 
 BASE_URL = "https://api.core.ac.uk/v3/search/works/"
 WORK_PAGE = "https://core.ac.uk/works/{id}"
-MAX_LIMIT = 100  # [VERIFICAR] com chave real
+MAX_LIMIT = 100  # `limit=100` funciona (testado em 15/10/2026, ~9 s); acima disso não foi testado
+# O CORE é lento (3 a 10 s por busca, medido em 15/10/2026): o tempo limite padrão (10 s) estoura.
+CORE_MIN_TIMEOUT_SECONDS = 25.0
 
 # `documentType` do CORE para cada tipo do sistema. Tipos sem equivalente (preprint, outros)
 # não podem ser filtrados na fonte.
 _CORE_TYPES: dict[RecordType, tuple[str, ...]] = {
-    RecordType.ARTICLE: ("research", "journal", "article"),
+    # valores reais de `documentType` (confirmados em 15/10/2026): "research article" 148 mil,
+    # "journal article" 8 mil, "thesis" 53 mil e "book" 4 mil numa busca por "educação".
+    RecordType.ARTICLE: ("research article", "journal article"),
     RecordType.THESIS: ("thesis",),
     RecordType.BOOK: ("book",),
 }
@@ -43,11 +48,11 @@ def build_query_string(query: SourceQuery) -> tuple[str, bool]:
     """Monta o parâmetro `q`. O booleano indica se o tipo precisa ser filtrado localmente."""
     q = "".join(ch for ch in query.q if ch.isprintable()).strip()
     if query.field == "author":
-        # [VERIFICAR] sintaxe de campo do CORE v3 (`authors:`), ainda não confirmada com chave real.
-        # Cada palavra do nome vira uma exigência (AND), para a ordem do nome não importar.
-        words = [w for w in q.replace('"', " ").replace(",", " ").split() if w]
-        terms = " AND ".join(f'"{word}"' for word in words) or '""'
-        clauses = [f"authors:({terms})"]
+        # Confirmado com chave real em 15/10/2026: `authors:Nome AND authors:Sobrenome` funciona;
+        # `authors:(Nome AND Sobrenome)` (AND dentro de parênteses) faz o CORE responder 500.
+        # Cada palavra vira uma exigência no campo, para a ordem do nome não importar.
+        words = [w for w in re.sub(r"[^\w'.-]+", " ", q).split() if w]
+        clauses = [" AND ".join(f"authors:{word}" for word in words) or "authors:*"]
     else:
         clauses = [f"({q})"]
     if query.year_from is not None:
@@ -140,14 +145,17 @@ class CoreConnector:
             notes.append(f"Tamanho de página reduzido para {MAX_LIMIT} (limite da fonte).")
 
         q, local_type_filter = build_query_string(query)
-        params = {"q": q, "limit": limit, "offset": (query.page - 1) * limit}
+        # `exclude=fullText`: a resposta traz o texto completo dos trabalhos (630 KB contra 85 KB
+        # para 20 resultados); o sistema não usa esse campo.
+        params = {"q": q, "limit": limit, "offset": (query.page - 1) * limit, "exclude": "fullText"}
         headers = {"Authorization": f"Bearer {self._settings.core_api_key}"}
 
         try:
             if self._client is not None:
                 data = await get_json(self._client, BASE_URL, params, headers)
             else:
-                async with make_client(self._settings) as client:
+                timeout = max(self._settings.source_timeout_seconds, CORE_MIN_TIMEOUT_SECONDS)
+                async with make_client(self._settings, timeout=timeout) as client:
                     data = await get_json(client, BASE_URL, params, headers)
             records: list[RecordOut] = []
             ignored = 0

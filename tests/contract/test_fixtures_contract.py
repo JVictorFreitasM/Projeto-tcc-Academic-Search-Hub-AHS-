@@ -104,17 +104,18 @@ def test_every_synthetic_fixture_is_marked_as_such() -> None:
 
 def test_synthetic_fixtures_are_discoverable() -> None:
     found = synthetic_fixtures()
-    assert "core/search_ok.json" in found  # ainda sintética: falta a chave do CORE
-    assert any(name.startswith("oai/synthetic/") for name in found)
+    # OpenAlex e CORE já têm resposta real; só as fixtures de OAI ainda são sintéticas
+    assert found and all(name.startswith("oai/synthetic/") for name in found), found
 
 
-def test_openalex_main_fixture_is_real_and_the_edge_cases_are_not_a_pending_item() -> None:
-    """A resposta real do OpenAlex (14/10/2026) saiu da lista de pendentes."""
+@pytest.mark.parametrize("folder", ["openalex", "core"])
+def test_main_api_fixtures_are_real_and_the_edge_cases_are_not_a_pending_item(folder: str) -> None:
+    """As respostas reais (OpenAlex em 14/10 e CORE em 15/10/2026) saíram da lista de pendentes."""
     found = synthetic_fixtures()
-    assert "openalex/search_ok.json" not in found
-    assert "openalex/edge_cases.json" not in found  # sintética permanente, de propósito
-    assert "_synthetic" not in load_json(FIXTURES / "openalex" / "search_ok.json")
-    edge = load_json(FIXTURES / "openalex" / "edge_cases.json")
+    assert f"{folder}/search_ok.json" not in found
+    assert f"{folder}/edge_cases.json" not in found  # sintética permanente, de propósito
+    assert "_synthetic" not in load_json(FIXTURES / folder / "search_ok.json")
+    edge = load_json(FIXTURES / folder / "edge_cases.json")
     assert edge["_synthetic"] is True and edge["_permanent"] is True
 
 

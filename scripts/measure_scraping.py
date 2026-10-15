@@ -10,6 +10,9 @@ from __future__ import annotations
 
 import argparse
 import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # permite uv run python scripts/...
 
 from app.connectors.http import make_client
 from app.connectors.registry import build_connectors

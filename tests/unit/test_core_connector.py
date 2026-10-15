@@ -12,20 +12,64 @@ from app.schemas.common import RecordType
 
 pytestmark = pytest.mark.unit
 
-FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "core" / "search_ok.json"
+FIXTURES = Path(__file__).resolve().parents[1] / "fixtures" / "core"
+REAL = (
+    FIXTURES / "search_ok.json"
+)  # resposta REAL da API (15/10/2026, `q=educação`), sem `fullText`
+FIXTURE = (
+    FIXTURES / "edge_cases.json"
+)  # sintética e permanente: casos de borda que o real não cobre
 KEY = "CHAVE-CORE-SECRETA"
 
 
 def load_fixture() -> dict:  # type: ignore[type-arg]
+    """Casos de borda (sintética): os testes detalhados de mapeamento usam esta."""
     return json.loads(FIXTURE.read_text(encoding="utf-8"))
+
+
+def load_real() -> dict:  # type: ignore[type-arg]
+    return json.loads(REAL.read_text(encoding="utf-8"))
 
 
 def connector(key: str = KEY) -> CoreConnector:
     return CoreConnector(Settings(_env_file=None, core_api_key=key))  # type: ignore[call-arg]
 
 
-def test_fixture_is_marked_synthetic() -> None:
-    assert load_fixture().get("_synthetic") is True
+def test_edge_case_fixture_is_synthetic_and_permanent_but_the_main_one_is_real() -> None:
+    edge = load_fixture()
+    assert edge.get("_synthetic") is True and edge.get("_permanent") is True
+    assert "_synthetic" not in load_real()
+
+
+@respx.mock
+async def test_real_core_response_maps_to_valid_records() -> None:
+    """Resposta REAL do CORE (15/10/2026): todo trabalho vira um registro válido."""
+    real = load_real()
+    respx.get(BASE_URL).mock(return_value=httpx.Response(200, json=real))
+    page = await connector().search(SourceQuery(q="educação", page_size=5))
+    assert page.status is SourceStatus.OK and page.message is None
+    assert page.total == real["totalHits"] == 995_013
+    assert len(page.records) == len(real["results"]) == 5
+    first, _, article, *_ = page.records
+    assert (
+        first.id == "src:core:303833472"
+        and first.title == "Educação profissional, educação para o futuro"
+    )
+    assert (first.year, first.language) == (2022, "pt")
+    assert [a.name for a in first.authors] == ["L. Capucha"]
+    assert first.type is RecordType.OTHER  # `documentType` ausente na maioria dos registros reais
+    assert first.url == "https://core.ac.uk/works/303833472"
+    assert first.pdf_url == "https://core.ac.uk/download/672945974.pdf"
+    assert first.abstract is not None and first.abstract.startswith("A European Political Strategy")
+    # "research article" é o valor real de `documentType` para artigos (antes caía em "outro")
+    assert article.id == "src:core:398173363" and article.type is RecordType.ARTICLE
+    assert [a.name for a in article.authors][:2] == ["Belmiro Cabrito", "Angela Lara"]
+
+
+def test_real_response_has_no_secret_and_no_full_text() -> None:
+    text = REAL.read_text(encoding="utf-8")
+    assert "Bearer" not in text and "api_key" not in text.lower()
+    assert all("fullText" not in work for work in load_real()["results"])  # enorme e não usado
 
 
 @respx.mock
@@ -74,6 +118,7 @@ async def test_request_uses_bearer_header_and_pagination() -> None:
     assert request.headers["Authorization"] == f"Bearer {KEY}"
     assert request.url.params["limit"] == "10"
     assert request.url.params["offset"] == "20"
+    assert request.url.params["exclude"] == "fullText"  # o texto completo não é usado e pesa muito
     assert (
         request.url.params["q"] == "(ensino médio) AND yearPublished>=2018 AND yearPublished<=2022"
     )
@@ -85,7 +130,9 @@ def test_build_query_string_types() -> None:
     assert q == '(x) AND (documentType:"thesis")'
     assert local is False
     q, local = build_query_string(SourceQuery(q="x", types=(RecordType.ARTICLE,)))
-    assert 'documentType:"research" OR documentType:"journal"' in q
+    assert q == '(x) AND (documentType:"research article" OR documentType:"journal article")'
+    q, _ = build_query_string(SourceQuery(q="x", types=(RecordType.BOOK,)))
+    assert q == '(x) AND (documentType:"book")'
     q, local = build_query_string(SourceQuery(q="x", types=(RecordType.THESIS, RecordType.OTHER)))
     assert q == "(x)" and local is True
     assert build_query_string(SourceQuery(q="  x\x00 "))[0] == "(x)"
@@ -161,15 +208,47 @@ def test_work_edge_cases() -> None:
 
 
 def test_build_query_string_by_author_uses_the_authors_field() -> None:
-    """[VERIFICAR] sintaxe `authors:` do CORE v3: ainda sem chave real para confirmar."""
+    """Sintaxe confirmada com chave real em 15/10/2026: `authors:A AND authors:B`. A forma
+    `authors:(A AND B)` (AND dentro de parênteses) faz o CORE responder 500."""
     q, local = build_query_string(SourceQuery(q="Paulo Freire", field="author"))
-    assert q == 'authors:("Paulo" AND "Freire")' and local is False
+    assert q == "authors:Paulo AND authors:Freire" and local is False
+    assert "(" not in q  # parênteses com AND quebram a consulta no CORE
     # vírgula e aspas do usuário não quebram a consulta; a ordem do nome não importa
     assert build_query_string(SourceQuery(q='Freire, "Paulo"', field="author"))[0] == (
-        'authors:("Freire" AND "Paulo")'
+        "authors:Freire AND authors:Paulo"
+    )
+    assert build_query_string(SourceQuery(q="Saviani", field="author"))[0] == "authors:Saviani"
+    assert build_query_string(SourceQuery(q="Jean-Paul O'Neil", field="author"))[0] == (
+        "authors:Jean-Paul AND authors:O'Neil"
+    )
+    # símbolos de busca do usuário (parênteses, dois pontos, curinga) não chegam à consulta
+    assert build_query_string(SourceQuery(q="(a) b:c *", field="author"))[0] == (
+        "authors:a AND authors:b AND authors:c"
     )
     q, _ = build_query_string(
         SourceQuery(q="Freire", field="author", year_from=2000, types=(RecordType.THESIS,))
     )
-    assert q == 'authors:("Freire") AND yearPublished>=2000 AND (documentType:"thesis")'
+    assert q == 'authors:Freire AND yearPublished>=2000 AND (documentType:"thesis")'
     assert build_query_string(SourceQuery(q="Freire"))[0] == "(Freire)"  # tema: igual a antes
+
+
+@respx.mock
+async def test_core_timeout_is_longer_than_the_default_because_the_api_is_slow() -> None:
+    """Medido em 15/10/2026: 3 a 10 s por busca; o padrão de 10 s estouraria."""
+    captured: dict[str, float] = {}
+    real_client = httpx.AsyncClient
+
+    def spy(*args: object, **kwargs: object) -> httpx.AsyncClient:
+        captured["read"] = kwargs["timeout"].read  # type: ignore[union-attr, attr-defined]
+        return real_client(*args, **kwargs)  # type: ignore[arg-type]
+
+    respx.get(BASE_URL).mock(return_value=httpx.Response(200, json=load_real()))
+    import app.connectors.http as http_module
+
+    original = http_module.httpx.AsyncClient
+    http_module.httpx.AsyncClient = spy  # type: ignore[misc, assignment]
+    try:
+        await connector().search(SourceQuery(q="educação"))
+    finally:
+        http_module.httpx.AsyncClient = original  # type: ignore[misc]
+    assert captured["read"] >= 25.0

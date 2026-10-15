@@ -55,11 +55,14 @@ def _ssl_context() -> ssl.SSLContext:
     return httpx.create_ssl_context()
 
 
-def make_client(settings: Settings) -> httpx.AsyncClient:
-    """Cliente com tempo limite, identificação (`User-Agent`) e redirecionamentos limitados."""
+def make_client(settings: Settings, *, timeout: float | None = None) -> httpx.AsyncClient:
+    """Cliente com tempo limite, identificação (`User-Agent`) e redirecionamentos limitados.
+
+    `timeout` troca o tempo limite padrão (`SOURCE_TIMEOUT_SECONDS`) para fontes sabidamente lentas.
+    """
     contact = settings.contact_email or "nao-informado"
     return httpx.AsyncClient(
-        timeout=httpx.Timeout(settings.source_timeout_seconds),
+        timeout=httpx.Timeout(timeout if timeout is not None else settings.source_timeout_seconds),
         verify=_ssl_context(),
         headers={"User-Agent": f"AcademicSearchHub/{__version__} (+contato: {contact})"},
         limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),

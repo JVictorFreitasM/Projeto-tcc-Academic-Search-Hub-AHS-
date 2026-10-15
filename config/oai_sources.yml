@@ -27,7 +27,11 @@ sources:
 
   - slug: ufpi
     name: Repositório da UFPI
-    base_url: TODO-VERIFICAR
+    # Desabilitada por DOIS problemas do servidor (verificados em 14 e 15/10/2026): (1) o índice OAI
+    # está vazio (ListRecords devolve noRecordsMatch) e (2) o servidor envia a cadeia de certificados
+    # incompleta (falta o intermediário): o Python recusa a conexão (CERTIFICATE_VERIFY_FAILED).
+    # A verificação do certificado NÃO é desligada. Reabilitar quando o administrador corrigir os dois.
+    base_url: https://repositorio.ufpi.br/oai/request
     metadata_prefix: oai_dc
     set_spec: null
     enabled: false
@@ -36,9 +40,23 @@ sources:
 
   - slug: uespi
     name: Repositório da UESPI
-    base_url: TODO-VERIFICAR
+    # Mesmos dois problemas da UFPI (índice OAI vazio e cadeia de certificados incompleta).
+    base_url: https://repositorio.uespi.br/oai/request
     metadata_prefix: oai_dc
     set_spec: null
     enabled: false
     default_type: other
     type_map: {}
+
+  # Fonte extra, só por configuração (a arquitetura aceita novas fontes OAI assim). Verificada em
+  # 14/10/2026: Identify válido, 12.367 registros, com título, autor, resumo, ano e idioma.
+  - slug: ufpe
+    name: Repositório Institucional da UFPE
+    base_url: https://repositorio.ufpe.br/oai/request
+    metadata_prefix: oai_dc
+    set_spec: null
+    enabled: true
+    default_type: other
+    type_map:
+      CapituloLivro: book
+      Trabalho de conclusao de especializacao: other
